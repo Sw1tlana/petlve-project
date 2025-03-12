@@ -1,0 +1,29 @@
+@mixin frame($width, $height, $is-circle: false) {
+    width: $width;
+    height: $height;
+
+    @if $is-circle {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    img {
+        object-fit: cover;
+        object-position: top center;
+    }
+};
+
+
+@mixin ease($ease, $properties...) {
+    @if map.has-key(var.$easings, $ease) {
+      $ease: map.get(var.$easings, $ease);
+  
+      transition: $ease;
+    } @else {
+      @warn "The variable is not defined";
+    }
+  
+    @if list.length($properties) > 0 {
+      transition: $properties;
+    }
+  };
