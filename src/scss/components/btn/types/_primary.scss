@@ -1,0 +1,5 @@
+@use 'sass:list';
+
+@if list.index($btn-types, primary) {
+
+}

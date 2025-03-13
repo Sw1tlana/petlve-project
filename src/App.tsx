@@ -1,12 +1,13 @@
 
 import './App.scss'
+import Loader from './shared/components/Loader.tsx/Loader'
 
 function App() {
 
 
   return (
     <>
-    <img src='../src/shared/images/Loader/main@2x.jpg' width={700}/>
+    <Loader/>
     </>
   )
 }
