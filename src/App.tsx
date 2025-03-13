@@ -1,5 +1,6 @@
 
 import './App.scss'
+import UserNav from './components/UserNav/UserNav'
 import Loader from './shared/components/Loader.tsx/Loader'
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
   return (
     <>
     <Loader/>
+    <UserNav/>
     </>
   )
 }

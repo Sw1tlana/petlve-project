@@ -1,9 +1,9 @@
-
+import styles from '../../scss/components/btn/types/_primary.module.scss';
 
 function UserNav() {
   return (
     <div>
-        <button type="button">Log out</button>
+        <button className={`btn ${styles["btn--primary"]}`} type="button">Log out</button>
     </div>
   )
 };
