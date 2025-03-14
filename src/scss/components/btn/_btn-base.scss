@@ -1,16 +1,3 @@
-$btn-padding-x: 14px !default;
-$btn-padding-y: 35px !default;
-$btn-layer-min-width: 118px !default;
-$btn-layer-min-height: 50px !default;
-$btn-layer-spacing: 0px !default;
-$btn-layer-border-radius: 30px !default;
-
-$btn-text-size: 16px !default;
-$btn-text-width: 700 !default;
-$btn-line-height: 20px !default;
-$btn-text-spacing: 0.5px !default;
-$btn-text-color: #FFFFFF !default;
-
 .btn {
     display: inline-flex;
     align-items: center;
@@ -26,6 +13,7 @@ $btn-text-color: #FFFFFF !default;
     transition-duration: 300ms;
     transition-timing-function: ease;
 
+  //Normalize for tag <button>
     font: inherit;
     text-transform: none;
     background-color: transparent;
@@ -42,10 +30,10 @@ $btn-text-color: #FFFFFF !default;
         letter-spacing: #{calc($btn-text-spacing / $btn-text-size)};
     }
 
-    .btn-icon {
+    .btn-icon  {
         fill: currentColor;
     }
-}
 
+}
 
 
