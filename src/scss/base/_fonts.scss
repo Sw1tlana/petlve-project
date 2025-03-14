@@ -3,6 +3,7 @@
 $fonts: var.$font-weights;
 
 @each $key, $value in $fonts {
+    @debug "Key: #{$key}, Value: #{$value}";
 @font-face {
     font-family: "Manrope"; 
     src: url('../../shared/fonts/Manrope-#{$key}.woff2') format('woff2'),

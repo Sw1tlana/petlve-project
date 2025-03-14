@@ -1,20 +1,16 @@
-@use 'sass:list';
+.btn--primary {
+    background-color: #F6B83D;
 
-@if list.index($btn-types, primary) {
-    @debug $btn-types;
-    .btn--primary {
-        background-color: #F6B83D;
+    &:active {
+        background-color: #FFF4DF;
+    }
 
-        &:active {
+    @media (hover: hover) {
+        &:hover,
+        &:focus {
             background-color: #FFF4DF;
-        }
-
-        @media (hover: hover) {
-            &:hover,
-            &:focus {
-                background-color: #FFF4DF;
-                color: #F6B83D;
-            }
+            color: #F6B83D;
         }
     }
 }
+

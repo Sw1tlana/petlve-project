@@ -18,6 +18,25 @@ $colors: (
 
 $main-fonts: "Manrope";
 
+$btn-padding-x: 35px !default;
+$btn-padding-y: 15px !default;
+$btn-layer-min-width: 136px !default;
+$btn-layer-min-height: 50px !default;
+$btn-layer-spacing: 0px !default;
+$btn-layer-border-radius: 12px !default;
+
+$btn-text-size: 14px !default;
+$btn-text-width: 500 !default;
+$btn-line-height: 20px !default;
+$btn-text-spacing: 0.5px !default;
+$btn-text-color: #fafafb !default;
+$btn-border: none !default;
+
+$btn-types: (
+    primary, 
+    secondary
+);
+
 $font-weights: (
     "Medium": 500,
     "Bold": 700,

@@ -1,0 +1,16 @@
+.input--secondary {
+    outline: none;
+    border: 1px solid transparent;
+    border-color: rgba(38, 38, 38, 0.15);
+
+    &:active {
+        border-color: #F6B83D;
+    }
+
+    @media (hover: hover) {
+        &:hover,
+        &:focus { 
+            border-color: #F6B83D;
+        }
+    }
+}
