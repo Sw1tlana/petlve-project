@@ -6,12 +6,12 @@ $breakpoints: (
 
 $colors: (
     "light": #FFFFFF,
-    "accent-primary": "#F6B83D",
-    "accent-secondary": "#FFF4DF",
-    "dark-primary": "#262626",
+    "accent-primary": #F6B83D,
+    "accent-secondary": #FFF4DF,
+    "dark-primary": #262626,
     "dark-secondary": rgba(38, 38, 38, 0.15),
-    "green-color": "#08AA83",
-    "red-color": "#EF2447",
+    "green-color": #08AA83,
+    "red-color": #EF2447,
     "trasparent": transparent,
     "current": currentColor
 );
@@ -29,7 +29,7 @@ $btn-text-size: 14px !default;
 $btn-text-width: 500 !default;
 $btn-line-height: 20px !default;
 $btn-text-spacing: 0.5px !default;
-$btn-text-color: #fafafb !default;
+$btn-text-color:  #FFFFFF!default;
 $btn-border: none !default;
 
 $btn-types: (

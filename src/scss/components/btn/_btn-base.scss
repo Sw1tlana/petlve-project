@@ -39,6 +39,7 @@
     @include transition(background-color, color, box-shadow);
 
         font-size: $btn-text-size;
+        font-family: $main-fonts;
         font-weight: $btn-text-width;
         line-height: #{calc($btn-line-height / $btn-text-size)};
         letter-spacing: #{calc($btn-text-spacing / $btn-text-size)};

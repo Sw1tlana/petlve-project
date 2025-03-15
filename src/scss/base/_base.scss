@@ -1,0 +1,22 @@
+@use '../utils/placeholders';
+@use '../utils/variables' as var;
+@use '../utils/functions' as fn;
+@use '../utils/mixins' as mx;
+
+body {
+    @extend %main-text;
+
+    font-family: var.$main-fonts, sans-serif;
+    color: fn.get-color('dark-primary');
+    background-color: fn.get-color('light');
+}
+
+button {
+    font-family: var.$main-fonts;
+    color: fn.get-color('current');
+    cursor: pointer;
+}
+
+summary {
+    list-style-type: none;
+}
