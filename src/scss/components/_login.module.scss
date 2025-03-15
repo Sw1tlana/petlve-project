@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerLogin {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.containerImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    padding-top: 50px;
+    max-height: 280px;
+    height: 100%;
+    max-width: 335px;
+    width: 100%;
+    background-color: fn.get-color('accent-primary');
+    overflow: hidden;
+}
+
+.containerForm {
+    width: 335px;
+    height: 422px;
+    background-color: fn.get-color('light');
+    border-radius: 30px;
+    padding: 60px 20px;
+}
+
+.titleForm {
+    font-size: 28px;
+    font-weight: map.get(var.$font-weights, "Bold");
+    line-height: 28px;
+    letter-spacing: -0.04%;
+}
+
+.textForm {
+
+}
+
+.formLogin {}
+
+
+
+.errorMsg {}
+
+

@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../utils/placeholders';
 @use '../utils/variables' as var;
 @use '../utils/functions' as fn;
@@ -8,7 +9,7 @@ body {
 
     font-family: var.$main-fonts, sans-serif;
     color: fn.get-color('dark-primary');
-    background-color: fn.get-color('light');
+    background-color: fn.get-color('light-bg');
 }
 
 button {
