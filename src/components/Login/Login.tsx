@@ -21,9 +21,10 @@ function Login() {
   return (
     <section>
         <Container>
+          <div className={style.wrapper}>
             <div className={style.containerLogin}>
                 <div className={style.containerImg}>
-                   <img className={style.img} src={loginDog} alt="dog"/>
+                   <img className={style.imgLogin} src={loginDog} alt="dog"/>
               </div>
             </div>
             <div className={style.containerForm}>
@@ -77,10 +78,14 @@ function Login() {
                         <use xlinkHref={`${icons}#icon-close`} />
                       </svg>
                     </div>
-                    <button className={style.loginBtn} type="submit">Log In</button>
-                    <Link className={style.textForm} to="/register">Don’t have an account? <span>Register</span></Link>
+                    <div className={style.buttonLogin}>
+                        <button className="btn btn--primary" type="submit">Log In</button>
+                    </div>
+                    <Link className={style.linkForm} to="/register">Don’t have an account? 
+                    <span className={style.span}>Register</span></Link>
                 </form>
             </div>
+          </div>
         </Container>
 
     </section>

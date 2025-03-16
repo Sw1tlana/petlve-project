@@ -19,18 +19,17 @@ $colors: (
 
 $main-fonts: "Manrope";
 
-$btn-padding-x: 35px !default;
-$btn-padding-y: 15px !default;
-$btn-layer-min-width: 136px !default;
-$btn-layer-min-height: 50px !default;
+$btn-padding-x: 14px !default;
+$btn-padding-y: 14px !default;
+$btn-width: 100% !default;
 $btn-layer-spacing: 0px !default;
-$btn-layer-border-radius: 12px !default;
+$btn-layer-border-radius: 30px !default;
 
 $btn-text-size: 14px !default;
-$btn-text-width: 500 !default;
+$btn-text-transform: uppercase !default;
+$btn-text-width: 700 !default;
 $btn-line-height: 20px !default;
 $btn-text-spacing: 0.5px !default;
-$btn-text-color:  #FFFFFF!default;
 $btn-border: none !default;
 
 $btn-types: (

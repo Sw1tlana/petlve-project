@@ -4,7 +4,6 @@
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
-
 .containerLogin {
     display: flex;
     flex-direction: column;
@@ -33,10 +32,16 @@
     padding: 60px 20px;
 }
 
+.formLogin {
+    margin: 0 auto;
+    margin-bottom: 10px;
+
+}
+
 .titleForm {
     font-size: 28px;
     font-weight: map.get(var.$font-weights, "Bold");
-    line-height: 28px;
+    line-height: 1;
     letter-spacing: -0.04%;
     margin-bottom: 12px;
 }
@@ -48,11 +53,87 @@
     margin-bottom: 24px;
 }
 
-.formLogin {
+.errorMsg {
+    @extend %text;
+
+    color: fn.get-color('red-color');
+    font-size: 12px;
+}
+
+.linkForm {
+  display: block;
+
+  @extend %text;
+  font-size: 12px;
+  margin-top: 12px;
+  text-align: center;
+  color: fn.get-color('dark-primary');
+}
+
+.span {
+    color: fn.get-color('accent-primary');
+}
+
+@include mx.mq('md') { 
+    .containerLogin {
+        gap: 16px;
+    }
+
+    .containerImg {
+        justify-content: end;
+        padding-top: 30px;
+        max-width: 704px;;
+    }
+
+    .imgLogin {
+        width: 300px;
+    }
+
+    .containerForm {
+        width: 704px;
+        height: 560px;
+        padding: 70px 0;
+    }
+
+    .formLogin {
+        width: 424px;
+        margin-bottom: 16px;
+}
+
+    .titleForm {
+        font-size: 54px;
+        font-weight: map.get(var.$font-weights, "Bold");
+        line-height: 0.5;
+        text-align: center;
+        margin-bottom: 16px;
+}
+
+    .textForm {
+        font-size: 18px;
+        margin-bottom: 32px;
+        text-align: center;
+    }
+
+    .login {
+        margin-bottom: 64px;
+    }
+
+    .buttonLogin {
+        margin-top: 64px;
+    }
+
+    @include mx.mq('lg') {
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+ 
+    }
+
 
 }
 
 
-.errorMsg {}
 
 

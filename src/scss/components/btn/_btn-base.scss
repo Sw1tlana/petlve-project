@@ -4,12 +4,12 @@
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: $btn-layer-spacing;
 
-    min-width: $btn-layer-min-width;
-    min-height: $btn-layer-min-height;
+    min-width: $btn-width;
     padding: $btn-padding-y $btn-padding-x;
-    color: $btn-text-color;
+    text-transform: $btn-text-transform;
     border-radius: $btn-layer-border-radius;
     border: $btn-border;
 
@@ -20,32 +20,23 @@
         line-height: #{calc($btn-line-height / $btn-text-size)};
         letter-spacing: #{calc($btn-text-spacing / $btn-text-size)};
 
-    .btn-icon {
-        fill: currentColor;
-    }
 }
 
 .input {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: $btn-layer-spacing;
 
-    min-width: $btn-layer-min-width;
-    min-height: $btn-layer-min-height;
+    min-width: $btn-width;
     padding: $btn-padding-y $btn-padding-x;
-    color: $btn-text-color;
     border-radius: $btn-layer-border-radius;
+    border: $btn-border;
 
     @include transition(background-color, color, box-shadow);
 
         font-size: $btn-text-size;
-        font-family: $main-fonts;
-        font-weight: $btn-text-width;
         line-height: #{calc($btn-line-height / $btn-text-size)};
         letter-spacing: #{calc($btn-text-spacing / $btn-text-size)};
-
-    .btn-icon {
-        fill: currentColor;
-    }
 }
 

@@ -1,8 +1,10 @@
 .btn--primary {
     background-color: #F6B83D;
+    color: #FFFFFF;
 
     &:active {
         background-color: #FFF4DF;
+        color: #F6B83D;
     }
 
     @media (hover: hover) {
