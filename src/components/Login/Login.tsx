@@ -1,6 +1,8 @@
 import Container from "../../shared/components/Container/Container";
 import style from '../../scss/components/_login.module.scss';
 import loginDog  from '../../shared/images/Auth/dog@2x.png';
+import '../../scss/components/btn/types/_secondary.scss';
+import icons from '../../shared/icons/sprite.svg';
 
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
@@ -32,30 +34,48 @@ function Login() {
                   Welcome! Please enter your credentials to login to the platform:
                 </p>
                 <form className={style.formLogin} onSubmit={handleSubmit(onSubmit)}>
-                        <div>
+                      <div>
                         <input
                         // id={emailId}
                         type="email"
-                        className={style.formInput}
+                        className="input input--secondary"
                         placeholder="Email"
                         {...register('email')}
                         aria-required="true"
                         />
                        {typeof errors.username?.message === "string" && 
                        <p className={style.errorMsg}>{errors.username.message}</p>}
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye-off`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-close`} />
+                      </svg>
                     </div>
 
                     <div>
                         <input
                         // id={passwordId}
                         type="password"
-                        className={style.formInput}
+                        className="input input--secondary"
                         placeholder="Password"
                         {...register('password')}
                         aria-required="true"
                         />
                        {typeof errors.username?.message === "string" && 
                        <p className={style.errorMsg}>{errors.username.message}</p>}
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye-off`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-close`} />
+                      </svg>
                     </div>
                     <button className={style.loginBtn} type="submit">Log In</button>
                     <Link className={style.textForm} to="/register">Don’t have an account? <span>Register</span></Link>

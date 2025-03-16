@@ -1,5 +1,4 @@
 import '../../../src/scss/components/btn/types/_primary.scss';
-import '../../../src/scss/components/btn/types/_secondary.scss';
 
 function UserNav() {
   return (

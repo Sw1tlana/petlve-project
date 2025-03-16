@@ -4,6 +4,7 @@
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
+
 .containerLogin {
     display: flex;
     flex-direction: column;
@@ -37,14 +38,19 @@
     font-weight: map.get(var.$font-weights, "Bold");
     line-height: 28px;
     letter-spacing: -0.04%;
+    margin-bottom: 12px;
 }
 
 .textForm {
+    @extend %text;
 
+    font-size: 14px;
+    margin-bottom: 24px;
 }
 
-.formLogin {}
+.formLogin {
 
+}
 
 
 .errorMsg {}

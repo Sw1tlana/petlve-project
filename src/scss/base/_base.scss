@@ -10,6 +10,7 @@ body {
     font-family: var.$main-fonts, sans-serif;
     color: fn.get-color('dark-primary');
     background-color: fn.get-color('light-bg');
+    font-weight: map.get(var.$font-weights, "Medium");
 }
 
 button {
