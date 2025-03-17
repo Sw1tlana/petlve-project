@@ -1,6 +1,6 @@
 import Container from "../../shared/components/Container/Container";
-import style from '../../scss/components/_login.module.scss';
-import authDog  from '../../shared/images/Auth/dog@2x.png';
+import style from '../../scss/components/_registration.module.scss';
+import authCat  from '../../shared/images/Auth/cat@2x.png';
 import '../../scss/components/btn/types/_secondary.scss';
 import '../../scss/components/btn/types/_primary.scss';
 import icons from '../../shared/icons/sprite.svg';
@@ -8,8 +8,7 @@ import icons from '../../shared/icons/sprite.svg';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
 
-
-function Login() {
+function Registration() {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         mode: 'onTouched'
@@ -18,14 +17,13 @@ function Login() {
     const onSubmit = () => {
       reset();
     }
-
   return (
     <section>
         <Container>
           <div className={style.wrapper}>
                 <div className={style.containerImg}>
 
-                   <div className={style.containerNone}>
+                <div className={style.containerNone}>
                 <div className={style.containerAvatar}>
                   <div className={style.avatar}>
                       <svg width={30} height={30} className={style.iconAvatar}>
@@ -34,28 +32,51 @@ function Login() {
                     </div>
                   <div>
                   <div className={style.containerInfo}>
-                    <h3 className={style.name}>Rich</h3>
-                    <p className={style.data}>Birthday: 21.09.2020</p>
+                    <h3 className={style.name}>Jack</h3>
+                    <p className={style.data}>Birthday: 18.10.2021</p>
                   </div>
                     <p className={style.description}>
-                      Rich would be the perfect addition to an active family 
-                      that loves to play and go on walks. I bet he would love 
-                      having a doggy playmate too!
+                        Jack is a gray Persian cat with green eyes. 
+                        He loves to be pampered and groomed, 
+                        and enjoys playing with toys.
                     </p>
                   </div>
                   </div>
               </div>
-                  <img className={style.imgAuth} src={authDog} alt="dog"/>
+                  <img className={style.imgAuth} src={authCat} alt="dog"/>
                 </div>
 
             <div className={style.containerForm}>
                 <h3 className={style.titleForm}>
-                   Log in
+                   Registration
                 </h3>
                 <p className={style.textForm}>
-                  Welcome! Please enter your credentials to login to the platform:
+                    Thank you for your interest in our platform. 
                 </p>
                 <form className={style.formAuth} onSubmit={handleSubmit(onSubmit)}>
+                    <div>
+                        <input
+                        // id={namedId}
+                        type="name"
+                        className="input input--secondary"
+                        placeholder="Name"
+                        {...register('name')}
+                        autoComplete="name"
+                        aria-required="true"
+                        />
+                       {typeof errors.username?.message === "string" && 
+                       <p className={style.errorMsg}>{errors.username.message}</p>}
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye-off`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-close`} />
+                      </svg>
+                    </div>
+
                       <div>
                         <input
                         // id={emailId}
@@ -101,8 +122,32 @@ function Login() {
                         <use xlinkHref={`${icons}#icon-close`} />
                       </svg>
                     </div>
-                    <div className={style.buttonAuth}>
-                        <button className="btn btn--primary" type="submit">Log In</button>
+
+                    <div>
+                        <input
+                        // id={namedId}
+                        type="password"
+                        className="input input--secondary"
+                        placeholder="Confirm password"
+                        {...register('confirmPassword')}
+                        autoComplete="new-password"
+                        aria-required="true"
+                        />
+                       {typeof errors.username?.message === "string" && 
+                       <p className={style.errorMsg}>{errors.username.message}</p>}
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-eye-off`} />
+                      </svg>
+                      <svg width={20} height={20} className={style.iconIncrement}>
+                        <use xlinkHref={`${icons}#icon-close`} />
+                      </svg>
+                    </div>
+
+                    <div className={style.btnAuth}>
+                        <button className="btn btn--primary" type="submit">Registration</button>
                     </div>
                     <Link className={style.linkForm} to="/register">Don’t have an account? 
                     <span className={style.span}>Register</span></Link>
@@ -115,4 +160,4 @@ function Login() {
   )
 };
 
-export default Login;
+export default Registration;

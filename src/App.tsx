@@ -2,18 +2,16 @@
 import './App.scss'
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
-import UserNav from './components/UserNav/UserNav'
-import Loader from './shared/components/Loader.tsx/Loader'
+import Registration from './components/Registration/Registration'
 
 function App() {
 
 
   return (
     <>
-    <Loader/>
-    <UserNav/>
     <Home/>
     <Login/>
+    <Registration/>
     </>
   )
 }
