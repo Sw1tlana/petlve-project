@@ -74,6 +74,7 @@
     color: fn.get-color('accent-primary');
 }
 
+
 @include mx.mq('md') { 
     .containerLogin {
         gap: 16px;
@@ -122,17 +123,17 @@
         margin-top: 64px;
     }
 
-    @include mx.mq('lg') {
-        .wrapper {
-            display: flex;
-            flex-direction: row;
-        }
+}
 
- 
+@include mx.mq('lg', max) {
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
     }
 
 
 }
+
 
 
 

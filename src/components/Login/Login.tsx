@@ -42,6 +42,7 @@ function Login() {
                         className="input input--secondary"
                         placeholder="Email"
                         {...register('email')}
+                        autoComplete="email"
                         aria-required="true"
                         />
                        {typeof errors.username?.message === "string" && 
@@ -64,6 +65,7 @@ function Login() {
                         className="input input--secondary"
                         placeholder="Password"
                         {...register('password')}
+                        autoComplete="current-password"
                         aria-required="true"
                         />
                        {typeof errors.username?.message === "string" && 
