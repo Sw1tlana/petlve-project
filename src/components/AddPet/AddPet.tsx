@@ -1,219 +1,208 @@
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import Container from "../../shared/components/Container/Container";
-import style from '../../scss/components/_addPet.module.scss';
-import addPetImg from '../../shared/images/Personal/personal@2x.png'
-import icons from '../../shared/icons/sprite.svg';
-
-import { useForm } from 'react-hook-form';
 import Select from "react-select";
-import { CSSObjectWithLabel, GroupBase, StylesConfig } from "react-select";
-import { useState } from "react";
+import style from "../../scss/components/_addPet.module.scss";
+import addPetImg from "../../shared/images/Personal/personal@2x.png";
+import icons from "../../shared/icons/sprite.svg";
 
 interface OptionType {
-    value: string;
-    label: string;
-  }
+  value: string;
+  label: string;
+}
 
-  const categoryOption = [
-    { value: "Dog", label: "Dog" },
-    { value: "Cat", label: "Cat" },
-    { value: "Monkey", label: "Monkey" },
-    { value: "Bird", label: "Bird" },
-    { value: "Snake", label: "Snake" },
-    { value: "Turtle", label: "Turtle" },
-    { value: "Lizard", label: "Lizard" },
-    { value: "Frog", label: "Frog" },
-    { value: "Fish", label: "Fish" },
-    { value: "Ants", label: "Ants" },
-    { value: "Bees", label: "Bees" },
-    { value: "Butterfly", label: "Butterfly" },
-  ];
+interface FormValues {
+  photoUrl: string;
+  uploadPhoto: File;
+  breed: string;
+  name: string;
+  birthdate: string;
+}
+
+const categoryOption = [
+  { value: "Dog", label: "Dog" },
+  { value: "Cat", label: "Cat" },
+  { value: "Monkey", label: "Monkey" },
+  { value: "Bird", label: "Bird" },
+  { value: "Snake", label: "Snake" },
+  { value: "Turtle", label: "Turtle" },
+  { value: "Lizard", label: "Lizard" },
+  { value: "Frog", label: "Frog" },
+  { value: "Fish", label: "Fish" },
+  { value: "Ants", label: "Ants" },
+  { value: "Bees", label: "Bees" },
+  { value: "Butterfly", label: "Butterfly" },
+];
 
 function AddPet() {
-    const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+  const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-        const { register, handleSubmit, formState: { errors }, reset } = useForm({
-            mode: 'onTouched'
-        });
+  const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormValues>();
 
-        const handleCategoryChange = (selected: OptionType | null) => {
-            setSelectedOption(selected);
-        }
-    
-        const onSubmit = () => {
-          reset();
-        }
+  const handleCategoryChange = (selected: OptionType | null) => {
+    setSelectedOption(selected);
+  };
 
-        const customStyles: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
-            control: (base: CSSObjectWithLabel, state) => ({
-              ...base,
-              boxSizing: "border-box",
-              height: "44px",
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setValue("uploadPhoto", file, { shouldValidate: true });
+    }
+  };
 
-              border: `1px solid ${state.isFocused ? "var(--green-accent-color)" : "rgba(29, 30, 33, 0.1)"}`,
-              backgroundColor: "#ffffff",
-              borderRadius: "60px",
-              padding: "0 6px",
-              boxShadow: "0 0 0 rgba(0, 0, 0, 0.2)",
-              "&:hover": {
-                borderColor: "#E850501A",
-              },
-            }),
-            menu: (base) => ({
-              ...base,
-              zIndex: 999,
-            }),
-            indicatorSeparator: (base) => ({
-              ...base,
-              display: "none",
-            }),
-            option: (base, { isFocused, isSelected }) => ({
-              ...base,
-              backgroundColor: isFocused ? "#93939A" : isSelected ? "#93939A" : "#ffffff",
-              color: isSelected ? "#ffffff" : "#121417",
-              padding: 10,
-              cursor: "pointer",
-            }),
-            placeholder: (base) => ({
-              ...base,
-              color: "rgba(29, 30, 33, 0.4)",
-              fontSize: "12px",
-            }),
-            dropdownIndicator: (base) => ({
-              ...base,
-              color: "rgba(29, 30, 33, 0.7)",
-              "&:hover": {
-                color: "#1D1E21",
-                width: "7px",
-              },
-            }),
-          };
-        
+  const handleFileUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const onSubmit = (data: FormValues) => {
+    console.log("Form Data:", data);
+    reset();
+  };
+
   return (
     <section>
-        <Container>
-            <div className={style.wrapper}>
-                <div className={style.containerImg}>
-                   <img className={style.addImg} src={addPetImg} alt="Add pet"/>
-                </div>
-                <div className={style.addPetContainer}>
-                   <h3 className={style.addPetTitle}>
-                   Add my pet / <span>Personal details</span>
-                   </h3>
-                   <div className={style.iconsContainer}>
-                   <svg width={20} height={20} className={style.iconFemale}>
-                        <use xlinkHref={`${icons}#icon-female`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconMale}>
-                        <use xlinkHref={`${icons}#icon-male`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconHealt}>
-                        <use xlinkHref={`${icons}#icon-health`} />
-                      </svg>
-                   </div>
-                </div>
+      <Container>
+        <div className={style.wrapper}>
+          <div className={style.containerImg}>
+            <img className={style.addImg} src={addPetImg} alt="Add pet" />
+          </div>
+          <div className={style.addPetContainer}>
+            <h3 className={style.addPetTitle}>
+              Add my pet / <span className={style.subtitleMini}>Personal details</span>
+            </h3>
+            <div className={style.iconsContainer}>
+              <svg width={32} height={32} className={style.female}>
+                <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`} />
+              </svg>
+              <svg width={20} height={20} className={style.male}>
+                <use className={style.iconMale} xlinkHref={`${icons}#icon-male`} />
+              </svg>
+              <svg width={20} height={20} className={style.health}>
+                <use className={style.iconHealth} xlinkHref={`${icons}#icon-health`} />
+              </svg>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={style.addPetAvatar}>
-                </div>
+        <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
+          <div className={style.addPetAvatar}></div>
 
-                <div className={style.containerUrl}>
-                     <div>
-                        <input
-                        // id={namedId}
-                        type="url"
-                        className="input input--secondary"
-                        placeholder="https://ftp.goit.study/img/pets/5.webp"
-                        {...register('photoUrl')}
-                        autoComplete="name"
-                        aria-required="true"
-                        />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
-                    </div>
+          <div className={style.containerUpload}>
+          <div>
+            <input
+              type="url"
+              className="input input--secondary"
+              placeholder="https://ftp.goit.study/img/pets/5.webp"
+              {...register("photoUrl")}
+              autoComplete="off"
+              aria-required="true"
+            />
+            {errors.photoUrl?.message && 
+            (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
+          </div>
 
-                    <div>
-                    <input 
-                        type="file" 
-                        className="input input--secondary" 
-                        {...register('uploadPhoto')} 
-                        aria-required="true"
-                        />
-                            {typeof errors.uploadPhoto?.message === "string" && 
-                            <p className={style.errorMsg}>{errors.uploadPhoto.message}</p>}
-                        <svg width={20} height={20} className={style.iconIncrement}>
-                           <use xlinkHref={`${icons}#icon-upload-cloud`} />
-                      </svg>
-                   </div>
-                </div>
+          <div>
+            <input
+              type="file"
+              {...register("uploadPhoto")}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              aria-required="true"
+              style={{ display: "none" }} 
+            />
+            <button type="button" onClick={handleFileUploadClick} className="input input--secondary">
+              Uploat photo
+            </button>
+            {errors.uploadPhoto?.message && (
+              <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
+            )}
+            <svg width={20} height={20} className={style.iconIncrement}>
+              <use xlinkHref={`${icons}#icon-upload-cloud`} />
+            </svg>
+          </div>
+          </div>
 
-                   <div>
-                        <input
-                        // id={namedId}
-                        type="text"
-                        className="input input--secondary"
-                        placeholder="Golden Retriever Puppies"
-                        {...register('breed')}
-                        autoComplete="name"
-                        aria-required="true"
-                        />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
-                   </div>
+          <div>
+            <input
+              type="text"
+              className="input input--secondary"
+              placeholder="Golden Retriever Puppies"
+              {...register("breed")}
+              autoComplete="off"
+              aria-required="true"
+            />
+            {errors.breed?.message && 
+            (<p className={style.errorMsg}>{String(errors.breed.message)}</p>)}
+          </div>
 
-                   <div>
-                        <input
-                        // id={namedId}
-                        type="text"
-                        className="input input--secondary"
-                        placeholder="Daisy"
-                        {...register('name')}
-                        autoComplete="name"
-                        aria-required="true"
-                        />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
-                   </div>
+          <div>
+            <input
+              type="text"
+              className="input input--secondary"
+              placeholder="Daisy"
+              {...register("name")}
+              autoComplete="off"
+              aria-required="true"
+            />
+            {errors.name?.message && 
+            (<p className={style.errorMsg}>{String(errors.name.message)}</p>)}
+          </div>
 
-                   <div className={style.containerData}>
+          <div className={style.containerData}>
+            <div>
+              <input
+                type="date"
+                className="input input--secondary"
+                placeholder="2022-10-01"
+                {...register("birthdate")}
+                autoComplete="bday"
+                aria-required="true"
+              />
+              {errors.birthdate?.message && 
+              (<p className={style.errorMsg}>{String(errors.birthdate.message)}</p>)}
+              <svg width={20} height={20} className={style.iconIncrement}>
+                <use xlinkHref={`${icons}#icon-calendar`} />
+              </svg>
+            </div>
 
-                   <div>
-                   <input
-                        type="date"
-                        className="input input--secondary"
-                        placeholder="2022-10-01"
-                        {...register('birthdate')}
-                        autoComplete="bday"
-                        aria-required="true"
-                        />
-                            {typeof errors.birthdate?.message === "string" && 
-                            <p className={style.errorMsg}>{errors.birthdate.message}</p>}           
-                        <svg width={20} height={20} className={style.iconIncrement}>
-                           <use xlinkHref={`${icons}#icon-calendar`} />
-                      </svg>
-                   </div>
-
-                   <div>
-                   <Select
-                        id="categoryFilter"
-                        value={selectedOption} 
-                        onChange={handleCategoryChange}
-                        options={categoryOption}
-                        styles={customStyles}
-                        menuPosition="fixed"
-                        placeholder="Dog"
-                    />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
-                   </div>
-
-                   </div>
-            </form>
-
-        </Container>
-
+            <div>
+              <Select
+                id="categoryFilter"
+                value={selectedOption}
+                onChange={handleCategoryChange}
+                options={categoryOption}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "51px",
+                    width: "118px",
+                    border: "1px solid rgba(29, 30, 33, 0.1)",
+                    borderRadius: "60px",
+                    padding: "0 6px",
+                  }),
+                  menu: (base) => ({ ...base, zIndex: 999 }),
+                  placeholder: (base) => ({
+                    ...base,
+                    fontSize: "14px",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                }}
+                menuPosition="fixed"
+                placeholder="Dog"
+              />
+            </div>
+          </div>
+          <div className={style.containerBtn}>
+            <button type="button" className={style.btnBack}>Back</button>
+            <button type="submit" className="btn btn--primary">Submit</button>
+        </div>
+        </form>
+        </div>
+        </div>
+      </Container>
     </section>
-  )
-};
+  );
+}
 
 export default AddPet;
