@@ -91,7 +91,7 @@ function AddPet() {
             <input
               type="url"
               className="input input--secondary"
-              placeholder="https://ftp.goit.study/img/pets/5.webp"
+              placeholder="https://ftp.goit."
               {...register("photoUrl")}
               autoComplete="off"
               aria-required="true"
@@ -109,9 +109,9 @@ function AddPet() {
               aria-required="true"
               style={{ display: "none" }} 
             />
-            <button type="button" onClick={handleFileUploadClick} className="input input--secondary">
-              Uploat photo
-            </button>
+              <button type="button" onClick={handleFileUploadClick} className="input input--secondary">
+                Uploat photo
+              </button>
             {errors.uploadPhoto?.message && (
               <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
             )}
@@ -195,7 +195,9 @@ function AddPet() {
           </div>
           <div className={style.containerBtn}>
             <button type="button" className={style.btnBack}>Back</button>
-            <button type="submit" className="btn btn--primary">Submit</button>
+            <div className={style.btnSubmit}>
+              <button type="submit" className="btn btn--primary">Submit</button>
+            </div>
         </div>
         </form>
         </div>
