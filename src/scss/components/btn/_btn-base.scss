@@ -6,12 +6,12 @@
     align-items: center;
     justify-content: center;
     gap: $btn-layer-spacing;
+    border: $btn-border;
 
-    min-width: $btn-width;
+    width: $btn-width;
     padding: $btn-padding-y $btn-padding-x;
     text-transform: $btn-text-transform;
     border-radius: $btn-layer-border-radius;
-    border: $btn-border;
 
     @include transition(background-color, color, box-shadow);
 
@@ -28,7 +28,7 @@
     justify-content: center;
     gap: $btn-layer-spacing;
 
-    min-width: $btn-width;
+    width: $btn-width;
     padding: $btn-padding-y $btn-padding-x;
     border-radius: $btn-layer-border-radius;
     border: $btn-border;

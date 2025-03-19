@@ -72,26 +72,30 @@ function AddPet() {
               Add my pet / <span className={style.subtitleMini}>Personal details</span>
             </h3>
             <div className={style.iconsContainer}>
-              <svg width={32} height={32} className={style.female}>
+              <svg width={10} height={10} className={style.female}>
                 <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`} />
               </svg>
-              <svg width={20} height={20} className={style.male}>
+              <svg width={10} height={10} className={style.male}>
                 <use className={style.iconMale} xlinkHref={`${icons}#icon-male`} />
               </svg>
-              <svg width={20} height={20} className={style.health}>
+              <svg width={10} height={10} className={style.health}>
                 <use className={style.iconHealth} xlinkHref={`${icons}#icon-health`} />
               </svg>
             </div>
 
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
-          <div className={style.addPetAvatar}></div>
+          <div className={style.addPetAvatar}>
+            <svg width={26} height={26} className={style.iconPaw}>
+              <use xlinkHref={`${icons}#icon-paw`} />
+            </svg>
+          </div>
 
           <div className={style.containerUpload}>
-          <div>
+          <div className={style.urlInput}>
             <input
               type="url"
               className="input input--secondary"
-              placeholder="https://ftp.goit."
+              placeholder="https://ftp.goit.study/img/pets/5.webp"
               {...register("photoUrl")}
               autoComplete="off"
               aria-required="true"
@@ -100,7 +104,7 @@ function AddPet() {
             (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
           </div>
 
-          <div>
+          <div className={style.uploadInput}>
             <input
               type="file"
               {...register("uploadPhoto")}
@@ -110,12 +114,12 @@ function AddPet() {
               style={{ display: "none" }} 
             />
               <button type="button" onClick={handleFileUploadClick} className="input input--secondary">
-                Uploat photo
+                <span className={style.spanBtn}>Uploat photo</span>
               </button>
             {errors.uploadPhoto?.message && (
               <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
             )}
-            <svg width={20} height={20} className={style.iconIncrement}>
+            <svg width={20} height={20} className={style.iconUpload}>
               <use xlinkHref={`${icons}#icon-upload-cloud`} />
             </svg>
           </div>
@@ -159,9 +163,6 @@ function AddPet() {
               />
               {errors.birthdate?.message && 
               (<p className={style.errorMsg}>{String(errors.birthdate.message)}</p>)}
-              <svg width={20} height={20} className={style.iconIncrement}>
-                <use xlinkHref={`${icons}#icon-calendar`} />
-              </svg>
             </div>
 
             <div>
@@ -195,9 +196,9 @@ function AddPet() {
           </div>
           <div className={style.containerBtn}>
             <button type="button" className={style.btnBack}>Back</button>
-            <div className={style.btnSubmit}>
+          <div className={style.btnSubmit}>
               <button type="submit" className="btn btn--primary">Submit</button>
-            </div>
+          </div>
         </div>
         </form>
         </div>

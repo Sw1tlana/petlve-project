@@ -117,6 +117,7 @@
 
 .avatar {
     @include mx.frame(180px, 50px, true);
+    
     background-color: fn.get-color('accent-secondary');
     position: relative;
 }

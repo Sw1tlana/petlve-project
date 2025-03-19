@@ -58,19 +58,20 @@
 
 .female {
     @include mx.frame(32px, 32px, true);
-    background-color: fn.get-color('red-color');
-    position: relative;
 
+    background-color: fn.get-color('light-red');
+    position: relative;
 }
 
 .iconFemale {
     fill: transparent;
-    stroke: fn.get-color('light');
+    stroke: fn.get-color('red-color');
     width: 8px;
 }
 
 .male {
     @include mx.frame(32px, 32px, true);
+
     background-color: fn.get-color('light-blue');
     position: relative;
 }
@@ -82,6 +83,7 @@
 
 .health {
     @include mx.frame(32px, 32px, true);
+
     background-color: fn.get-color('accent-secondary');
     position: relative;
 }
@@ -91,16 +93,49 @@
     stroke: fn.get-color('accent-primary');
 }
 
-.addPetAvatar {}
+.addPetAvatar {
+    @include mx.frame(68px, 68px, true);
+
+    background-color: fn.get-color('accent-secondary');
+    margin: 0 auto;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.iconPaw {
+    fill: fn.get-color('accent-primary');
+    position: absolute;
+    top: 18px;
+    left: 22px;
+}
 
 .form {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    gap: 10px;
 }
 
 .containerUpload {
     display: flex;
+    gap: 8px;
+}
+
+.urlInput {
+    width: 150px;
+}
+
+.uploadInput {
+    position: relative;
+    width: 128px;
+}
+
+.iconUpload {
+    position: absolute;
+    top: 14px;
+    right: 6px;
+    fill: transparent;
+    stroke: fn.get-color('accent-primary');
 }
 
 .containerData {
@@ -112,9 +147,184 @@
    display: flex;
    gap: 8px;
    margin-left: auto;
+   margin-top: 20px;
 }
 
 .btnSubmit {
     width: 100px;
 }
 
+.btnBack {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 34px;
+    border-radius: 30px;
+    border: none;
+}
+
+.btnBack:active,
+.btnBack:hover {
+    background-color: fn.get-color('light-blue');
+}
+
+.spanBtn {
+    color: fn.get-color('dark-primary');
+}
+
+
+@include mx.mq('md') { 
+    .wrapper {
+        gap: 16px;
+    }
+    
+    .containerImg {
+        width: 704px;
+        height: 248px;
+    }
+    
+    .addImg {
+        width: 260px;
+    }
+    
+    .addPetContainer {
+        width: 704px;
+        padding: 40px 136px;
+        background-color: fn.get-color('light');
+    }
+    
+    .addPetTitle {
+        margin-bottom: 24px;
+    }
+    
+    .subtitleMini {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: 0%;
+        color: fn.get-color('dark-secondary');
+    }
+    
+    .iconsContainer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px
+    }
+    
+    .female {
+        @include mx.frame(32px, 32px, true);
+        background-color: fn.get-color('red-color');
+        position: relative;
+    }
+    
+    .iconFemale {
+        fill: transparent;
+        stroke: fn.get-color('light');
+        width: 8px;
+    }
+    
+    .male {
+        @include mx.frame(32px, 32px, true);
+        background-color: fn.get-color('light-blue');
+        position: relative;
+    }
+    
+    .iconMale {
+        fill: transparent;
+        stroke: fn.get-color('blue-color');
+    }
+    
+    .health {
+        @include mx.frame(32px, 32px, true);
+    
+        background-color: fn.get-color('accent-secondary');
+        position: relative;
+    }
+    
+    .iconHealth {
+        fill: transparent;
+        stroke: fn.get-color('accent-primary');
+    }
+    
+    .addPetAvatar {
+        @include mx.frame(68px, 68px, true);
+    
+        background-color: fn.get-color('accent-secondary');
+        margin: 0 auto;
+        margin-bottom: 16px;
+        position: relative;
+    }
+    
+    .iconPaw {
+        fill: fn.get-color('accent-primary');
+        position: absolute;
+        top: 18px;
+        left: 22px;
+    }
+    
+    .form {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .containerUpload {
+        display: flex;
+        gap: 8px;
+    }
+    
+    .urlInput {
+        width: 150px;
+    }
+    
+    .uploadInput {
+        position: relative;
+        width: 128px;
+    }
+    
+    .iconUpload {
+        position: absolute;
+        top: 14px;
+        right: 6px;
+        fill: transparent;
+        stroke: fn.get-color('accent-primary');
+    }
+    
+    .containerData {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .containerBtn {
+       display: flex;
+       gap: 8px;
+       margin-left: auto;
+       margin-top: 20px;
+    }
+    
+    .btnSubmit {
+        width: 100px;
+    }
+    
+    .btnBack {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px 34px;
+        border-radius: 30px;
+        border: none;
+    }
+    
+    .btnBack:active,
+    .btnBack:hover {
+        background-color: fn.get-color('light-blue');
+    }
+    
+    .spanBtn {
+        color: fn.get-color('dark-primary');
+    }
+}
