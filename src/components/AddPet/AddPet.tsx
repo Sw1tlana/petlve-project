@@ -72,13 +72,13 @@ function AddPet() {
               Add my pet / <span className={style.subtitleMini}>Personal details</span>
             </h3>
             <div className={style.iconsContainer}>
-              <svg width={10} height={10} className={style.female}>
-                <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`} />
-              </svg>
-              <svg width={10} height={10} className={style.male}>
+                <svg className={style.female}>
+                  <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`}/>
+                </svg>
+              <svg className={style.male}>
                 <use className={style.iconMale} xlinkHref={`${icons}#icon-male`} />
               </svg>
-              <svg width={10} height={10} className={style.health}>
+              <svg className={style.health}>
                 <use className={style.iconHealth} xlinkHref={`${icons}#icon-health`} />
               </svg>
             </div>
@@ -113,7 +113,8 @@ function AddPet() {
               aria-required="true"
               style={{ display: "none" }} 
             />
-              <button type="button" onClick={handleFileUploadClick} className="input input--secondary">
+              <button type="button" onClick={handleFileUploadClick} 
+              className={`input input--secondary ${style.uploadButton}`}>
                 <span className={style.spanBtn}>Uploat photo</span>
               </button>
             {errors.uploadPhoto?.message && (
@@ -152,7 +153,7 @@ function AddPet() {
           </div>
 
           <div className={style.containerData}>
-            <div>
+            <div className={style.inputData}>
               <input
                 type="date"
                 className="input input--secondary"
@@ -175,10 +176,14 @@ function AddPet() {
                   control: (base) => ({
                     ...base,
                     height: "51px",
-                    width: "118px",
+                    width: "144px",
                     border: "1px solid rgba(29, 30, 33, 0.1)",
                     borderRadius: "60px",
                     padding: "0 6px",
+
+                    "@media (min-width: 768px)": {
+                      width: "210px",
+                    },
                   }),
                   menu: (base) => ({ ...base, zIndex: 999 }),
                   placeholder: (base) => ({

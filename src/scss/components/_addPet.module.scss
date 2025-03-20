@@ -66,7 +66,6 @@
 .iconFemale {
     fill: transparent;
     stroke: fn.get-color('red-color');
-    width: 8px;
 }
 
 .male {
@@ -130,17 +129,26 @@
     width: 128px;
 }
 
+// .uploadButton {
+//     padding: 14px 0;
+//     gap: 20px;
+// }
+
 .iconUpload {
     position: absolute;
     top: 14px;
-    right: 6px;
+    right: 8px;
     fill: transparent;
     stroke: fn.get-color('accent-primary');
 }
 
 .containerData {
     display: flex;
-    justify-content: space-between;
+    gap: 8px;
+}
+
+.inputData {
+    width: 144px;
 }
 
 .containerBtn {
@@ -173,7 +181,6 @@
     color: fn.get-color('dark-primary');
 }
 
-
 @include mx.mq('md') { 
     .wrapper {
         gap: 16px;
@@ -185,146 +192,164 @@
     }
     
     .addImg {
-        width: 260px;
+        width: 297px;
     }
     
     .addPetContainer {
         width: 704px;
         padding: 40px 136px;
-        background-color: fn.get-color('light');
     }
     
     .addPetTitle {
-        margin-bottom: 24px;
-    }
-    
-    .subtitleMini {
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 1.2;
-        letter-spacing: 0%;
-        color: fn.get-color('dark-secondary');
+        font-size: 32px;
+        margin-bottom: 42px;
     }
     
     .iconsContainer {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 10px
+        margin-bottom: 0;
     }
     
     .female {
-        @include mx.frame(32px, 32px, true);
-        background-color: fn.get-color('red-color');
-        position: relative;
-    }
-    
-    .iconFemale {
-        fill: transparent;
-        stroke: fn.get-color('light');
-        width: 8px;
+        @include mx.frame(40px, 40px, true);
     }
     
     .male {
-        @include mx.frame(32px, 32px, true);
-        background-color: fn.get-color('light-blue');
-        position: relative;
-    }
-    
-    .iconMale {
-        fill: transparent;
-        stroke: fn.get-color('blue-color');
+        @include mx.frame(40px, 40px, true);
     }
     
     .health {
-        @include mx.frame(32px, 32px, true);
-    
-        background-color: fn.get-color('accent-secondary');
-        position: relative;
-    }
-    
-    .iconHealth {
-        fill: transparent;
-        stroke: fn.get-color('accent-primary');
+        @include mx.frame(40px, 40px, true);
     }
     
     .addPetAvatar {
-        @include mx.frame(68px, 68px, true);
-    
-        background-color: fn.get-color('accent-secondary');
-        margin: 0 auto;
-        margin-bottom: 16px;
-        position: relative;
+        @include mx.frame(86px, 86px, true);
     }
     
     .iconPaw {
-        fill: fn.get-color('accent-primary');
-        position: absolute;
-        top: 18px;
-        left: 22px;
+        top: 28px;
+        left: 28px;
+        width: 32px;
     }
     
     .form {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .containerUpload {
-        display: flex;
-        gap: 8px;
+        width: 432px;
+        gap: 18px;
     }
     
     .urlInput {
-        width: 150px;
+       width: 278px;
     }
     
     .uploadInput {
         position: relative;
-        width: 128px;
+        width: 146px;
     }
-    
+
     .iconUpload {
-        position: absolute;
-        top: 14px;
-        right: 6px;
-        fill: transparent;
-        stroke: fn.get-color('accent-primary');
+        right: 16px;
     }
     
     .containerData {
-        display: flex;
-        justify-content: space-between;
+        display: flex;  
     }
     
-    .containerBtn {
-       display: flex;
-       gap: 8px;
-       margin-left: auto;
-       margin-top: 20px;
+    .inputData {
+        width: 210px;
     }
-    
+
     .btnSubmit {
-        width: 100px;
+        width: 170px;
     }
     
     .btnBack {
-        width: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 12px 34px;
-        border-radius: 30px;
-        border: none;
+        width: 170px;
+    }
+}
+
+@include mx.mq('lg') { 
+    .wrapper {
+        flex-direction: row;
+        gap: 32px;
     }
     
-    .btnBack:active,
-    .btnBack:hover {
-        background-color: fn.get-color('light-blue');
+    .containerImg {
+        width: 592px;
+        height: 648px;
     }
     
-    .spanBtn {
-        color: fn.get-color('dark-primary');
+    .addImg {
+        width: 512px;
+        height: 648px;
+    }
+    
+    .addPetContainer {
+        width: 704px;
+        height: 648px;
+        padding: 40px 136px;
+    }
+    
+    .addPetTitle {
+        font-size: 32px;
+        margin-bottom: 42px;
+    }
+    
+    .iconsContainer {
+        margin-bottom: 0;
+    }
+    
+    .female {
+        @include mx.frame(40px, 40px, true);
+    }
+    
+    .male {
+        @include mx.frame(40px, 40px, true);
+    }
+    
+    .health {
+        @include mx.frame(40px, 40px, true);
+    }
+    
+    .addPetAvatar {
+        @include mx.frame(86px, 86px, true);
+    }
+    
+    .iconPaw {
+        top: 28px;
+        left: 28px;
+        width: 32px;
+    }
+    
+    .form {
+        width: 432px;
+        gap: 18px;
+    }
+    
+    .urlInput {
+       width: 278px;
+    }
+    
+    .uploadInput {
+        position: relative;
+        width: 146px;
+    }
+
+    .iconUpload {
+        right: 16px;
+    }
+    
+    .containerData {
+        display: flex;  
+    }
+    
+    .inputData {
+        width: 210px;
+    }
+
+    .btnSubmit {
+        width: 170px;
+    }
+    
+    .btnBack {
+        width: 170px;
     }
 }
