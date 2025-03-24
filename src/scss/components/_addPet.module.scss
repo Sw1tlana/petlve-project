@@ -65,6 +65,7 @@
 
 .iconFemale {
     fill: transparent;
+    width: 10px;
     stroke: fn.get-color('red-color');
 }
 
@@ -120,8 +121,8 @@
     gap: 8px;
 }
 
-.urlInput {
-    width: 150px;
+.inputUrl {
+    width: 170px; 
 }
 
 .uploadInput {
@@ -129,15 +130,15 @@
     width: 128px;
 }
 
-// .uploadButton {
-//     padding: 14px 0;
-//     gap: 20px;
-// }
+.uploadButton {
+    width: 117px;
+    padding: 14px;
+}
 
 .iconUpload {
     position: absolute;
     top: 14px;
-    right: 8px;
+    right: 2px;
     fill: transparent;
     stroke: fn.get-color('accent-primary');
 }
@@ -236,17 +237,17 @@
         gap: 18px;
     }
     
-    .urlInput {
+    .inputUrl {
        width: 278px;
     }
     
-    .uploadInput {
+    .uploadButton {
         position: relative;
         width: 146px;
     }
 
     .iconUpload {
-        right: 16px;
+        right: -4px;
     }
     
     .containerData {
@@ -324,17 +325,12 @@
         gap: 18px;
     }
     
-    .urlInput {
+    .inputUrl {
        width: 278px;
-    }
-    
-    .uploadInput {
-        position: relative;
-        width: 146px;
     }
 
     .iconUpload {
-        right: 16px;
+        right: -4px;
     }
     
     .containerData {

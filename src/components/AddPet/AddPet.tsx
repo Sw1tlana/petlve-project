@@ -73,7 +73,7 @@ function AddPet() {
             </h3>
             <div className={style.iconsContainer}>
                 <svg className={style.female}>
-                  <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`}/>
+                  <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`} />
                 </svg>
               <svg className={style.male}>
                 <use className={style.iconMale} xlinkHref={`${icons}#icon-male`} />
@@ -91,10 +91,10 @@ function AddPet() {
           </div>
 
           <div className={style.containerUpload}>
-          <div className={style.urlInput}>
+          <div>
             <input
               type="url"
-              className="input input--secondary"
+              className={`input input--secondary ${style.inputUrl}`}
               placeholder="https://ftp.goit.study/img/pets/5.webp"
               {...register("photoUrl")}
               autoComplete="off"
