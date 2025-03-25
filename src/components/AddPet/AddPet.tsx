@@ -71,16 +71,23 @@ function AddPet() {
             <h3 className={style.addPetTitle}>
               Add my pet / <span className={style.subtitleMini}>Personal details</span>
             </h3>
+
             <div className={style.iconsContainer}>
-                <svg className={style.female}>
-                  <use className={style.iconFemale} xlinkHref={`${icons}#icon-female`} />
+              <div className={style.female}>
+                <svg className={style.iconFemale} width={20} height={20}>
+                  <use xlinkHref={`${icons}#icon-female`} />
                 </svg>
-              <svg className={style.male}>
-                <use className={style.iconMale} xlinkHref={`${icons}#icon-male`} />
-              </svg>
-              <svg className={style.health}>
-                <use className={style.iconHealth} xlinkHref={`${icons}#icon-health`} />
-              </svg>
+              </div>
+              <div className={style.male}>
+                <svg className={style.iconMale} width={20} height={20}>
+                  <use xlinkHref={`${icons}#icon-male`} />
+                </svg>
+              </div>
+              <div className={style.health}>
+                <svg  className={style.iconHealth} width={22} height={22}>
+                  <use xlinkHref={`${icons}#icon-health`}/>
+                </svg>
+              </div>
             </div>
 
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>

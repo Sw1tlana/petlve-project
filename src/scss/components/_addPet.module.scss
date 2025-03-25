@@ -64,8 +64,10 @@
 }
 
 .iconFemale {
+    position: absolute;
+    top: 6px;
+    left: 6px;
     fill: transparent;
-    width: 10px;
     stroke: fn.get-color('red-color');
 }
 
@@ -79,6 +81,9 @@
 .iconMale {
     fill: transparent;
     stroke: fn.get-color('blue-color');
+    position: absolute;
+    top: 6px;
+    left: 6px;
 }
 
 .health {
@@ -91,6 +96,9 @@
 .iconHealth {
     fill: transparent;
     stroke: fn.get-color('accent-primary');
+    position: absolute;
+    top: 6px;
+    left: 6px;
 }
 
 .addPetAvatar {
@@ -193,7 +201,8 @@
     }
     
     .addImg {
-        width: 297px;
+        width: 207px;
+        height: 248px;
     }
     
     .addPetContainer {
@@ -213,13 +222,28 @@
     .female {
         @include mx.frame(40px, 40px, true);
     }
+
+    .iconFemale {
+        top: 10px;
+        left: 10px;
+    }
     
     .male {
         @include mx.frame(40px, 40px, true);
     }
+
+    .iconMale {
+        top: 10px;
+        left: 10px;
+    }
     
     .health {
         @include mx.frame(40px, 40px, true);
+    }
+
+    .iconHealth {
+        top: 8px;
+        left: 10px;
     }
     
     .addPetAvatar {
@@ -275,7 +299,7 @@
     
     .containerImg {
         width: 592px;
-        height: 648px;
+        height: auto;
     }
     
     .addImg {
@@ -284,9 +308,9 @@
     }
     
     .addPetContainer {
-        width: 704px;
-        height: 648px;
-        padding: 40px 136px;
+        width: 592px;
+        padding: 60px 80px;
+        margin-bottom: 0;
     }
     
     .addPetTitle {
@@ -297,34 +321,7 @@
     .iconsContainer {
         margin-bottom: 0;
     }
-    
-    .female {
-        @include mx.frame(40px, 40px, true);
-    }
-    
-    .male {
-        @include mx.frame(40px, 40px, true);
-    }
-    
-    .health {
-        @include mx.frame(40px, 40px, true);
-    }
-    
-    .addPetAvatar {
-        @include mx.frame(86px, 86px, true);
-    }
-    
-    .iconPaw {
-        top: 28px;
-        left: 28px;
-        width: 32px;
-    }
-    
-    .form {
-        width: 432px;
-        gap: 18px;
-    }
-    
+
     .inputUrl {
        width: 278px;
     }
@@ -332,7 +329,7 @@
     .iconUpload {
         right: -4px;
     }
-    
+
     .containerData {
         display: flex;  
     }

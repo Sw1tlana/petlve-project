@@ -1,0 +1,19 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.titleNews {
+  @extend  %subtitle-mobile;
+
+  font-size: 28px;
+}
+
+@include mx.mq('md') { 
+
+    .titleNews {
+       font-size: 54px;
+    }
+
+}

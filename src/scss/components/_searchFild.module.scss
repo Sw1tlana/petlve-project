@@ -1,0 +1,17 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.formSearch {
+    width: 335px;
+}
+
+.inputSearch {
+   position: relative;
+}
+
+.iconSearch {
+    fill: transparent;
+    stroke: fn.get-color('dark-primary');
+}
