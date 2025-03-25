@@ -12,6 +12,17 @@
 }
 
 .iconSearch {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translate(-50%, -50%);
     fill: transparent;
     stroke: fn.get-color('dark-primary');
+}
+
+@include mx.mq('md') { 
+    .formSearch {
+        width: 230px;
+    }
+
 }

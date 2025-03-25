@@ -4,7 +4,11 @@ import '../../scss/components/btn/types/_secondary.scss';
 
 import toast from 'react-hot-toast';
 
-function SearchFild() {
+interface SearchFieldProps {
+    className?: string;
+  }
+
+  const SearchFild: React.FC<SearchFieldProps> = ({ className }) =>  {
 
     const handleSearchQuery = (query: string) => {
         console.log("Search query is:", query);
@@ -24,12 +28,13 @@ function SearchFild() {
     }
 
   return (
-    <div className={style.containerSerchFild}>
+    <div className={`${style.containerSearchFild} ${className || ''}`}>
         <form className={style.formSearch} onSubmit={handleSubmit}>
             <div className={style.inputSearch}>
             <input
                 type="text"
                 name='query'
+                placeholder='Search'
                 className="input input--secondary"
                 />
                 <svg className={style.iconSearch} width={12} height={12}>

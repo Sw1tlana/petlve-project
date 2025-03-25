@@ -8,12 +8,23 @@
   @extend  %subtitle-mobile;
 
   font-size: 28px;
+  margin-bottom: 20px;
 }
 
 @include mx.mq('md') { 
 
     .titleNews {
        font-size: 54px;
+       margin-bottom: 44px;
     }
 
 }
+
+@include mx.mq('lg') { 
+
+  .titleNews {
+     margin-bottom: 60x;
+  }
+
+}
+
