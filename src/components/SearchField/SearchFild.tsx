@@ -8,7 +8,7 @@ interface SearchFieldProps {
     className?: string;
   }
 
-  const SearchFild: React.FC<SearchFieldProps> = ({ className }) =>  {
+  const SearchField: React.FC<SearchFieldProps> = ({ className }) =>  {
 
     const handleSearchQuery = (query: string) => {
         console.log("Search query is:", query);
@@ -28,16 +28,16 @@ interface SearchFieldProps {
     }
 
   return (
-    <div className={`${style.containerSearchFild} ${className || ''}`}>
-        <form className={style.formSearch} onSubmit={handleSubmit}>
+    <div className={style.formSearch}>
+        <form onSubmit={handleSubmit}>
             <div className={style.inputSearch}>
             <input
                 type="text"
                 name='query'
                 placeholder='Search'
-                className="input input--secondary"
+                className={`input input--secondary ${className || ''}`}
                 />
-                <svg className={style.iconSearch} width={12} height={12}>
+                <svg className={`${style.iconSearch} ${className || ''}`} width={12} height={12}>
                     <use xlinkHref={`${icons}#icon-search`}/>
                 </svg>
             </div>
@@ -47,4 +47,4 @@ interface SearchFieldProps {
   )
 };
 
-export default SearchFild;
+export default SearchField;

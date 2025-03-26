@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import style from '../../scss/components/_notices.module.scss';
 import Container from '../../shared/components/Container/Container';
-import SearchFild from '../SearchField/SearchFild';
+import SearchField from '../../components/SearchField/SearchFild';
 import icons from '../../shared/icons/sprite.svg';
 
-import Select, {  SingleValue, StylesConfig } from "react-select";
+import Select, {  SingleValue, StylesConfig, ControlProps } from "react-select";
+import RadioButton from '../RadioButton/RadioButton';
 
 interface OptionType {
     value: string;
@@ -41,12 +42,15 @@ interface OptionType {
   ];
 
   const customStyles: StylesConfig<OptionType, false> = {
-    control: (base) => ({
+    control: (base, state: ControlProps<OptionType, false>) => ({
       ...base,
       width: "100%",
-      padding: "12px",
+      padding: "8px",
+      margin: 0,
       borderRadius: "30px",
       border: "none",
+      boxShadow: state.isFocused ? "none" : base.boxShadow,
+      
       "@media (min-width: 768px)": {
         width: "210px",
       },
@@ -74,18 +78,16 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
   return (
     <section>
         <Container>
-            <div className={style.containerFormNotices}>
-                <h2 className={style.titleNotices}>Find your favorite pet</h2>
+              <h2 className={style.titleNotices}>Find your favorite pet</h2>
                <div className={style.containerForm}>
-                <SearchFild className={style.searchField} />
-                <form>
+                <SearchField className={`${style.searchField} ${style.searchIcon}`} />
+                <form className={style.form}>
                     <div className={style.containerSelect}>
                         <Select
                         // id="categoryFilter"
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={categoryOption}
-                        className={style.selectForm}
                         styles={customStyles}                    
                         menuPosition="fixed"
                         placeholder="Category"
@@ -95,7 +97,6 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={genderOption}
-                        className={style.selectForm}
                         styles={customStyles}                    
                         menuPosition="fixed"
                         placeholder="By gander"
@@ -107,7 +108,7 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={typeOption}
-                        className={style.selectForm}
+                        className={style.inputType}
                         styles={customStyles}                    
                         menuPosition="fixed"
                         placeholder="By type"
@@ -118,15 +119,18 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                         type="text"
                         name='query'
                         placeholder='Location'
-                        className="input input--secondary"
+                        className={`input input--secondary ${style.locationSearch}`}
                         />
                         <svg className={style.iconSearch} width={12} height={12}>
                             <use xlinkHref={`${icons}#icon-search`}/>
                         </svg>
                     </div>
               </form>
+              <div className={style.border}></div>
+
+              <RadioButton/>
             </div>
-        </div>
+
         </Container>
     </section>
   )
