@@ -28,7 +28,7 @@ interface SearchFieldProps {
     }
 
   return (
-    <div className={style.formSearch}>
+    <div className={`${style.formSearch} ${className || ''}`}>
         <form onSubmit={handleSubmit}>
             <div className={style.inputSearch}>
             <input

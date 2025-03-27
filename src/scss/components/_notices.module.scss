@@ -23,6 +23,10 @@
     background-color: fn.get-color('accent-secondary');
 }
 
+.container {
+    display: flex;
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -70,3 +74,80 @@
     background-color: fn.get-color('dark-secondary');
 }
 
+
+
+@include mx.mq('md') { 
+
+    .titleNotices {
+
+        margin-bottom: 44px;
+        font-size: 54px;
+       }
+
+    //    .formSearch {
+    // display: flex;
+    //    }
+       
+       .containerForm {
+        // display: grid;
+        // grid-template-areas: 
+        // "a b"
+        // "c d ."
+        // ;
+
+           gap: 16px;
+           width: 704px;
+           padding: 32px;
+       }
+       
+       .container {
+         display: flex;
+       }
+
+       .form {
+           margin: 0;
+       }
+       
+       .searchField {
+        align-self: start;
+        width: 100%;
+        margin-left: 0;
+        grid-area: a;
+       }
+       
+       .searchIcon {
+           padding-right: 0;
+       }
+
+       .contaierTypeLocation {
+        display: flex;
+        padding-left: 0;
+       }
+       
+       .inputType {
+        grid-area: c;
+       }
+        
+        .iconSearch {
+            position: absolute;
+            top: 50%;
+            left: 90%;
+            transform: translate(-50%, -50%);
+            fill: transparent;
+            stroke: fn.get-color('dark-primary');
+        }
+
+        .locationSearch {
+           border: none;
+           grid-area: d;
+        }
+       
+        .border {
+           width: 100%;
+           height: 1px;
+           margin: 20px 0;
+           background-color: fn.get-color('dark-secondary');
+       }
+       
+
+}

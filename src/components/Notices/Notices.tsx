@@ -50,10 +50,7 @@ interface OptionType {
       borderRadius: "30px",
       border: "none",
       boxShadow: state.isFocused ? "none" : base.boxShadow,
-      
-      "@media (min-width: 768px)": {
-        width: "210px",
-      },
+
     }),
     menu: (base) => ({ 
       ...base, 
@@ -79,7 +76,7 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
     <section>
         <Container>
               <h2 className={style.titleNotices}>Find your favorite pet</h2>
-               <div className={style.containerForm}>
+                <div className={style.container}>
                 <SearchField className={`${style.searchField} ${style.searchIcon}`} />
                 <form className={style.form}>
                     <div className={style.containerSelect}>

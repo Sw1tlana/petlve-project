@@ -8,7 +8,6 @@
    display: flex;
    flex-wrap: wrap;
    gap: 10px;
-   padding: 0 20px;
 }
 
 .radioInput {
@@ -21,12 +20,11 @@
       padding: 12px;
       border-radius: 30%;
       border: none;
-      display: inline-block;
-      gap: 4px;
       vertical-align: middle;
-      display: flex; 
+      display: inline-flex; 
       align-items: center; 
-      justify-content: space-between;
+      gap: 4px;
+      flex-grow: 1;
       background-color: fn.get-color('light');
       position: relative;
 
@@ -44,6 +42,7 @@
   }
 
   .radioInput:checked + .customRadio {
+      width: 100px;
       background-color: fn.get-color('accent-primary');
       color: fn.get-color('light'); 
       text-align: left;
