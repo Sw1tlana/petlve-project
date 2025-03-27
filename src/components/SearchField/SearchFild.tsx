@@ -41,9 +41,8 @@ interface SearchFieldProps {
                     <use xlinkHref={`${icons}#icon-search`}/>
                 </svg>
             </div>
-        </form>
-
-    </div>
+            </form>
+        </div>
   )
 };
 

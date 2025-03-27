@@ -37,17 +37,14 @@
 
 .searchField {
     width: 295px;
-    margin-left: 20px;
     border: none;
-}
-
-.searchIcon {
-    padding-right: 80px;
+    margin: 0 auto;
 }
 
 .containerSelect {
     display: flex;
     justify-content: space-between;
+    margin-top: 12px;
 }
 
 .inputSearch {
@@ -55,7 +52,7 @@
  }
  
  .iconSearch {
-     position: absolute;
+    position: absolute;
      top: 50%;
      left: 90%;
      transform: translate(-50%, -50%);
@@ -84,70 +81,36 @@
         font-size: 54px;
        }
 
-    //    .formSearch {
-    // display: flex;
-    //    }
-       
        .containerForm {
-        // display: grid;
-        // grid-template-areas: 
-        // "a b"
-        // "c d ."
-        // ;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "search category"
+            "type location";
+        width: 704px;
+        padding: 32px;
+    }
 
-           gap: 16px;
-           width: 704px;
-           padding: 32px;
-       }
-       
-       .container {
-         display: flex;
-       }
-
-       .form {
-           margin: 0;
-       }
-       
-       .searchField {
+    .searchField {
+        grid-area: search;
+        width: 265px;
         align-self: start;
-        width: 100%;
-        margin-left: 0;
-        grid-area: a;
-       }
-       
-       .searchIcon {
-           padding-right: 0;
-       }
+    }
 
-       .contaierTypeLocation {
-        display: flex;
-        padding-left: 0;
-       }
-       
-       .inputType {
-        grid-area: c;
-       }
-        
-        .iconSearch {
-            position: absolute;
-            top: 50%;
-            left: 90%;
-            transform: translate(-50%, -50%);
-            fill: transparent;
-            stroke: fn.get-color('dark-primary');
-        }
+    .containerSelect {
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        width: 340px;
+        grid-area: category;
+        margin: 0;
+    }
 
-        .locationSearch {
-           border: none;
-           grid-area: d;
-        }
-       
-        .border {
-           width: 100%;
-           height: 1px;
-           margin: 20px 0;
-           background-color: fn.get-color('dark-secondary');
-       }
-       
+    .typeSelect {
+        grid-area: type;
+    }
 
+    .locationSearch {
+        grid-area: location;
+    }
 }
