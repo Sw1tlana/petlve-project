@@ -45,7 +45,7 @@ interface OptionType {
     control: (base, state: ControlProps<OptionType, false>) => ({
       ...base,
       width: "100%",
-      padding: "8px",
+      padding: "6px",
       margin: 0,
       borderRadius: "30px",
       border: "none",
@@ -77,15 +77,17 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
         <Container>
               <h2 className={style.titleNotices}>Find your favorite pet</h2>
                 <div className={style.containerForm}>
-                <SearchField className={`${style.searchField} ${style.searchIcon}`} />
                 <form className={style.form}>
+                  <div className={style.conteinerSearchSelect}>
+                <SearchField className={`${style.searchField} ${style.searchIcon}`} />
                     <div className={style.containerSelect}>
                         <Select
                         // id="categoryFilter"
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={categoryOption}
-                        styles={customStyles}                    
+                        styles={customStyles} 
+                        className={style.categorySelect}                  
                         menuPosition="fixed"
                         placeholder="Category"
                     />
@@ -94,22 +96,26 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={genderOption}
-                        styles={customStyles}                    
+                        styles={customStyles}
+                        className={style.genderSelect}                      
                         menuPosition="fixed"
                         placeholder="By gander"
                     />
                 </div>
-
+                </div>
+                
+                <div className={style.containerTypeLocation}>
+                <div className={style.inputType}>
                 <Select
                         // id="typeFilter"
                         value={selectedOption}
                         onChange={handleCategoryChange}
                         options={typeOption}
-                        className={style.inputType}
-                        styles={customStyles}                    
+                        styles={customStyles}                
                         menuPosition="fixed"
                         placeholder="By type"
                     />
+                  </div>
 
                 <div className={style.inputSearch}>
                     <input
@@ -122,11 +128,13 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                             <use xlinkHref={`${icons}#icon-search`}/>
                         </svg>
                     </div>
+                  </div>
               </form>
               <div className={style.border}></div>
-
+            <div className={style.containerRadioButton}>
               <RadioButton/>
-              </div>
+            </div>
+            </div>
 
         </Container>
     </section>

@@ -47,6 +47,20 @@
     margin-top: 12px;
 }
 
+.categorySelect {
+    width: 140px;
+}
+
+.genderSelect {
+    width: 140px;
+}
+
+.containerTypeLocation {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+} 
+
 .inputSearch {
     position: relative;
  }
@@ -82,35 +96,69 @@
        }
 
        .containerForm {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-areas:
-            "search category"
-            "type location";
         width: 704px;
         padding: 32px;
     }
 
+    
+    .form {
+        gap: 16px;
+        width: 640px;
+    }
+
+    .conteinerSearchSelect {
+        display: flex;
+        gap: 16px;
+    }
+
     .searchField {
-        grid-area: search;
         width: 265px;
-        align-self: start;
+        margin-left: 0;
     }
 
     .containerSelect {
-        display: flex; 
         align-items: center;
-        justify-content: center;
-        width: 340px;
-        grid-area: category;
+        gap: 16px;
         margin: 0;
     }
 
-    .typeSelect {
-        grid-area: type;
+    .categorySelect {
+        width: 170px;
+    }
+
+    .genderSelect {
+        width: 170px;
+    }
+
+    .containerTypeLocation {
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .inputType {
+        width: 190px;
     }
 
     .locationSearch {
-        grid-area: location;
+       width: 227px;
+    }
+
+    .containerRadioButton {
+        margin-right: auto;
+    }
+}
+
+@include mx.mq('lg') { 
+
+    .containerForm {
+        width: 1216px;
+        padding: 40px;
+        justify-content: flex-start;
+    }
+
+    .form {
+        width: 1120px;
+        flex-direction: row;
+        gap: 16px;
     }
 }

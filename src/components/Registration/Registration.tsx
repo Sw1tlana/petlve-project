@@ -43,7 +43,7 @@ function Registration() {
                   </div>
                   </div>
               </div>
-                  <img className={style.imgAuth} src={authCat} alt="dog"/>
+                  <img className={style.imgAuth} src={authCat} alt="cat"/>
                 </div>
 
             <div className={style.containerForm}>

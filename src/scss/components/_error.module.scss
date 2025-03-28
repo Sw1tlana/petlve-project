@@ -1,0 +1,25 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerError {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 335px;
+    height: 712px;
+    border-radius: 30px;
+    background-color: fn.get-color('accent-primary');
+}
+
+// .containerContent {
+
+// }
+
+.containerImg {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}

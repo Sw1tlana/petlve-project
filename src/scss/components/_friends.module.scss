@@ -1,0 +1,23 @@
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.friendsTitle {
+   @extend %subtitle-mobile;
+
+   margin-bottom: 40px;
+}
+
+@include mx.mq('md') {
+
+.friendsTitle {
+    font-size: 54px;
+    margin-bottom: 44px;
+}
+}
+
+@include mx.mq('lg') {
+
+    .friendsTitle {
+        margin-bottom: 60px;
+    }
+    }
