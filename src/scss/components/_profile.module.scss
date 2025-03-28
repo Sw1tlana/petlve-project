@@ -1,0 +1,39 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.profileContainer {
+    width: 335px;
+    height: auto;
+    border-radius: 30px;
+    background-color: fn.get-color('light');
+    padding: 80px 20px;
+}
+
+.containerBtnUser {
+    display: flex;
+    justify-content: space-between; 
+}
+
+.user {
+    @include mx.frame(80px, 38px, true);
+
+    display: flex;
+    align-items: center;
+    background-color: fn.get-color('accent-primary');
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.iconUser {
+    fill: fn.get-color('light');
+}
+
+.spanUser {
+   @extend %text;
+
+   font-size: 14px;
+   color: fn.get-color('light');
+}

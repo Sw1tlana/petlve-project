@@ -17,6 +17,7 @@ function Registration() {
     const onSubmit = () => {
       reset();
     }
+    
   return (
     <section>
         <Container>

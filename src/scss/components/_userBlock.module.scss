@@ -1,0 +1,21 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+// .containerAvatarInfo {
+
+// }
+
+.avatar {
+    @include mx.frame(94px, 94px, true);
+
+    background-color: fn.get-color('accent-secondary');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconUser {
+   fill: fn.get-color('accent-primary');
+}

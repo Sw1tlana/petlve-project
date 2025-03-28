@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.editUserBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: fn.get-color('accent-secondary');
+}
+
+.iconUser {
+    fill: transparent;
+    stroke: fn.get-color('accent-primary');
+}
+

@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 30px;
-    padding-top: 50px;
+    padding-top: 80px;
     max-height: 280px;
     height: 100%;
     max-width: 335px;
@@ -116,7 +116,7 @@
 }
 
 .avatar {
-    @include mx.frame(180px, 50px, true);
+    @include mx.frame(158px, 50px, true);
     
     background-color: fn.get-color('accent-secondary');
     position: relative;
@@ -126,7 +126,7 @@
     fill: fn.get-color('light');
     position: absolute;
     top: 10px;
-    left: 11px;
+    left: 12px;
     z-index: 9;
 }
 

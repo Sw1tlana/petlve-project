@@ -7,6 +7,7 @@ import News from './components/News/News';
 import Notices from './components/Notices/Notices';
 import Registration from './components/Registration/Registration';
 import Error from './components/Error/Error';
+import Profile from './components/Profile/Profile';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
     <Notices/>
     <Friends/>
     <Error/>
+    <Profile/>
     </>
   )
 }
