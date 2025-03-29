@@ -2,6 +2,7 @@ import style from '../../scss/components/_profile.module.scss';
 import Container from '../../shared/components/Container/Container';
 import icons from '../../shared/icons/sprite.svg';
 import EditUserBtn from '../EditUserBtn/EditUserBtn';
+import PetsBlock from '../PetsBlock/PetsBlock';
 import UserBlock from '../UserBlock/UserBlock';
 
 function Profile() {
@@ -22,7 +23,10 @@ function Profile() {
             <div className={style.containerUserBlock}>
                 <UserBlock/>
             </div>
+            <div>
+              <PetsBlock/>
             </div>
+          </div>
         </Container>
 
     </section>

@@ -66,8 +66,8 @@ function Login() {
                         autoComplete="email"
                         aria-required="true"
                         />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
+                       {typeof errors.email?.message === "string" && 
+                       <p className={style.errorMsg}>{errors.email.message}</p>}
                       <svg width={20} height={20} className={style.iconIncrement}>
                         <use xlinkHref={`${icons}#icon-eye`} />
                       </svg>
@@ -80,7 +80,7 @@ function Login() {
                     </div>
 
                     <div>
-                        <input
+                      <input
                         // id={passwordId}
                         type="password"
                         className="input input--secondary"
@@ -89,8 +89,8 @@ function Login() {
                         autoComplete="current-password"
                         aria-required="true"
                         />
-                       {typeof errors.username?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.username.message}</p>}
+                       {typeof errors.password?.message === "string" && 
+                       <p className={style.errorMsg}>{errors.password.message}</p>}
                       <svg width={20} height={20} className={style.iconIncrement}>
                         <use xlinkHref={`${icons}#icon-eye`} />
                       </svg>

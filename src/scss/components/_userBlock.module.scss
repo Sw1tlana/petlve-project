@@ -1,11 +1,17 @@
+@use 'sass:map';
 @use '../utils/functions' as fn;
 @use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
-// .containerAvatarInfo {
-
-// }
+.containerAvatarInfo {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 8px;
+   margin-bottom: 28px;
+}
 
 .avatar {
     @include mx.frame(94px, 94px, true);
@@ -18,4 +24,75 @@
 
 .iconUser {
    fill: fn.get-color('accent-primary');
+}
+
+.textAvatar {
+    @extend %text;
+
+    font-size: 12px;
+}
+
+// .containerInformation {}
+
+.titleInformation {
+    font-size: 16px;
+    font-weight: map.get(var.$font-weights, "Bold");
+    line-height: 1.2;
+    letter-spacing: 0%;
+    margin-bottom: 20px;
+}
+
+.formProfile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@include mx.mq('md') {
+    .containerAvatarInfo {
+        margin-bottom: 46px;
+     }
+
+    .avatar {
+       @include mx.frame(110px, 110px, true);
+    }
+
+    .iconUser {
+        width: 50px;
+        height: 50px;
+     }
+
+     .formProfile {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-bottom: 50px;
+    }
+
+    .formProfile input {
+        width: calc(50% - 7px); 
+    }
+
+    .formProfile input:last-child {
+        width: calc(50% - 7px); 
+    }
+}
+
+@include mx.mq('lg') {
+    .containerAvatarInfo {
+        margin-bottom: 20px;
+     }
+
+     .formProfile {
+        flex-direction: column;
+    }
+
+    .formProfile input {
+        width: 100%; 
+    }
+
+    .formProfile input:last-child {
+        width: 100%; 
+    }
+
 }

@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerAddPetsBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titleAddPet {
+    font-size: 16px;
+    font-weight: map.get(var.$font-weights, "Bold");
+    line-height: 1.2px;
+    letter-spacing: 0%;
+}
+
+@include mx.mq('md') {
+    .titleAddPet {
+        font-size: 18px;
+    }
+}
