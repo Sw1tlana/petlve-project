@@ -8,12 +8,15 @@ import Notices from './components/Notices/Notices';
 import Registration from './components/Registration/Registration';
 import Error from './components/Error/Error';
 import Profile from './components/Profile/Profile';
+import Layout from './components/Layout/Layout';
+
 
 function App() {
 
 
   return (
     <>
+    <Layout>
     <Home/>
     <Login/>
     <Registration/>
@@ -23,6 +26,7 @@ function App() {
     <Friends/>
     <Error/>
     <Profile/>
+    </Layout>
     </>
   )
 }

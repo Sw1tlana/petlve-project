@@ -1,0 +1,30 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerNav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerLink {
+    @extend %main-text;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 50px;
+    border: 1px solid fn.get-color('dark-secondary');
+    border-radius: 30px;
+
+    color: fn.get-color('dark-primary');
+}
+
+.headerActive:active,
+.headerActive:hover,
+.headerActive:focus {
+    border: 1px solid fn.get-color('accent-primary');
+}

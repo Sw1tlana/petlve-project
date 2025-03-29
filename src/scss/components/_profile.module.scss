@@ -10,6 +10,7 @@
     border-radius: 30px;
     background-color: fn.get-color('light');
     padding: 80px 20px;
+    margin-bottom: 40px;
 }
 
 .containerBtnUser {
@@ -38,10 +39,15 @@
    color: fn.get-color('light');
 }
 
+.containerPetBlock {
+    margin-top: 40px;
+}
+
 @include mx.mq('md') {
     .profileContainer {
         width: 704px;
         padding: 40px;
+        margin-bottom: 32px;
     }
 }
 

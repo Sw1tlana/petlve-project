@@ -1,0 +1,15 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerAuth {
+    display: flex;
+    gap: 8px;
+    width: 240px;
+}
+
+// .btnAuth {
+//     width: ;
+//     height: 50px;
+// }

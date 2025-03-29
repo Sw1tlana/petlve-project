@@ -1,0 +1,25 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.linkLogo {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: map.get(var.$font-weights, "Bold");
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: fn.get-color('dark-primary');
+}
+
+.iconHeart {
+    fill: fn.get-color('accent-primary');
+}
+
+@include mx.mq('md') {
+    .linkLogo {
+        font-size: 28px;
+    }
+}
