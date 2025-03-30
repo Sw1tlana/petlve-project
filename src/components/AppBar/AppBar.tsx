@@ -1,11 +1,11 @@
-import AuthNav from "../AuthNav/AuthNav";
-// import UserNav from "../UserNav/UserNav";
+// import AuthNav from "../AuthNav/AuthNav";
+import UserNav from "../UserNav/UserNav";
 
 function AppBar() {
   return (
     <div>
-       <AuthNav/>
-       {/* <UserNav/> */}
+       {/* <AuthNav/> */}
+       <UserNav/>
     </div>
   )
 };

@@ -8,7 +8,6 @@
     color: fn.get-color('accent-primary');
     width: 114px;
     height: 42px;
-    margin-top: 20px;
 
     @include mx.transition(all, 300ms, ease-in-out);
 }

@@ -5,11 +5,11 @@
 
 .containerAuth {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
-    width: 240px;
 }
 
-// .btnAuth {
-//     width: ;
-//     height: 50px;
-// }
+.btnAuth {
+    width: 120px;
+}
