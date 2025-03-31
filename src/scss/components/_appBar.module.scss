@@ -1,0 +1,20 @@
+@use '../utils/mixins' as mx;
+
+.appBar {
+    display: none;   
+}
+
+.burgerAppBar {
+    display: flex;
+}
+
+@include mx.mq('lg') {
+    .appBar {
+        display: block;
+    }
+
+    .burgerAppBar {
+        display: none;
+    }
+}
+

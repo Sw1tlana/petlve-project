@@ -1,9 +1,14 @@
 // import AuthNav from "../AuthNav/AuthNav";
 import UserNav from "../UserNav/UserNav";
+import style from '../../scss/components/_appBar.module.scss';
 
-function AppBar() {
+interface AppBarProps {
+  isBurgerMenu: boolean;
+}
+
+const AppBar: React.FC<AppBarProps> = ({ isBurgerMenu }) => {
   return (
-    <div>
+    <div className={isBurgerMenu ? style.burgerAppBar : style.appBar}>
        {/* <AuthNav/> */}
        <UserNav/>
     </div>
