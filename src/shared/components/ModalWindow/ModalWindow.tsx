@@ -5,10 +5,11 @@ import { useEffect, ReactNode } from 'react';
 import Modal from 'react-modal';
 
 interface ModalWindowProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-  children: ReactNode;
-  shouldCloseOnOverlayClick?: boolean;
+    isBurgerMenu: boolean;
+    isOpen: boolean;
+    onRequestClose: () => void;
+    children: ReactNode;
+    shouldCloseOnOverlayClick?: boolean;
 }
 
 Modal.setAppElement('#root');
@@ -18,6 +19,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
   onRequestClose,
   children,
   shouldCloseOnOverlayClick = true,
+  isBurgerMenu,
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -31,13 +33,15 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
   }, [isOpen]);
 
   return (
+  <>
+  {console.log("isBurgerMenu:", isBurgerMenu)}
 <Modal
   isOpen={isOpen}
   onRequestClose={onRequestClose}
   shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
   style={{
     overlay: {
-      backgroundColor: 'rgba(47, 47, 47, 0.6)',
+      backgroundColor: isBurgerMenu ? 'transparent' : 'rgba(47, 47, 47, 0.6)',
       zIndex: '15',
       overflow: 'auto',
       display: 'grid',
@@ -47,13 +51,13 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
   className={`${style.modalContent} ${isOpen ? style.modalContentOpen : style.beforeClose}`}
 >
   <button onClick={onRequestClose} className={style.closeButton}>
-    <svg className={style.iconClose}>
+    <svg className={style.iconClose} width={26} height={26}>
       <use xlinkHref={`${icons}#icon-close`} />
     </svg>
   </button>
   {children}
 </Modal>
-
+</>
   );
 };
 

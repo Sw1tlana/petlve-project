@@ -8,7 +8,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 32px 0;
 }
 
 .burgerMenu {
@@ -48,16 +47,13 @@
     fill: fn.get-color('accent-primary');
 }
 
-@include mx.mq('md') {
-
-}
-
 @include mx.mq('lg') {
     .headerWrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 32px 0;
+        position: relative;
+        top: 64px;
     }
 
     .navContainer {

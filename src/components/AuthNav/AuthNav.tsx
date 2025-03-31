@@ -5,8 +5,8 @@ import '../../scss/components/btn/types/_primary.scss';
 function AuthNav() {
   return (
     <div className={style.containerAuth}>
-        <NavLink className={`${style.btnAuth} btn btn--primary`} to="/signin">Log In</NavLink>
-        <NavLink className='btn btn--primary' to="/signup">Registration</NavLink>
+        <NavLink className={`${style.buttonAuth} ${style.btnAuth} btn btn--primary`} to="/signin">Log In</NavLink>
+        <NavLink className={`${style.buttonAuth} btn btn--primary`} to="/signup">Registration</NavLink>
     </div>
   )
 };

@@ -1,5 +1,5 @@
-// import AuthNav from "../AuthNav/AuthNav";
-import UserNav from "../UserNav/UserNav";
+import AuthNav from "../AuthNav/AuthNav";
+// import UserNav from "../UserNav/UserNav";
 import style from '../../scss/components/_appBar.module.scss';
 
 interface AppBarProps {
@@ -9,8 +9,8 @@ interface AppBarProps {
 const AppBar: React.FC<AppBarProps> = ({ isBurgerMenu }) => {
   return (
     <div className={isBurgerMenu ? style.burgerAppBar : style.appBar}>
-       {/* <AuthNav/> */}
-       <UserNav/>
+       <AuthNav/>
+       {/* <UserNav/> */}
     </div>
   )
 };

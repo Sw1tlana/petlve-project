@@ -5,6 +5,7 @@
 
 .containerNav {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
 }
@@ -17,14 +18,29 @@
     align-items: center;
     width: 120px;
     height: 50px;
-    border: 1px solid fn.get-color('dark-secondary');
+    border: 1px solid fn.get-color('light');
     border-radius: 30px;
 
-    color: fn.get-color('dark-primary');
+    color: fn.get-color('light');
 }
 
 .headerActive:active,
 .headerActive:hover,
 .headerActive:focus {
-    border: 1px solid fn.get-color('accent-primary');
+    border: 1px solid fn.get-color('dark-secondary');
+    color: fn.get-color('dark-primary');
+}
+
+
+@include mx.mq('lg') {
+.containerNav {
+    flex-direction: row;
+}
+
+.headerLink {
+    border: 1px solid fn.get-color('dark-secondary');
+
+    color: fn.get-color('dark-primary');
+}
+
 }

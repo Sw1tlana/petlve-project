@@ -1,4 +1,46 @@
 @use '../utils/functions' as fn;
 @use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
-@use '../utils/placeholders';
+
+.closeButton {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    background-color: transparent;
+    border: transparent;
+
+    @include mx.transition(all, 300ms, ease-in-out);
+}
+
+.iconClose {
+    fill: fn.get-color('light');
+}
+
+.iconClose:active,
+.iconClose:hover {
+    fill: fn.get-color('dark-secondary');
+}
+
+.modalContent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 20%;
+    border-radius: 15px;
+    z-index: 15;
+}
+
+.modalContentOpen {
+    opacity: 1;
+}
+
+.beforeClose {
+    opacity: 0;
+}
+
+@include mx.mq('md') {
+
+    .modalContent {
+        right: 0;
+    }
+}

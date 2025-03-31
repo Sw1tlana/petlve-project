@@ -24,8 +24,8 @@ function App() {
         <Route path='/news' element={<NewsPage/>}/>
         <Route path='/notices' element={<NoticesPage/>}/>
         <Route path='/friends' element={<FriendsPage/>}/>
-        <Route path='register' element={<RegistrationPage/>}/>
-        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='signup' element={<RegistrationPage/>}/>
+        <Route path='/signin' element={<LoginPage/>}/>
       </Routes>
       </Suspense>
     </Layout>

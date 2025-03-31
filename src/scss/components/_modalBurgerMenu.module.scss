@@ -3,15 +3,38 @@
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
-.open {
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.containerBurger {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 200px;
     align-items: center;
-    padding: 204px 38px 40px 38px;
+    padding: 204px 50px 40px;
     max-width: 210px;
     width: 100%;
     height: 800px;
-    // background-color: ;
+    background-color: fn.get-color('accent-primary');
+
+    animation: fadeInScale 1s ease-in-out;
+
+    @include mx.transition(all, 1000ms, ease-in-out);
+
+}
+
+@include mx.mq('md') {
+    .containerBurger {
+        max-width: 374px;
+        height: 1024px;
+    }
 }

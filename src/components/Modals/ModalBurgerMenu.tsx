@@ -8,7 +8,7 @@ interface ModalBurgerMenuProps {
 
 function ModalBurgerMenu({ isBurgerMenu }: ModalBurgerMenuProps) {
   return (
-    <div className={isBurgerMenu ? style.open : style.closed}>
+    <div className={`${style.containerBurger} ${isBurgerMenu ? style.open : style.closed}`}>
        <Nav/>
        <AppBar isBurgerMenu={isBurgerMenu}/>
     </div>

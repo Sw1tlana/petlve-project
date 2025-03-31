@@ -5,11 +5,24 @@
 
 .containerAuth {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
 }
 
+.containerAuth .buttonAuth {
+    border: 1px solid fn.get-color('accent-secondary');
+}
+
 .btnAuth {
     width: 120px;
 }
+
+@include mx.mq('md') {
+    .containerAuth {
+        flex-direction: row;
+    }
+}   
+
+
