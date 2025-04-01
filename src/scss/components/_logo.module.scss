@@ -18,6 +18,14 @@
     fill: fn.get-color('accent-primary');
 }
 
+.logoHohe {
+    color: fn.get-color('light');
+}
+
+.iconLogoHome {
+    fill: fn.get-color('light');
+}
+
 @include mx.mq('md') {
     .linkLogo {
         font-size: 28px;

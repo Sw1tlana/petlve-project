@@ -2,12 +2,25 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
 
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(-1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .closeButton {
     position: absolute;
     top: 20px;
     right: 16px;
     background-color: transparent;
     border: transparent;
+
+    animation: fadeInScale 1s ease-in-out;
 
     @include mx.transition(all, 300ms, ease-in-out);
 }

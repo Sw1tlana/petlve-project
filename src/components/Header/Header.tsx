@@ -7,14 +7,20 @@ import style from '../../scss/layout/_header.module.scss';
 import icons from '../../shared/icons/sprite.svg';
 import ModalBurgerMenu from '../Modals/ModalBurgerMenu';
 
+import { useLocation } from 'react-router-dom';
+
 interface ModalContextType {
   openModal: (content: React.ReactNode) => void;
   closeModal: () => void;
 }
 function Header() {
+  const location = useLocation();
+  const isHome = location.pathname ===  '/';
 
   const { openModal } = useModalContext() as unknown as ModalContextType;
 
+const headerClass = isHome ? style.headerWidth : "";
+const burgerClass = isHome ? style.burgerHome : "";
 
   const handleClick = () => {
     openModal(<ModalBurgerMenu isBurgerMenu={true}/>);
@@ -25,9 +31,8 @@ function Header() {
 // }
 
   return (
-    <header>
       <Container>
-        <div className={style.headerWrapper}>
+        <header className={`${style.headerWrapper} ${headerClass}`}>
           <Logo/>
           <nav className={style.navContainer}>
               <Nav/>
@@ -43,14 +48,13 @@ function Header() {
             </div>
         {/* {user && getInitial(user.name)} */}
         </div>
-            <button className={`${style.burgerMenu} ${style.burgerMenuClass}`} onClick={handleClick}>
-              <svg width={32} height={32} className={style.iconBurger}>
+            <button className={style.burgerMenu} onClick={handleClick}>
+              <svg width={32} height={32} className={`${style.iconBurger} ${burgerClass}`}>
                 <use xlinkHref={`${icons}#icon-menu-burger`} />
               </svg>
             </button>
-      </div>
+      </header>
       </Container>
-    </header>
   )
 };
 

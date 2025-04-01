@@ -10,6 +10,18 @@
     gap: 10px;
 }
 
+.containerNav .whiteText{
+    color: fn.get-color('light');
+    border: 1px solid fn.get-color('light');
+}
+
+.containerNav .whiteText:active,
+.containerNav .whiteText:hover,
+.containerNav .whiteText:focus {
+    border: 1px solid fn.get-color('dark-secondary');
+    color: fn.get-color('dark-primary');
+}
+
 .headerLink {
     @extend %main-text;
 
