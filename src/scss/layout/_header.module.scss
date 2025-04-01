@@ -12,7 +12,7 @@
 }
 
 .headerWidth {
-    padding: 32px 64px;
+    padding: 32px 20px;
 }
 
 .burgerMenu {
@@ -40,16 +40,13 @@
 }
 
 .authInitial {
-    display: none;
-}
-
-.authInitial {
     @include mx.frame(50px, 50px, true);
 
     background-color: fn.get-color('accent-secondary');
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
 }
 
@@ -63,6 +60,10 @@
         align-items: center;
         justify-content: space-between;
         position: relative;
+    }
+
+    .headerWidth {
+        padding: 32px 64px;
     }
 
     .navContainer {
