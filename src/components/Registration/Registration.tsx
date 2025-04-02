@@ -20,7 +20,7 @@ interface formData {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  phone: string;
 }
 
 function Registration() {
@@ -29,7 +29,7 @@ function Registration() {
   const nameId = useId();
   const emailId = useId();
   const passwordId = useId();
-  const confirmPasswordId = useId();
+  const phoneId = useId();
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
        defaultValues: formValuesSignUp,
@@ -149,17 +149,15 @@ function Registration() {
                     </div>
 
                     <div>
-                        <input
-                        id={confirmPasswordId}
-                        type="password"
-                        className="input input--secondary"
-                        placeholder="Confirm password"
-                        {...register('confirmPassword')}
-                        autoComplete="new-password"
-                        aria-required="true"
-                        />
-                       {typeof errors.password?.message === "string" && 
-                       <p className={style.errorMsg}>{errors.password.message}</p>}
+                          <input
+                          id={phoneId}
+                          className="input input--secondary"
+                          placeholder="Phone number"
+                          {...register('phone')}
+                          aria-required="true"
+                          />
+                       {typeof errors.phone?.message === "string" && 
+                       <p className={style.errorMsg}>{errors.phone.message}</p>}
                       <svg width={20} height={20} className={style.iconIncrement}>
                         <use xlinkHref={`${icons}#icon-eye`} />
                       </svg>

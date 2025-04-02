@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-import { emailRegex, passwordRegex, isValidLatinInput } from '../helpers/contacts';
+import { emailRegex, passwordRegex, isValidLatinInput, isValidPhoneNumber } from '../helpers/contacts';
 
 export const signUpSchema = Yup.object().shape({
     name: Yup.string()
@@ -12,8 +12,9 @@ export const signUpSchema = Yup.object().shape({
     password: Yup.string()
         .matches(passwordRegex, "Password must be at least 6 characters long, include one uppercase letter, one number, and one special character")
         .required("Required"),
-    confirmPassword: Yup.string()
-        .matches(passwordRegex, "Password must be at least 6 characters long, include one uppercase letter, one number, and one special character")
+    phone: Yup.string()
+        .matches(
+          isValidPhoneNumber,
+            "Invalid phone number")
         .required("Required"),
-
 });

@@ -8,7 +8,10 @@ import { requestSignup
   user: { 
     id: string; 
     name: string; 
-    email: string }; 
+    email: string;
+    phone: string;
+    password: string;
+ }; 
   token: string;
   refreshToken: string;
 }
@@ -17,7 +20,7 @@ import { requestSignup
     name: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    phone: string;
   }
   
   export const signUpUser = createAsyncThunk<
@@ -28,7 +31,9 @@ import { requestSignup
   'auth/signUpUser',
   async (formData, thunkAPI) => {
     try {
+      console.log("Signing up with:", formData);
       const response = await requestSignup(formData);
+      console.log("Response from server:", response);
       const { token, refreshToken, user } = response;
 
       return { user, token, refreshToken };

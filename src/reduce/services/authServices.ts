@@ -40,10 +40,10 @@ export const clearAuthHeader = () => {
     email: string;
     password: string;
     name: string; 
-    confirmPassword: string;
+    phone: string;
   }
 
 export const requestSignup = async(formData: SignupFormData) => {
-   const { data } = await axios.post('users/singup', formData);
+   const { data } = await axios.post('users/signup', formData);
    return data
 };

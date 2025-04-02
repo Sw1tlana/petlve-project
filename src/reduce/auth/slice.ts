@@ -19,7 +19,8 @@ interface SignupResponse {
   user: { 
     id: string; 
     name: string; 
-    email: string }; 
+    email: string;
+ }; 
   token: string;
   refreshToken: string;
 }
