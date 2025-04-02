@@ -15,6 +15,15 @@ const INITIAL_STATE: State = {
   loading: false,  
 };
 
+interface SignupResponse {
+  user: { 
+    id: string; 
+    name: string; 
+    email: string }; 
+  token: string;
+  refreshToken: string;
+}
+
 interface State {
   user: {
     name: string | null;
@@ -39,7 +48,7 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(signUpUser.fulfilled, (state, action: PayloadAction<State>) => {
+      .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignupResponse>) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.refreshToken = action.payload.refreshToken;

@@ -4,17 +4,41 @@ import authCat  from '../../shared/images/Auth/cat@2x.png';
 import '../../scss/components/btn/types/_secondary.scss';
 import '../../scss/components/btn/types/_primary.scss';
 import icons from '../../shared/icons/sprite.svg';
+import { signUpSchema } from '../../shemas/signUpShema';
+import { formValuesSignUp } from '../../helpers/contacts';
+import { signUpUser } from "../../reduce/auth/operations";
+import type { AppDispatch } from '../../reduce/store';
+
 
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useId } from "react";
+
+interface formData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 function Registration() {
+  const dispatch: AppDispatch = useDispatch();
+
+  const nameId = useId();
+  const emailId = useId();
+  const passwordId = useId();
+  const confirmPasswordId = useId();
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
+       defaultValues: formValuesSignUp,
+       resolver: yupResolver(signUpSchema),
         mode: 'onTouched'
     });
 
-    const onSubmit = () => {
+    const onSubmit = (data: formData) => {
+      dispatch(signUpUser(data));
       reset();
     }
     
@@ -57,7 +81,7 @@ function Registration() {
                 <form className={style.formAuth} onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <input
-                        // id={namedId}
+                        id={nameId}
                         type="name"
                         className="input input--secondary"
                         placeholder="Name"
@@ -80,7 +104,7 @@ function Registration() {
 
                       <div>
                         <input
-                        // id={emailId}
+                        id={emailId}
                         type="email"
                         className="input input--secondary"
                         placeholder="Email"
@@ -103,7 +127,7 @@ function Registration() {
 
                     <div>
                         <input
-                        // id={passwordId}
+                        id={passwordId}
                         type="password"
                         className="input input--secondary"
                         placeholder="Password"
@@ -126,7 +150,7 @@ function Registration() {
 
                     <div>
                         <input
-                        // id={namedId}
+                        id={confirmPasswordId}
                         type="password"
                         className="input input--secondary"
                         placeholder="Confirm password"

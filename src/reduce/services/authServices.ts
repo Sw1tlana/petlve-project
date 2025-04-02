@@ -39,7 +39,8 @@ export const clearAuthHeader = () => {
   interface SignupFormData {
     email: string;
     password: string;
-    name?: string; 
+    name: string; 
+    confirmPassword: string;
   }
 
 export const requestSignup = async(formData: SignupFormData) => {

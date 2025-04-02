@@ -5,13 +5,19 @@ import { requestSignup
  } from '../services/authServices';
 
  interface SignupResponse {
-    user: { id: string; username: string };
-  }
+  user: { 
+    id: string; 
+    name: string; 
+    email: string }; 
+  token: string;
+  refreshToken: string;
+}
   
   interface SignupFormData {
-    username: string;
+    name: string;
     email: string;
     password: string;
+    confirmPassword: string;
   }
   
   export const signUpUser = createAsyncThunk<
