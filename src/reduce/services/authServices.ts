@@ -44,7 +44,21 @@ export const clearAuthHeader = () => {
     phone: string;
   }
 
+  interface SignInFormData {
+    email: string;
+    password: string;
+  }
+
 export const requestSignup = async(formData: SignupFormData) => {
    const { data } = await axios.post('users/signup', formData);
-   return data.data;
+   if (data?.token) {
+    setAuthHeader(data.token);
+  }
+   return data;
 };
+
+export const requestSignIn = async(formData: SignInFormData) => {
+  const { data } = await axios.post('users/signin', formData);
+  setAuthHeader(data.token);
+  return data;
+}

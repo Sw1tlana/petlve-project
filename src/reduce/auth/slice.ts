@@ -1,6 +1,6 @@
 import { toast } from 'react-hot-toast';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signUpUser } from './operations';
+import { signUpUser, signInUser } from './operations';
 
 const INITIAL_STATE: State = {
   user: {
@@ -15,10 +15,20 @@ const INITIAL_STATE: State = {
   loading: false,  
 };
 
-interface SignupResponse {
+interface SignUpResponse {
   user: { 
     id: string; 
     name: string; 
+    email: string;
+ }; 
+  token: string;
+  refreshToken: string;
+}
+
+interface SignInResponse {
+  user: { 
+    id: string; 
+    name: string | null;
     email: string;
  }; 
   token: string;
@@ -49,7 +59,11 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignupResponse>) => {
+    .addCase(signUpUser.pending, (state) => {
+        state.loading = true;  
+        state.error = null; 
+      })
+      .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
         console.log("Data from fulfilled:", action.payload);
         state.user = action.payload.user;
         state.token = action.payload.token;
@@ -59,11 +73,25 @@ export const authSlice = createSlice({
         state.error = null;
         toast.success('Register successful');
       })
-      .addCase(signUpUser.pending, (state) => {
+      .addCase(signUpUser.rejected, (state) => {
+        state.loading = false;  
+        state.error = true; 
+        toast.error('Registration failed');
+      })
+      .addCase(signInUser.pending, (state) => {
         state.loading = true;  
         state.error = null; 
       })
-      .addCase(signUpUser.rejected, (state) => {
+      .addCase(signInUser.fulfilled, (state, action: PayloadAction<SignInResponse>) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.refreshToken = action.payload.refreshToken;
+        state.isLoggedIn = true;
+        state.loading = false;
+        state.error = null;
+        toast.success('Login successful');
+      })
+      .addCase(signInUser.rejected, (state) => {
         state.loading = false;  
         state.error = true; 
         toast.error('Registration failed');
