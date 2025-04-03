@@ -24,6 +24,7 @@ export const clearAuthHeader = () => {
             const { data } = await axios.post('/user/refresh-tokens', { refreshToken });
     
             setAuthHeader(data.token);
+            console.log("Data-token", data.token);
             store.dispatch(setToken({ token: data.token, refreshToken: data.refreshToken }));
             originalRequest.headers.Authorization = `Bearer ${data.token}`;
             return axios(originalRequest);
@@ -45,5 +46,5 @@ export const clearAuthHeader = () => {
 
 export const requestSignup = async(formData: SignupFormData) => {
    const { data } = await axios.post('users/signup', formData);
-   return data
+   return data.data;
 };

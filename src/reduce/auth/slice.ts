@@ -50,6 +50,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignupResponse>) => {
+        console.log("Data from fulfilled:", action.payload);
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.refreshToken = action.payload.refreshToken;

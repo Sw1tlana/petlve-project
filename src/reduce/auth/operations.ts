@@ -35,8 +35,13 @@ import { requestSignup
       const response = await requestSignup(formData);
       console.log("Response from server:", response);
       const { token, refreshToken, user } = response;
+      const cleanedToken = token.replace(/"/g, '');  
+      const cleanedRefreshToken = refreshToken.replace(/"/g, '');
 
-      return { user, token, refreshToken };
+      console.log("Parsed user data:", user);
+
+      return { user, token: cleanedToken, refreshToken: cleanedRefreshToken };
+
     } catch {
       return thunkAPI.rejectWithValue('Registration failed');
     }
