@@ -10,11 +10,11 @@ interface AppBarProps {
 
 const AppBar: React.FC<AppBarProps> = ({ isBurgerMenu }) => {
 
-  const isLoggedin = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
     <div className={isBurgerMenu ? style.burgerAppBar : style.appBar}>
-      { isLoggedin ? <AuthNav/> : <UserNav/> }
+      {isLoggedIn ? <AuthNav/> : <UserNav/>}
     </div>
   )
 };

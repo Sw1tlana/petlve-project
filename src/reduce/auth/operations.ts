@@ -44,10 +44,6 @@ import { RootState } from '../store';
     password: string;
   };
 
-  interface RefreshTokenRequestData {
-    refreshToken: string;
-  };
-  
   interface RefreshTokenResponse {
     token: string;
     refreshToken: string;
@@ -98,13 +94,12 @@ export const signInUser = createAsyncThunk<
 
 export const refreshTokenUser = createAsyncThunk<
   RefreshTokenResponse,
-  RefreshTokenRequestData,
+  void,
   {rejectValue: string}
   >('auth/refreshTokenUser',
     async (_, thunkAPI) => {
-      const { getState } = thunkAPI;
-      const state: RootState = getState();
-      const refreshToken = state.auth;
+      const state = thunkAPI.getState() as RootState;
+      const refreshToken = state.auth.refreshToken;
 
       if (!refreshToken) {
         return thunkAPI.rejectWithValue('No refresh token available');
@@ -112,7 +107,9 @@ export const refreshTokenUser = createAsyncThunk<
 
 try {
     const { token, refreshToken: newRefreshToken } = await getRefreshToken(refreshToken);
-    setToken({ token, refreshToken: newRefreshToken });
+
+    thunkAPI.dispatch(setToken({ token, refreshToken: newRefreshToken }));
+
     setAuthHeader(token);
     return { token, refreshToken: newRefreshToken };
 } catch {
@@ -129,4 +126,4 @@ try {
       return thunkAPI.rejectWithValue('Logout failed');
     }
   }
- )
+ );

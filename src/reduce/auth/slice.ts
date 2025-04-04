@@ -1,6 +1,9 @@
 import { toast } from 'react-hot-toast';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signUpUser, signInUser, refreshTokenUser, logoutUser } from './operations';
+import { signUpUser, 
+          signInUser, 
+          refreshTokenUser, 
+          logoutUser } from './operations';
 
 const INITIAL_STATE: State = {
   user: {
@@ -38,6 +41,11 @@ interface State {
   loading: boolean;  
 }
 
+interface RefreshTokenResponse {
+  token: string;
+  refreshToken: string;
+}
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,  
@@ -54,7 +62,6 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
-        console.log("Data from fulfilled:", action.payload);
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.refreshToken = action.payload.refreshToken;
@@ -80,6 +87,7 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         toast.success('Login successful');
+        console.log('User logged out:', state.isLoggedIn);
       })
       .addCase(signInUser.rejected, (state) => {
         state.loading = false;  
@@ -90,9 +98,10 @@ export const authSlice = createSlice({
         state.isRefreshing = true;
         state.error = false; 
       })
-      .addCase(refreshTokenUser.fulfilled, (state, action) => {
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
+      .addCase(refreshTokenUser.fulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
+        const { token, refreshToken } = action.payload;
+        state.token = token;
+        state.refreshToken = refreshToken;
         state.isRefreshing = false;
         toast.success('Login successful');
       })
@@ -106,14 +115,17 @@ export const authSlice = createSlice({
         state.isRefreshing = false; 
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        console.log('State after logout', state);
         state.user = INITIAL_STATE.user;
         state.token = null;
         state.refreshToken = null;
         state.isLoggedIn = false;
+        console.log('User logged out:', state.isLoggedIn);
         toast.success('Logout successful');
       })
       .addCase(logoutUser.rejected, (state) => {
         state.error = true;
+        console.log('User logged out: rejected', state.isLoggedIn); 
         toast.error('Incorrect email or password');
       });
   },

@@ -1,9 +1,12 @@
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
 import Layout from './components/Layout/Layout';
 import Loader from './shared/components/Loader.tsx/Loader';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './reduce/store';
+import { refreshTokenUser } from './reduce/auth/operations';
 
 const HomePage = lazy(() => import('../src/pages/HomePage/HomePage'));
 const NewsPage = lazy(() => import('../src/pages/NewsPage/NewsPage'));
@@ -13,7 +16,11 @@ const RegistrationPage = lazy(() => import('../src/pages/RegistrationPage/Regist
 const LoginPage = lazy(() => import('../src/pages/LoginPage/LoginPage'));
 
 function App() {
+const dispatch = useDispatch<AppDispatch>();
 
+useEffect(() => {
+  dispatch(refreshTokenUser());
+}, [dispatch]);
 
   return (
     <>

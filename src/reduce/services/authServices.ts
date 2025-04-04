@@ -65,7 +65,10 @@ export const requestSignIn = async(formData: SignInFormData) => {
 
 export const getRefreshToken = async(refreshToken: string) => {
   try {
+    console.log('refresh', refreshToken)
     const { data } = await axios.post('users/refresh-tokens', { refreshToken });
+    console.log('refresh', refreshToken)
+
     return data; 
   } catch (error) {
     console.error("Error refreshing token:", error);
@@ -76,7 +79,7 @@ export const getRefreshToken = async(refreshToken: string) => {
 
 export const requestLogout = async() => {
   try {
-  await axios.post('users/logout');
+  await axios.post('users/signout');
     clearAuthHeader();
   } catch {
     throw new Error('Logout failed');
