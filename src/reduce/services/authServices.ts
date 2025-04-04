@@ -61,4 +61,25 @@ export const requestSignIn = async(formData: SignInFormData) => {
   const { data } = await axios.post('users/signin', formData);
   setAuthHeader(data.token);
   return data;
-}
+};
+
+export const getRefreshToken = async(refreshToken: string) => {
+  try {
+    const { data } = await axios.post('users/refresh-tokens', { refreshToken });
+    return data; 
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+
+    throw new Error('Token refresh failed');
+  }
+};
+
+export const requestLogout = async() => {
+  try {
+  await axios.post('users/logout');
+    clearAuthHeader();
+  } catch {
+    throw new Error('Logout failed');
+  }
+};
+

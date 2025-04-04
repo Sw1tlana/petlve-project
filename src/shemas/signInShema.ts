@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 import { emailRegex, passwordRegex } from '../helpers/contacts';
 
-export const signUpSchema = Yup.object().shape({
+export const signInSchema = Yup.object().shape({
     email: Yup.string()
         .matches(emailRegex, "Invalid email format")
         .required("Required"),

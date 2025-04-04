@@ -4,18 +4,36 @@ import authDog  from '../../shared/images/Auth/dog@2x.png';
 import '../../scss/components/btn/types/_secondary.scss';
 import '../../scss/components/btn/types/_primary.scss';
 import icons from '../../shared/icons/sprite.svg';
+import { signInSchema } from "../../shemas/signInShema";
+import { signInUser } from "../../reduce/auth/operations";
+import { formValuesSignIn } from "../../helpers/contacts";
+import { AppDispatch } from '../../reduce/store';
 
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useId } from 'react';
+import { useDispatch } from "react-redux";
 
+interface formDataResponse {
+  email: string;
+  password: string;
+}
 
 function Login() {
+  const dispatch = useDispatch<AppDispatch>();
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        defaultValues: formValuesSignIn,
+        resolver: yupResolver(signInSchema),
         mode: 'onTouched'
     });
 
-    const onSubmit = () => {
+    const emailId = useId();
+    const passwordId = useId();
+
+    const onSubmit = (formData: formDataResponse) => {
+      dispatch(signInUser(formData));
       reset();
     }
 
@@ -58,7 +76,7 @@ function Login() {
                 <form className={style.formAuth} onSubmit={handleSubmit(onSubmit)}>
                       <div>
                         <input
-                        // id={emailId}
+                        id={emailId}
                         type="email"
                         className="input input--secondary"
                         placeholder="Email"
@@ -81,7 +99,7 @@ function Login() {
 
                     <div>
                       <input
-                        // id={passwordId}
+                        id={passwordId}
                         type="password"
                         className="input input--secondary"
                         placeholder="Password"

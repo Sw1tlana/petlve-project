@@ -1,6 +1,6 @@
 import { toast } from 'react-hot-toast';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signUpUser, signInUser } from './operations';
+import { signUpUser, signInUser, refreshTokenUser, logoutUser } from './operations';
 
 const INITIAL_STATE: State = {
   user: {
@@ -16,16 +16,6 @@ const INITIAL_STATE: State = {
 };
 
 interface SignUpResponse {
-  user: { 
-    id: string; 
-    name: string; 
-    email: string;
- }; 
-  token: string;
-  refreshToken: string;
-}
-
-interface SignInResponse {
   user: { 
     id: string; 
     name: string | null;
@@ -82,7 +72,7 @@ export const authSlice = createSlice({
         state.loading = true;  
         state.error = null; 
       })
-      .addCase(signInUser.fulfilled, (state, action: PayloadAction<SignInResponse>) => {
+      .addCase(signInUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.refreshToken = action.payload.refreshToken;
@@ -95,6 +85,36 @@ export const authSlice = createSlice({
         state.loading = false;  
         state.error = true; 
         toast.error('Registration failed');
+      })
+      .addCase(refreshTokenUser.pending, (state) => {
+        state.isRefreshing = true;
+        state.error = false; 
+      })
+      .addCase(refreshTokenUser.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        state.refreshToken = action.payload.refreshToken;
+        state.isRefreshing = false;
+        toast.success('Login successful');
+      })
+      .addCase(refreshTokenUser.rejected, (state) => {
+        state.token = null;
+        state.refreshToken = null;
+        state.isLoggedIn = false;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.error = false;
+        state.isRefreshing = false; 
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = INITIAL_STATE.user;
+        state.token = null;
+        state.refreshToken = null;
+        state.isLoggedIn = false;
+        toast.success('Logout successful');
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.error = true;
+        toast.error('Incorrect email or password');
       });
   },
 });
