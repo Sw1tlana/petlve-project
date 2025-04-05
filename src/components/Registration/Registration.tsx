@@ -32,7 +32,7 @@ function Registration() {
   const passwordId = useId();
   const phoneId = useId();
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, watch, handleSubmit, formState: { errors }, reset } = useForm({
        defaultValues: formValuesSignUp,
        resolver: yupResolver(signUpSchema),
         mode: 'onTouched'
@@ -46,6 +46,11 @@ function Registration() {
     const togglePasswordVisibility = () => {
       setIsPasswordVisible((prevState: boolean) => !prevState);
     };
+
+    const passwordValue = watch('password');
+    const phoneValue = watch('phone');
+    const nameValue = watch('name');
+    const emailValue = watch('email');
     
   return (
     <section>
@@ -88,7 +93,7 @@ function Registration() {
                         <input
                         id={nameId}
                         type="name"
-                        className="input input--secondary"
+                        className={`input input--secondary ${!errors.name ? style.validName : ''}`}
                         placeholder="Name"
                         {...register('name')}
                         autoComplete="name"
@@ -97,13 +102,27 @@ function Registration() {
                        {typeof errors.name?.message === "string" && 
                        <p className={style.errorMsg}>{errors.name.message}</p>}
 
+                        {!errors.name && nameValue && (
+                            <p className={style.successMsg}>Name is valid!</p>
+                          )}
+
                        <div className="iconContainerAuth">
-                        <svg width={16} height={16} className={style.iconClose}>
+                       {errors.name && nameValue && (
+                        <svg 
+                          width={16} 
+                          height={16} 
+                          className={style.iconClose}>
                           <use xlinkHref={`${icons}#icon-close`} />
                         </svg>
-                        <svg width={16} height={16} className={style.iconCheck}>
+                      )}
+                      {!errors.name && nameValue && (
+                        <svg 
+                          width={16} 
+                          height={16} 
+                          className={style.iconCheck}>
                           <use xlinkHref={`${icons}#icon-check`} />
                         </svg>
+                      )}
                       </div>
                     </div>
 
@@ -111,7 +130,7 @@ function Registration() {
                         <input
                         id={emailId}
                         type="email"
-                        className="input input--secondary"
+                        className={`input input--secondary ${!errors.email ? style.validEmail : ''}`}
                         placeholder="Email"
                         {...register('email')}
                         autoComplete="email"
@@ -119,13 +138,28 @@ function Registration() {
                         />
                        {typeof errors.email?.message === "string" && 
                        <p className={style.errorMsg}>{errors.email.message}</p>}
-                        <svg width={16} height={16} className={style.iconClose}>
-                          <use xlinkHref={`${icons}#icon-close`} />
-                        </svg>
-                        <svg width={16} height={16} className={style.iconCheck}>
-                          <use xlinkHref={`${icons}#icon-check`} />
-                        </svg>
-                    </div>
+
+                          {!errors.email && emailValue && (
+                            <p className={style.successMsg}>Email is valid!</p>
+                          )}
+
+                          {errors.email && emailValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconClose}>
+                                  <use xlinkHref={`${icons}#icon-close`} />
+                                </svg>
+                              )}
+                              {!errors.email && emailValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconCheck}>
+                                  <use xlinkHref={`${icons}#icon-check`} />
+                                </svg>
+                              )}
+                        </div>
 
                     <div className={style.iconContainerAuth}>
                         <input
@@ -139,52 +173,79 @@ function Registration() {
                         />
                        {typeof errors.password?.message === "string" && 
                        <p className={style.errorMsg}>{errors.password.message}</p>}
-                       <div>
-                       {isPasswordVisible ? (
-                          <svg 
-                            width={16} height={16} 
-                            className={style.iconEyeOff} 
-                            onClick={togglePasswordVisibility}>
-                            <use xlinkHref={`${icons}#icon-eye`} />
-                          </svg>
-                        ) : (
-                          <svg 
-                            width={16} height={16} 
-                            className={style.iconEye} 
-                            onClick={togglePasswordVisibility}>
-                            <use xlinkHref={`${icons}#icon-eye-off`} />
-                          </svg>
-                        )}
-                          {errors.password ? (
-                            <svg width={16} height={16} className={`${style.iconClose} ${errors.password ? '' : style.hidden}`}>
-                              <use xlinkHref={`${icons}#icon-close`} />
+
+                          {!errors.password && passwordValue && (
+                            <p className={style.successMsg}>Password is valid!</p>
+                          )}
+
+                          {isPasswordVisible ? (
+                            <svg 
+                              width={16} height={16} 
+                              className={style.iconEyeOff} 
+                              onClick={togglePasswordVisibility}>
+                              <use xlinkHref={`${icons}#icon-eye`} />
                             </svg>
                           ) : (
-                            <svg width={16} height={16} className={`${style.iconCheck} ${!errors.password ? '' : style.hidden}`}>
-                              <use xlinkHref={`${icons}#icon-check`} />
+                            <svg 
+                              width={16} height={16} 
+                              className={style.iconEye} 
+                              onClick={togglePasswordVisibility}>
+                              <use xlinkHref={`${icons}#icon-eye-off`} />
                             </svg>
                           )}
-                        </div>
-                    </div>
+
+                          {errors.password && passwordValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconClose}>
+                                  <use xlinkHref={`${icons}#icon-close`} />
+                                </svg>
+                              )}
+                              {!errors.password && passwordValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconCheck}>
+                                  <use xlinkHref={`${icons}#icon-check`} />
+                                </svg>
+                              )}           
+                      </div>
 
                     <div className={style.iconContainerAuth}>
                           <input
                           id={phoneId}
-                          className="input input--secondary"
+                           className={`input input--secondary ${!errors.phone && phoneValue ? style.validPhone : ''}`}
                           placeholder="Phone number"
                           {...register('phone')}
+                          autoComplete="phone"
                           aria-required="true"
                           />
                        {typeof errors.phone?.message === "string" && 
                        <p className={style.errorMsg}>{errors.phone.message}</p>}
+
+                        {!errors.phone && phoneValue && (
+                          <p className={style.successMsg}>Email is valid!</p>
+                          )}
+
                        <div>
-                        <svg width={16} height={16} className={style.iconClose}>
-                          <use xlinkHref={`${icons}#icon-close`} />
-                        </svg>
-                        <svg width={16} height={16} className={style.iconCheck}>
-                          <use xlinkHref={`${icons}#icon-check`} />
-                        </svg>
-                      </div>
+                       {errors.phone&& phoneValue && (
+                          <svg 
+                            width={16} 
+                            height={16} 
+                            className={style.iconClose}>
+                            <use xlinkHref={`${icons}#icon-close`} />
+                          </svg>
+                        )}
+                        {!errors.phone && phoneValue && (
+                          <svg 
+                            width={16} 
+                            height={16} 
+                            className={style.iconCheck}>
+                            <use xlinkHref={`${icons}#icon-check`} />
+                          </svg>
+                        )}  
+                        </div> 
                     </div>
 
                     <div className={style.btnAuth}>

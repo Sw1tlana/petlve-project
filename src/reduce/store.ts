@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./auth/slice";
+import { friendsReducer } from "./friends/slice";
 
 import {
     persistStore,
@@ -20,9 +21,12 @@ import {
     whitelist: ["token", "refreshToken"],
   };
 
+  const persistedAuthReducer = persistReducer(authConfig, authReducer);
+
   export const store = configureStore({
     reducer: {
-      auth: persistReducer(authConfig, authReducer),
+      auth:  persistedAuthReducer,
+      friends: friendsReducer
     },
     
      middleware: (getDefaultMiddleware) =>

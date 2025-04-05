@@ -12,7 +12,7 @@ import { AppDispatch } from '../../reduce/store';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import { useDispatch } from "react-redux";
 
 interface formDataResponse {
@@ -23,7 +23,9 @@ interface formDataResponse {
 function Login() {
   const dispatch = useDispatch<AppDispatch>();
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm({
         defaultValues: formValuesSignIn,
         resolver: yupResolver(signInSchema),
         mode: 'onTouched'
@@ -32,10 +34,17 @@ function Login() {
     const emailId = useId();
     const passwordId = useId();
 
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible((prevState: boolean) => !prevState);
+    };
+
     const onSubmit = (formData: formDataResponse) => {
       dispatch(signInUser(formData));
       reset();
     }
+
+    const emailValue = watch('email');
+    const passwordValue = watch('password');
 
   return (
     <section>
@@ -74,11 +83,11 @@ function Login() {
                   Welcome! Please enter your credentials to login to the platform:
                 </p>
                 <form className={style.formAuth} onSubmit={handleSubmit(onSubmit)}>
-                      <div>
+                      <div className={style.iconContainerAuth}>
                         <input
                         id={emailId}
                         type="email"
-                        className="input input--secondary"
+                        className={`input input--secondary ${!errors.email ? style.validEmail : ''}`}
                         placeholder="Email"
                         {...register('email')}
                         autoComplete="email"
@@ -86,38 +95,77 @@ function Login() {
                         />
                        {typeof errors.email?.message === "string" && 
                        <p className={style.errorMsg}>{errors.email.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
-                    </div>
 
-                    <div>
+                        {!errors.email && emailValue && (
+                          <p className={style.successMsg}>Email is valid!</p>
+                          )}
+
+                          {errors.email && emailValue && (
+                              <svg 
+                                width={16} 
+                                height={16} 
+                                className={style.iconClose}>
+                                <use xlinkHref={`${icons}#icon-close`} />
+                              </svg>
+                              )}
+                              {!errors.email && emailValue && (
+                              <svg 
+                                width={16} 
+                                height={16} 
+                                className={style.iconCheck}>
+                                <use xlinkHref={`${icons}#icon-check`} />
+                              </svg>
+                          )}
+                        </div>
+
+                    <div className={style.iconContainerAuth}>
                       <input
-                        id={passwordId}
-                        type="password"
-                        className="input input--secondary"
-                        placeholder="Password"
-                        {...register('password')}
-                        autoComplete="current-password"
-                        aria-required="true"
+                          id={passwordId}
+                          type="password"
+                          className={`input input--secondary ${!errors.password ? style.validPassword : ''}`}
+                          placeholder="Password"
+                          {...register('password')}
+                          autoComplete="current-password"
+                          aria-required="true"
                         />
                        {typeof errors.password?.message === "string" && 
                        <p className={style.errorMsg}>{errors.password.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
+
+                      {!errors.password && passwordValue && (
+                          <p className={style.successMsg}>Password is valid!</p>
+                          )}
+                          {isPasswordVisible ? (
+                            <svg 
+                              width={16} height={16} 
+                              className={style.iconEyeOff} 
+                              onClick={togglePasswordVisibility}>
+                              <use xlinkHref={`${icons}#icon-eye`} />
+                            </svg>
+                          ) : (
+                            <svg 
+                              width={16} height={16} 
+                              className={style.iconEye} 
+                              onClick={togglePasswordVisibility}>
+                              <use xlinkHref={`${icons}#icon-eye-off`} />
+                            </svg>
+                          )}
+
+                          {errors.password && passwordValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconClose}>
+                                  <use xlinkHref={`${icons}#icon-close`} />
+                                </svg>
+                              )}
+                              {!errors.password && passwordValue && (
+                                <svg 
+                                  width={16} 
+                                  height={16} 
+                                  className={style.iconCheck}>
+                                  <use xlinkHref={`${icons}#icon-check`} />
+                                </svg>
+                              )}   
                     </div>
                     <div className={style.buttonAuth}>
                         <button className="btn btn--primary" type="submit">Log In</button>

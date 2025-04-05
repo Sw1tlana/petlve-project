@@ -1,11 +1,17 @@
 import { toast } from 'react-hot-toast';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PersistState } from "redux-persist";
 import { signUpUser, 
           signInUser, 
           refreshTokenUser, 
           logoutUser } from './operations';
 
-const INITIAL_STATE: State = {
+interface AuthState extends State, PersistState {
+  version: number;
+  rehydrated: boolean;
+}
+
+const INITIAL_STATE: AuthState = {
   user: {
     name: null,
     email: null,
@@ -15,7 +21,9 @@ const INITIAL_STATE: State = {
   isLoggedIn: false,
   error: null,  
   isRefreshing: false,
-  loading: false,  
+  loading: false,
+  version: 0,  
+  rehydrated: false,  
 };
 
 interface SignUpResponse {
@@ -26,7 +34,7 @@ interface SignUpResponse {
  }; 
   token: string;
   refreshToken: string;
-}
+};
 
 interface State {
   user: {
@@ -39,12 +47,12 @@ interface State {
   error: boolean | null;
   isRefreshing: boolean;
   loading: boolean;  
-}
+};
 
 interface RefreshTokenResponse {
   token: string;
   refreshToken: string;
-}
+};
 
 export const authSlice = createSlice({
   name: "auth",

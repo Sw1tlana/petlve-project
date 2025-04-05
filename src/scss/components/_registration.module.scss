@@ -32,9 +32,11 @@
 }
 
 .formAuth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin: 0 auto;
     margin-bottom: 10px;
-
 }
 
 .titleForm {
@@ -66,6 +68,13 @@
   .validPassword + .errorMsg {
     display: none;
   }
+
+.successMsg {
+    @extend %text;
+
+    color: fn.get-color('green-color');
+    font-size: 12px;
+}
 
 .linkForm {
   display: block;
@@ -200,6 +209,7 @@
     .formAuth {
         width: 424px;
         margin-bottom: 16px;
+        gap: 14px;
 }
 
     .titleForm {
