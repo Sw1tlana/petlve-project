@@ -48,7 +48,7 @@ import { RootState } from '../store';
     token: string;
     refreshToken: string;
   };
-  
+
   export const signUpUser = createAsyncThunk<
   SignUpResponse,  
   SignUpFormData,  
@@ -57,18 +57,17 @@ import { RootState } from '../store';
   'auth/signUpUser',
   async (formData, thunkAPI) => {
     try {
-      console.log("Signing up with:", formData);
       const response = await requestSignup(formData);
-      console.log("Response from server:", response);
       const { token, refreshToken, user } = response.data;
       const cleanedToken = token.replace(/"/g, '');  
       const cleanedRefreshToken = refreshToken.replace(/"/g, '');
 
-      console.log("Parsed user data:", user);
-
       return { user, token: cleanedToken, refreshToken: cleanedRefreshToken };
 
-    } catch {
+    } catch(err) {
+      if (err instanceof Error) {
+        return thunkAPI.rejectWithValue(err.message);  
+      }
       return thunkAPI.rejectWithValue('Registration failed');
     }
   }
@@ -86,7 +85,10 @@ export const signInUser = createAsyncThunk<
 
       thunkAPI.dispatch(setToken({ token, refreshToken }));
       return {user, token, refreshToken };
-      } catch {
+      } catch(err){
+        if (err instanceof Error) {
+          return thunkAPI.rejectWithValue(err.message);  
+        }
       return thunkAPI.rejectWithValue('Login failed');
     }
   }
@@ -112,7 +114,10 @@ try {
 
     setAuthHeader(token);
     return { token, refreshToken: newRefreshToken };
-} catch {
+} catch(err) {
+  if (err instanceof Error) {
+    return thunkAPI.rejectWithValue(err.message);  
+  }
     return thunkAPI.rejectWithValue('Token refresh failed');
 }
  });
@@ -122,7 +127,10 @@ try {
   async(_, thunkAPI) => {
     try {
     await requestLogout();
-    }catch {
+    }catch(err) {
+      if (err instanceof Error) {
+        return thunkAPI.rejectWithValue(err.message);  
+      }
       return thunkAPI.rejectWithValue('Logout failed');
     }
   }

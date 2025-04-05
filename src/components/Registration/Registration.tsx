@@ -9,12 +9,11 @@ import { formValuesSignUp } from '../../helpers/contacts';
 import { signUpUser } from "../../reduce/auth/operations";
 import type { AppDispatch } from '../../reduce/store';
 
-
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useId } from "react";
+import { useId, useState } from "react";
 
 interface formData {
   name: string;
@@ -25,6 +24,8 @@ interface formData {
 
 function Registration() {
   const dispatch: AppDispatch = useDispatch();
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const nameId = useId();
   const emailId = useId();
@@ -41,6 +42,10 @@ function Registration() {
       dispatch(signUpUser(data));
       reset();
     }
+
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible((prevState: boolean) => !prevState);
+    };
     
   return (
     <section>
@@ -79,7 +84,7 @@ function Registration() {
                     Thank you for your interest in our platform. 
                 </p>
                 <form className={style.formAuth} onSubmit={handleSubmit(onSubmit)}>
-                    <div>
+                    <div className={style.iconContainerAuth}>
                         <input
                         id={nameId}
                         type="name"
@@ -91,18 +96,18 @@ function Registration() {
                         />
                        {typeof errors.name?.message === "string" && 
                        <p className={style.errorMsg}>{errors.name.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
+
+                       <div className="iconContainerAuth">
+                        <svg width={16} height={16} className={style.iconClose}>
+                          <use xlinkHref={`${icons}#icon-close`} />
+                        </svg>
+                        <svg width={16} height={16} className={style.iconCheck}>
+                          <use xlinkHref={`${icons}#icon-check`} />
+                        </svg>
+                      </div>
                     </div>
 
-                      <div>
+                      <div className={style.iconContainerAuth}>
                         <input
                         id={emailId}
                         type="email"
@@ -114,41 +119,55 @@ function Registration() {
                         />
                        {typeof errors.email?.message === "string" && 
                        <p className={style.errorMsg}>{errors.email.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
+                        <svg width={16} height={16} className={style.iconClose}>
+                          <use xlinkHref={`${icons}#icon-close`} />
+                        </svg>
+                        <svg width={16} height={16} className={style.iconCheck}>
+                          <use xlinkHref={`${icons}#icon-check`} />
+                        </svg>
                     </div>
 
-                    <div>
+                    <div className={style.iconContainerAuth}>
                         <input
-                        id={passwordId}
-                        type="password"
-                        className="input input--secondary"
-                        placeholder="Password"
-                        {...register('password')}
-                        autoComplete="current-password"
-                        aria-required="true"
+                            id={passwordId}
+                            type={isPasswordVisible ? "text" : "password"}
+                            className={`input input--secondary ${!errors.password ? style.validPassword : ''}`}
+                            placeholder="Password"
+                            {...register('password')}
+                            autoComplete="current-password"
+                            aria-required="true"
                         />
                        {typeof errors.password?.message === "string" && 
                        <p className={style.errorMsg}>{errors.password.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
+                       <div>
+                       {isPasswordVisible ? (
+                          <svg 
+                            width={16} height={16} 
+                            className={style.iconEyeOff} 
+                            onClick={togglePasswordVisibility}>
+                            <use xlinkHref={`${icons}#icon-eye`} />
+                          </svg>
+                        ) : (
+                          <svg 
+                            width={16} height={16} 
+                            className={style.iconEye} 
+                            onClick={togglePasswordVisibility}>
+                            <use xlinkHref={`${icons}#icon-eye-off`} />
+                          </svg>
+                        )}
+                          {errors.password ? (
+                            <svg width={16} height={16} className={`${style.iconClose} ${errors.password ? '' : style.hidden}`}>
+                              <use xlinkHref={`${icons}#icon-close`} />
+                            </svg>
+                          ) : (
+                            <svg width={16} height={16} className={`${style.iconCheck} ${!errors.password ? '' : style.hidden}`}>
+                              <use xlinkHref={`${icons}#icon-check`} />
+                            </svg>
+                          )}
+                        </div>
                     </div>
 
-                    <div>
+                    <div className={style.iconContainerAuth}>
                           <input
                           id={phoneId}
                           className="input input--secondary"
@@ -158,15 +177,14 @@ function Registration() {
                           />
                        {typeof errors.phone?.message === "string" && 
                        <p className={style.errorMsg}>{errors.phone.message}</p>}
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-eye-off`} />
-                      </svg>
-                      <svg width={20} height={20} className={style.iconIncrement}>
-                        <use xlinkHref={`${icons}#icon-close`} />
-                      </svg>
+                       <div>
+                        <svg width={16} height={16} className={style.iconClose}>
+                          <use xlinkHref={`${icons}#icon-close`} />
+                        </svg>
+                        <svg width={16} height={16} className={style.iconCheck}>
+                          <use xlinkHref={`${icons}#icon-check`} />
+                        </svg>
+                      </div>
                     </div>
 
                     <div className={style.btnAuth}>
