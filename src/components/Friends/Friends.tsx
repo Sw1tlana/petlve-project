@@ -36,53 +36,56 @@ function Friends() {
 
   useEffect(() => {
     dispatch(fetchFriends())
-  }, [dispatch])
+  }, [dispatch]);
+
+  console.log('Friends:', friends); 
 
   return (
     <section>
         <Container>
-           <h2 className={style.friendsTitle}>Our friends</h2>
-           {loading && <Loader/>}
-           <ul>
-  {Array.isArray(friends) && friends.length > 0 ? (
-    friends.map((friend, index: number) => (
-      <li key={`${friend._id}-${index}`} className={style.friendItem}>
-        <img src={friend.imageUrl} alt={friend.title} className={style.friendImage} />
-        <h3 className={style.friendTitle}>{friend.title}</h3>
-        <a
-          href={friend.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={style.friendLink}
-        >
-          Website
-        </a>
-        <p className={style.friendAddress}>
-          <a href={friend.addressUrl} target="_blank" rel="noopener noreferrer">
-            {friend.address}
-          </a>
-        </p>
-        <p className={style.friendPhone}>📞 {friend.phone}</p>
-        <p className={style.friendEmail}>✉️ {friend.email}</p>
-        <div className={style.workDays}>
-          {Array.isArray(friend.workDays) && friend.workDays.length > 0 ? (
-            friend.workDays.map((day) => (
-              <p key={day._id}>
-                {day.isOpen
-                  ? `${day.from} – ${day.to}`
-                  : 'Closed'}
-              </p>
-            ))
-          ) : (
-            <p>Немає інформації про графік</p>
-          )}
-        </div>
-      </li>
-    ))
-  ) : (
-    !loading && <li>No friends found.</li>
-  )}
-</ul>
+        <h2 className={style.friendsTitle}>Our friends</h2>
+        {loading && <Loader />}
+        {!loading && friends.length === 0 && <p>No friends found.</p>}
+        {friends.length > 0 && (
+          <ul>
+            {friends.map((friend, index: number) => (
+              <li key={`${friend._id}-${index}`} className={style.friendItem}>
+                <img
+                  src={friend.imageUrl}
+                  alt={friend.title}
+                  className={style.friendImage}
+                />
+                <h3 className={style.friendTitle}>{friend.title}</h3>
+                <a
+                  href={friend.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={style.friendLink}
+                >
+                  Website
+                </a>
+                <p className={style.friendAddress}>
+                  <a href={friend.addressUrl} target="_blank" rel="noopener noreferrer">
+                    {friend.address}
+                  </a>
+                </p>
+                <p className={style.friendPhone}>📞 {friend.phone}</p>
+                <p className={style.friendEmail}>✉️ {friend.email}</p>
+                <div className={style.workDays}>
+                  {friend.workDays.length > 0 ? (
+                    friend.workDays.map((day) => (
+                      <p key={day._id}>
+                        {day.isOpen ? `${day.from} – ${day.to}` : 'Closed'}
+                      </p>
+                    ))
+                  ) : (
+                    <p>Немає інформації про графік</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
         </Container>
     </section>
   )

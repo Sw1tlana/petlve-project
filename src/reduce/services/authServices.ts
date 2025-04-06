@@ -83,8 +83,27 @@ export const requestLogout = async() => {
 
 // friends
 
-export const getFriends = async() => {
-  const { data } = await axios.get('/friends');
+interface WorkDay {
+  _id: string;
+  isOpen: boolean;
+  from?: string;
+  to?: string;
+};
+
+interface Place {
+  _id: string;
+  title: string;
+  url: string;
+  addressUrl: string;
+  imageUrl: string;
+  address: string;
+  workDays: WorkDay[];
+  phone: string;
+  email: string;
+}
+
+export const getFriends = async (): Promise<Place[]>=> {
+  const { data } = await axios.get<Place[]>('/friends');
   return data;
 };
 

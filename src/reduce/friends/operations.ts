@@ -21,18 +21,17 @@ interface WorkDay {
     email: string;
   }
 
-export const fetchFriends = createAsyncThunk<Place>(
+  export const fetchFriends = createAsyncThunk<Place[], void>(
     'friends/fetchFriends',
-    async(_, thunkAPI) => {
-       try {
-         const response = await getFriends();
-         return response.data;
-         
-       }catch (err) {
+    async (_, thunkAPI) => {
+      try {
+        const response: Place[] = await getFriends(); 
+        return response; 
+      } catch (err) {
         if (err instanceof Error) {
-            return thunkAPI.rejectWithValue(err.message);  
-          }
-          return thunkAPI.rejectWithValue('Friends failed');
-       }
+          return thunkAPI.rejectWithValue(err.message);
+        }
+        return thunkAPI.rejectWithValue('Friends failed');
+      }
     }
-)
+  );

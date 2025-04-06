@@ -22,7 +22,7 @@ interface WorkDay {
   }
 
   interface State {
-    items: PlaceResponse[]
+    items: PlaceResponse[];
     error: boolean | null;
     loading: boolean;  
   }
@@ -44,9 +44,9 @@ interface WorkDay {
             state.loading = true;  
             state.error = null; 
           })
-          .addCase(fetchFriends.fulfilled, (state, action: PayloadAction<PlaceResponse>) => {
+          .addCase(fetchFriends.fulfilled, (state, action: PayloadAction<PlaceResponse[]>) => {
             state.loading = false;
-            state.items = [action.payload];
+            state.items = action.payload;
             state.error = null;
           })
           .addCase(fetchFriends.rejected, (state) => {
