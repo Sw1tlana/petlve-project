@@ -19,13 +19,13 @@ interface WorkDay {
     workDays: WorkDay[];
     phone: string;
     email: string;
-  }
+  };
 
   export const fetchFriends = createAsyncThunk<Place[], void>(
     'friends/fetchFriends',
     async (_, thunkAPI) => {
       try {
-        const response: Place[] = await getFriends(); 
+        const response: Place[]= await getFriends(); 
         return response; 
       } catch (err) {
         if (err instanceof Error) {

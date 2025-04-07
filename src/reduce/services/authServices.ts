@@ -100,10 +100,14 @@ interface Place {
   workDays: WorkDay[];
   phone: string;
   email: string;
-}
-
-export const getFriends = async (): Promise<Place[]>=> {
-  const { data } = await axios.get<Place[]>('/friends');
-  return data;
 };
 
+interface GetFriendsResponse {
+  success: boolean;
+  data: Place[];
+}
+export const getFriends = async (): Promise<Place[]> => {
+  const { data }: { data: GetFriendsResponse } = await axios.get('/friends');        
+  console.log('DATA:', data);    
+  return data.data;                 
+};

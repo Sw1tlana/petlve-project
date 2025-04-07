@@ -73,11 +73,14 @@ function Friends() {
                 <p className={style.friendEmail}>✉️ {friend.email}</p>
                 <div className={style.workDays}>
                   {friend.workDays.length > 0 ? (
-                    friend.workDays.map((day) => (
-                      <p key={day._id}>
-                        {day.isOpen ? `${day.from} – ${day.to}` : 'Closed'}
-                      </p>
-                    ))
+                    <p>
+                      {
+                        (() => {
+                          const openDay = friend.workDays.find(day => day.isOpen);
+                          return openDay ? `${openDay.from} – ${openDay.to}` : 'Closed';
+                        })()
+                      }
+                    </p>
                   ) : (
                     <p>Немає інформації про графік</p>
                   )}
