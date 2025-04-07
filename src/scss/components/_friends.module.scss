@@ -1,3 +1,5 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
@@ -7,12 +9,119 @@
    margin-bottom: 40px;
 }
 
+.listFriends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 0;
+    padding-bottom: 80px;
+}
+
+.friendItem {
+    display: flex;
+    width: 335px;
+    height: 184px;
+    padding: 20px 20px 40px 20px;
+    border-radius: 15px;
+    background-color: fn.get-color('light');
+    position: relative;
+}
+
+.containerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.friendImage {
+    width: 80px;
+    height: 80px;
+    margin-right: 8px;
+    margin-top: 40px;
+}
+
+.friendTitle {
+  @extend %subtitle;
+
+  letter-spacing: -0.03em;
+  font-size: 16px;
+  margin-bottom: 14px;
+  margin-top: 28px;
+}
+
+
+.friendText {
+    @extend %text;
+
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.miniWrapper {
+  color: fn.get-color('dark-light');
+}
+
+.friendAddress {
+    @extend %text;
+
+    font-size: 14px;
+    color: fn.get-color('dark-primary');
+    text-decoration: underline
+}
+
+.infoTime {
+    @extend %text;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: center;
+    width: 84px;
+    height: 32px;
+    border-radius: 30px;
+    font-size: 12px;
+    padding: 10px;
+    background-color: fn.get-color('accent-secondary');
+    color: fn.get-color('accent-primary');
+    white-space: nowrap;
+}
+
+.textInfo {
+    @extend %text;
+
+    color: fn.get-color('red-color');
+    font-size: 12px;
+}
+
 @include mx.mq('md') {
 
 .friendsTitle {
     font-size: 54px;
     margin-bottom: 44px;
 }
+
+.listFriends {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 704px;
+    gap: 20px;
+}
+
+.friendItem {
+    width: 342px;
+    height: 196px;
+}
+
+.friendTitle {
+    margin-bottom: 20px;
+  }
+  
+  .friendImage {
+    margin-right: 14px;
+}
+
 }
 
 @include mx.mq('lg') {
@@ -20,4 +129,12 @@
     .friendsTitle {
         margin-bottom: 60px;
     }
+
+    .listFriends {
+        width: 1150px;
     }
+
+    .friendItem {
+        width: 370px;
+    }
+}
