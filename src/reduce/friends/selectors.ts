@@ -9,7 +9,6 @@ interface FriendsState {
   }
 
 export const selectItems = (state: RootState) => state.friends.items;
-console.log('Friends from Redux:', selectItems); 
 
 export const selectIsLoggedInFriends = (state: RootState) => state.friends.isLoggedIn;
 

@@ -106,8 +106,30 @@ interface GetFriendsResponse {
   success: boolean;
   data: Place[];
 }
+
 export const getFriends = async (): Promise<Place[]> => {
-  const { data }: { data: GetFriendsResponse } = await axios.get('/friends');        
-  console.log('DATA:', data);    
+  const { data } : { data: GetFriendsResponse } = await axios.get('/friends');          
   return data.data;                 
+};
+
+// news
+
+interface News {
+  _id: string;
+  imgUrl: string;
+  title: string;
+  text: string;
+  date: string;
+  url: string;
+  id: string;
+};
+
+interface GetNewsResponse {
+  success: boolean;
+  data: News[];
+};
+
+export const getNews = async (): Promise<News[]> => {
+  const { data } : {data: GetNewsResponse} = await axios.get('/news');
+  return data.data;
 };

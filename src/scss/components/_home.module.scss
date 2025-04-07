@@ -12,7 +12,7 @@
     max-width: 335px;
     width: 100%;
     height: 50vh;
-    padding: 118px 20px 50px;
+    padding: clamp(80px, 10vw, 118px) 20px 50px;
     background-color: fn.get-color('accent-primary');
     border-radius: 30px;
     margin: 0 auto;
@@ -55,7 +55,7 @@
 @include mx.mq('md') {
     .homeContainerInfo {
         max-width: 704px;
-        padding: 178px 32px 44px;
+        padding: clamp(80px, 10vw, 178px) 32px 44px;
     }
 
     .homeTitle {
@@ -81,7 +81,7 @@
     .homeContainerInfo {
         display: flex;
         max-width: 1216px;
-        padding: 178px 64px 32px;
+        padding: clamp(80px, 10vw, 178px) 64px 32px;
     }
 
     .homeTitle {
