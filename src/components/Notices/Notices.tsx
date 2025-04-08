@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from '../../scss/components/_notices.module.scss';
 import Container from '../../shared/components/Container/Container';
 import SearchField from '../../components/SearchField/SearchFild';
@@ -6,6 +6,11 @@ import icons from '../../shared/icons/sprite.svg';
 
 import Select, {  SingleValue, StylesConfig, ControlProps } from "react-select";
 import RadioButton from '../RadioButton/RadioButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../reduce/store';
+import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
+import { fetchNotices } from '../../reduce/notices/operations';
+import Loader from '../../shared/components/Loader.tsx/Loader';
 
 interface OptionType {
     value: string;
@@ -67,6 +72,32 @@ interface OptionType {
 
 function Notices() {
 const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+
+const dispatch = useDispatch<AppDispatch>();
+const loading = useSelector(selectIsLoggedINotices);
+const notices = useSelector(selectItemsNotices);
+
+interface Notices {
+  _id: string;
+  species: string;
+  category: string;
+  price: number;
+  title: string;
+  name: string;
+  birthday: string;
+  comment: string;
+  sex: string;
+  location: string;
+  imgURL: string;
+  createdAt: string;
+  updatedAt: string;
+  user: string;
+  popularity: number;
+};
+
+useEffect(() => {
+  dispatch(fetchNotices());
+}, [dispatch]);
 
 const handleCategoryChange = (selected: SingleValue<OptionType>) => {
     setSelectedOption(selected);
@@ -135,6 +166,24 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
               <RadioButton/>
             </div>
             </div>
+          {loading && <Loader/>}
+          {!loading && notices && notices.length > 0 && (
+  <ul>
+    {notices.map((noticeItem: Notices, index: number) => (
+      <li key={`${noticeItem._id}-${index}`}>
+              <img
+                  src={noticeItem.imgURL}
+                  alt={noticeItem.title}
+                  className={style.noticeImage}
+                />
+        <p>{noticeItem.title}</p>
+        {/* Тут можна виводити imgURL, species, location і т.д. */}
+      </li>
+    ))}
+  </ul>
+)}
+
+            
 
         </Container>
     </section>

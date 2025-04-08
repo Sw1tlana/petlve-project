@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./auth/slice";
 import { friendsReducer } from "./friends/slice";
 import { newsReducer } from "./news/slice";
+import { noticesReducer } from "./notices/slice";
 
 import {
     persistStore,
@@ -28,7 +29,8 @@ import {
     reducer: {
       auth:  persistedAuthReducer,
       friends: friendsReducer,
-      news: newsReducer
+      news: newsReducer,
+      notices: noticesReducer
     },
     
      middleware: (getDefaultMiddleware) =>

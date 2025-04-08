@@ -20,32 +20,39 @@ function News() {
 
 
   return (
-    <section>
         <Container>
+          <section className={style.containerNews}>
             <h2 className={style.titleNews}>News</h2>
             <SearchFild/>
             {lisLoadingNews && <Loader/>}
             {!lisLoadingNews && news.length === 0 && <Loader />}
             {news.length > 0 && (
-              <ul>
+              <ul className={style.newsList}>
                 {news.map((newsItem, index: number) => (
-                  <li key={`${newsItem._id}-${index}`}>
+                  <li className={style.newsItem} key={`${newsItem._id}-${index}`}>
                   <img
                       src={newsItem.imgUrl}
                       alt={newsItem.title}
-                      className={style.friendImage}
+                      className={style.newsImage}
                 />
-                <h3>{newsItem.title}</h3>
-                <p>{newsItem.text}</p>
-                <p>{newsItem.date}</p>
-                <Link to={newsItem.url}>Read more</Link>
-                  </li>
+                <h3 className={style.titleNews}>{newsItem.title}</h3>
+                <p className={style.textNews}>{newsItem.text}</p>
+                <div className={style.containerDateLink}>
+                  <p className={style.dateNews}>{newsItem.date}</p>
+                  <Link 
+                      className={style.linkNews} 
+                      to={newsItem.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer">
+                    Read more
+                  </Link>
+                </div>
+              </li>
               ))}
              </ul>
-)}
-
+           )}
+           </section>
       </Container>
-    </section>
   )
 };
 

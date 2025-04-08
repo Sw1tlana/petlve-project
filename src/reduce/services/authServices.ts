@@ -133,3 +133,34 @@ export const getNews = async (): Promise<News[]> => {
   const { data } : {data: GetNewsResponse} = await axios.get('/news');
   return data.data;
 };
+
+
+// notices
+
+interface Notices {
+  _id: string;
+  species: string;
+  category: string;
+  price: number;
+  title: string;
+  name: string;
+  birthday: string;
+  comment: string;
+  sex: string;
+  location: string;
+  imgURL: string;
+  createdAt: string;
+  updatedAt: string;
+  user: string;
+  popularity: number;
+};
+
+interface GetNoticesResponse {
+  success: boolean;
+  data: Notices[];
+}
+
+export const getNotices = async (): Promise<Notices[]> => {
+  const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
+  return data.data;
+}

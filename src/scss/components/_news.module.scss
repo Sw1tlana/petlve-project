@@ -4,11 +4,78 @@
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
+
+.containerNews {
+  margin-bottom: 44px;
+}
+
 .titleNews {
   @extend  %subtitle-mobile;
 
   font-size: 28px;
   margin-bottom: 20px;
+}
+
+.newsList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 0;
+}
+
+.newsItem {
+  display: flex;
+  flex-direction: column;
+  width: 335px;
+}
+
+.newsImage {
+  width: 335px;
+  height: 190px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.titleNews {
+  @extend %subtitle;
+
+  font-size: 16px;
+  margin-bottom: 12px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textNews {
+  @extend %text;
+
+  font-size: 14px;
+  margin-bottom: 20px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.containerDateLink {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dateNews {
+  @extend %text;
+
+  font-size: 14px;
+  color: fn.get-color('dark-light');
+}
+
+.linkNews {
+  @extend %text;
+
+  font-size: 14px;
+  color: fn.get-color('accent-primary');
 }
 
 @include mx.mq('md') { 
@@ -18,6 +85,40 @@
        margin-bottom: 44px;
     }
 
+    .containerNews {
+      margin-bottom: 60px;
+    }
+    
+    .newsList {
+      width: 704px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .newsItem {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .titleNews {   
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .textNews {
+      font-size: 16px;
+      margin-bottom: 20px;
+      margin-bottom: 28px;
+    }
+
+    .dateNews {
+      font-size: 16px;
+    }
+    
+    .linkNews {
+      font-size: 16px;
+    }
 }
 
 @include mx.mq('lg') { 
@@ -26,5 +127,47 @@
      margin-bottom: 60x;
   }
 
+  .containerNews {
+    margin: 0 auto;
+    padding-left: 32px;
+  }
+
+  .newsList {
+    width: 1150px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .newsItem {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+  }
+
+  .newsImage {
+    width: 360px;
+    height: 226px;
+  }
+
+  .titleNews {   
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  .textNews {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-bottom: 28px;
+
+  }
+
+  .dateNews {
+    font-size: 16px;
+  }
+  
+  .linkNews {
+    font-size: 16px;
+  }
 }
 
