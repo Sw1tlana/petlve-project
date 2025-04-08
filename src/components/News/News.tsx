@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { AppDispatch } from '../../reduce/store';
 import { fetchNews } from '../../reduce/news/operations';
 import Loader from '../../shared/components/Loader.tsx/Loader';
+import { Link } from 'react-router-dom';
 
 function News() {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,6 +35,10 @@ function News() {
                       alt={newsItem.title}
                       className={style.friendImage}
                 />
+                <h3>{newsItem.title}</h3>
+                <p>{newsItem.text}</p>
+                <p>{newsItem.date}</p>
+                <Link to={newsItem.url}>Read more</Link>
                   </li>
               ))}
              </ul>
