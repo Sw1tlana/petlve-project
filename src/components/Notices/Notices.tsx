@@ -167,19 +167,66 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
             </div>
             </div>
           {loading && <Loader/>}
-          {!loading && notices && notices.length > 0 && (
-  <ul>
-    {notices.map((noticeItem: Notices, index: number) => (
-      <li key={`${noticeItem._id}-${index}`}>
-              <img
-                  src={noticeItem.imgURL}
-                  alt={noticeItem.title}
-                  className={style.noticeImage}
-                />
-        <p>{noticeItem.title}</p>
-        {/* Тут можна виводити imgURL, species, location і т.д. */}
-      </li>
-    ))}
+          {!loading && Array.isArray(notices) && notices.length > 0 && (
+        <ul className={style.noticesList}>
+          {notices.map((noticeItem: Notices, index: number) => (
+            <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
+                    <img
+                        src={noticeItem.imgURL}
+                        alt={noticeItem.title}
+                        className={style.noticesImage}
+                        width={300}
+                      />
+              <div className={style.containerTitle}>
+                <p className={style.noticesTitle}>{noticeItem.title}</p>
+                <p className={style.noticesPopular}>{noticeItem.popularity}</p>
+                    <svg 
+                        width={16} 
+                        height={16} 
+                        className={style.iconStar}>
+                        <use xlinkHref={`${icons}#icon-star`} />
+                    </svg>
+              </div>
+              <div className={style.containerInfo}>
+                <p className={style.description}>
+                  <span className={style.spanDescription}>Name</span> 
+                  {noticeItem.name}
+                </p>
+                <p className={style.description}>
+                  <span className={style.spanDescription}>Birthday</span> 
+                  {noticeItem.birthday}
+                </p>
+                <p className={style.description}>
+                  <span className={style.spanDescription}>Sex</span> 
+                  {noticeItem.sex}
+                </p>
+                <p className={style.description}>
+                  <span className={style.spanDescription}>Species</span> 
+                  {noticeItem.species}
+                </p>
+                <p className={style.description}>
+                  <span className={style.spanDescription}>Category</span> 
+                  {noticeItem.category}
+                </p>
+              </div>
+              <p className={style.comment}>{noticeItem.comment}</p>
+              <p className={style.price}>${noticeItem.price}</p>
+
+              <div className={style.containerButton}>
+                <button className="btn btn--primary" type='button'>Learn more</button>
+                <button 
+                 type='button'
+                 className={style.buttonHeart}>
+                <svg 
+                    width={14} 
+                    height={14} 
+                    className={style.iconHeart}>
+                    <use xlinkHref={`${icons}#icon-heart`} />
+                </svg>
+                </button>
+              </div>
+            </li>
+          ))}
   </ul>
 )}
 
