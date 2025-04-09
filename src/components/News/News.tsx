@@ -1,8 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, 
+         useSelector } from 'react-redux';
 import style from '../../scss/components/_news.module.scss';
 import Container from '../../shared/components/Container/Container';
 import SearchFild from '../SearchField/SearchFild';
-import { selectIsLoggedInNews, selectItemsNews } from '../../reduce/news/selectors';
+import { selectIsLoggedInNews, 
+         selectItemsNews } from '../../reduce/news/selectors';
 import { useEffect } from 'react';
 import { AppDispatch } from '../../reduce/store';
 import { fetchNews } from '../../reduce/news/operations';
@@ -17,7 +19,6 @@ function News() {
   useEffect(() => {
     dispatch(fetchNews());
   },[dispatch]);
-
 
   return (
         <Container>

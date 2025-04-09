@@ -26,10 +26,15 @@
         width: 230px;
         margin-bottom: 44px;
     }
+
+    .iconSearch {
+        left: 100%;
+    }
 }
 
 @include mx.mq('lg') { 
     .formSearch {
         margin-bottom: 60px;
     }
+
 }

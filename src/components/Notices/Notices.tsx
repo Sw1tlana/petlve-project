@@ -110,8 +110,8 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
                 <div className={style.containerForm}>
                 <form className={style.form}>
                   <div className={style.conteinerSearchSelect}>
-                <SearchField className={`${style.searchField}`} />
                     <div className={style.containerSelect}>
+                    <SearchField className={`${style.searchField}`} />
                         <Select
                         // id="categoryFilter"
                         value={selectedOption}

@@ -43,7 +43,8 @@
 
 .containerSelect {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
     margin-top: 12px;
 }
 
@@ -67,11 +68,11 @@
  
  .iconSearch {
     position: absolute;
-     top: 50%;
-     left: 90%;
-     transform: translate(-50%, -50%);
-     fill: transparent;
-     stroke: fn.get-color('dark-primary');
+    top: 50%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    fill: transparent;
+    stroke: fn.get-color('dark-primary');
  }
 
  .locationSearch {
@@ -103,8 +104,8 @@
 }
 
 .noticesImage {
-  width: 300px;
-  height: 200px;
+  width: 340px;
+  height: 240px;
   border-radius: 16px;
   margin-bottom: 24px
 }
@@ -203,7 +204,6 @@
 @include mx.mq('md') { 
 
     .titleNotices {
-
         margin-bottom: 44px;
         font-size: 54px;
        }
@@ -212,7 +212,6 @@
         width: 704px;
         padding: 32px;
     }
-
     
     .form {
         gap: 16px;
@@ -221,16 +220,17 @@
 
     .conteinerSearchSelect {
         display: flex;
+        align-items: center;
         gap: 16px;
     }
 
     .searchField {
         width: 265px;
         margin-left: 0;
+        margin-right: 28px;
     }
 
     .containerSelect {
-        align-items: center;
         gap: 16px;
         margin: 0;
     }
@@ -259,6 +259,21 @@
     .containerRadioButton {
         margin-right: auto;
     }
+
+    .noticesList {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 32px 0 60px;
+    }
+
+    .noticesTitle {  
+        font-size: 18px;
+    }
+
+    .price {
+        font-size: 18px;
+    }
 }
 
 @include mx.mq('lg') { 
@@ -283,4 +298,13 @@
         left: 20px;
     }
 
+    .noticesImage {
+        width: 380px;
+        height: 240px;
+      }
+
+      .iconSearch {
+        top: 22%;
+        left: 90%;
+     }
 }
