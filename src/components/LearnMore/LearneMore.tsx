@@ -1,7 +1,7 @@
 import style from '../../scss/components/_learneMore.module.scss';
 import icons from '../../shared/icons/sprite.svg';
 import { useModalContext } from '../../context/useModalContext';
-import ModalNotices from '../ModalNotices/ModalNotices';
+import ModalNotices from '../Modals/ModalNotices/ModalNotices';
 
 interface ModalContextType {
     openModal: (context: React.ReactNode) => void;
@@ -26,17 +26,18 @@ interface NoticeType {
     popularity: number;
   };
 
-interface LearneMoreProps {
+  interface ModalNoticesProps {
+    isBurgerMenu: boolean;
     notice: NoticeType; 
-  }
+  };
 
-function LearneMore({ notice }: LearneMoreProps) {
+function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
     const { openModal } = useModalContext() as unknown as ModalContextType;
 
 
     const handleClick = () => {
-       openModal(<ModalNotices notice={notice}/>);
+       openModal(<ModalNotices notice={notice} isBurgerMenu={isBurgerMenu}/>);
     };
 
   return (

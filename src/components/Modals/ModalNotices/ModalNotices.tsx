@@ -1,6 +1,6 @@
-import style from '../../scss/components/_modalNotices.module.scss';
-import LearneMore from '../LearnMore/LearneMore';
-import icons from '../../shared/icons/sprite.svg';
+import style from '../../../scss/components/_modalNotices.module.scss';
+import LearneMore from '../../LearnMore/LearneMore';
+import icons from '../../../shared/icons/sprite.svg';
 
 interface NoticeType {
     _id: string;
@@ -22,9 +22,10 @@ interface NoticeType {
 
 interface NoticeCardProps {
     notice: NoticeType;
-  }
+    isBurgerMenu: boolean;
+  };
 
-function ModalNotices({ notice }: NoticeCardProps) {
+function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
   return (
     <div>
       <img
@@ -66,7 +67,7 @@ function ModalNotices({ notice }: NoticeCardProps) {
       <p className={style.price}>${notice.price}</p>
 
       <div>
-        <LearneMore notice={notice} />
+        <LearneMore notice={notice} isBurgerMenu={isBurgerMenu}/>
       </div>
     </div>
   )

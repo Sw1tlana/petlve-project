@@ -8,12 +8,6 @@ import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices
 import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
 
-function NoticesList() {
-    const loading = useSelector(selectIsLoggedINotices);
-    const notices = useSelector(selectItemsNotices);
-
-    const dispatch = useDispatch<AppDispatch>();
-
 interface Notices {
   _id: string;
   species: string;
@@ -32,14 +26,20 @@ interface Notices {
   popularity: number;
 };
 
+function NoticesList() {
+    const loading = useSelector(selectIsLoggedINotices);
+    const notices = useSelector(selectItemsNotices);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+
 useEffect(() => {
   dispatch(fetchNotices());
 }, [dispatch]);
 
-
   return (
     <div>
-        {loading && <Loader/>}
+      {loading && <Loader />}
           {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>
           {notices.map((noticeItem: Notices, index: number) => (
@@ -86,7 +86,7 @@ useEffect(() => {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearneMore notice={noticeItem}/>
+                <LearneMore notice={noticeItem} isBurgerMenu={false}/>
               </div>
             </li>
           ))}

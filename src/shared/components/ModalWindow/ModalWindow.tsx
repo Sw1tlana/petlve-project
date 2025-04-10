@@ -34,7 +34,6 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 
   return (
   <>
-  {console.log("isBurgerMenu:", isBurgerMenu)}
 <Modal
   isOpen={isOpen}
   onRequestClose={onRequestClose}

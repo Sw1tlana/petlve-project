@@ -4,7 +4,7 @@ import Nav from '../Nav/Nav';
 
 interface ModalBurgerMenuProps {
     isBurgerMenu: boolean;
-  }
+  };
 
 function ModalBurgerMenu({ isBurgerMenu }: ModalBurgerMenuProps) {
   return (
