@@ -24,7 +24,7 @@ function News() {
         <Container>
           <section className={style.containerNews}>
             <h2 className={style.titleNews}>News</h2>
-            <SearchFild/>
+            <SearchFild className={`${style.iconNews}`}/>
             {lisLoadingNews && <Loader/>}
             {!lisLoadingNews && news.length === 0 && <Loader />}
             {news.length > 0 && (

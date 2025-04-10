@@ -1,0 +1,110 @@
+@use 'sass:map';
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+
+.noticesList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0;
+}
+
+.noticesItem {
+   width: 335px;
+   height: auto;
+   padding: 24px;
+   background-color: fn.get-color('light');
+   border-radius: 16px;
+}
+
+.noticesImage {
+  width: 340px;
+  height: 240px;
+  border-radius: 16px;
+  margin-bottom: 24px
+}
+
+.containerTitle {
+   display: flex;
+}
+
+.noticesTitle {
+    @extend %subtitle;
+
+    font-size: 16px;
+    margin-bottom: 8px;
+    margin-right: auto;
+}
+
+.noticesPopular {
+    @extend %text;
+
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+.iconStar {
+  fill: fn.get-color('accent-primary');
+}
+
+.containerInfo {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+}
+
+.spanDescription {
+    font-size: 10px;
+    color: fn.get-color('dark-light');
+}
+
+.comment {
+    @extend %text;
+
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0%;
+    margin-bottom: 12px;
+}
+
+@include mx.mq('md') { 
+    .noticesList {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 32px 0 60px;
+    }
+
+    .noticesTitle {  
+        font-size: 18px;
+    }
+
+    .price {
+        font-size: 18px;
+    }
+}
+
+@include mx.mq('lg') {  
+    .noticesImage {
+        width: 380px;
+        height: 240px;
+      }
+}

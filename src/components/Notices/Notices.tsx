@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import style from '../../scss/components/_notices.module.scss';
 import Container from '../../shared/components/Container/Container';
 import SearchField from '../../components/SearchField/SearchFild';
@@ -6,11 +6,7 @@ import icons from '../../shared/icons/sprite.svg';
 
 import Select, {  SingleValue, StylesConfig, ControlProps } from "react-select";
 import RadioButton from '../RadioButton/RadioButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../reduce/store';
-import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
-import { fetchNotices } from '../../reduce/notices/operations';
-import Loader from '../../shared/components/Loader.tsx/Loader';
+import NoticesList from '../NoticesList/NoticesList';
 
 interface OptionType {
     value: string;
@@ -72,32 +68,6 @@ interface OptionType {
 
 function Notices() {
 const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
-
-const dispatch = useDispatch<AppDispatch>();
-const loading = useSelector(selectIsLoggedINotices);
-const notices = useSelector(selectItemsNotices);
-
-interface Notices {
-  _id: string;
-  species: string;
-  category: string;
-  price: number;
-  title: string;
-  name: string;
-  birthday: string;
-  comment: string;
-  sex: string;
-  location: string;
-  imgURL: string;
-  createdAt: string;
-  updatedAt: string;
-  user: string;
-  popularity: number;
-};
-
-useEffect(() => {
-  dispatch(fetchNotices());
-}, [dispatch]);
 
 const handleCategoryChange = (selected: SingleValue<OptionType>) => {
     setSelectedOption(selected);
@@ -166,71 +136,7 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
               <RadioButton/>
             </div>
             </div>
-          {loading && <Loader/>}
-          {!loading && Array.isArray(notices) && notices.length > 0 && (
-        <ul className={style.noticesList}>
-          {notices.map((noticeItem: Notices, index: number) => (
-            <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
-                    <img
-                        src={noticeItem.imgURL}
-                        alt={noticeItem.title}
-                        className={style.noticesImage}
-                        width={300}
-                      />
-              <div className={style.containerTitle}>
-                <p className={style.noticesTitle}>{noticeItem.title}</p>
-                <p className={style.noticesPopular}>{noticeItem.popularity}</p>
-                    <svg 
-                        width={16} 
-                        height={16} 
-                        className={style.iconStar}>
-                        <use xlinkHref={`${icons}#icon-star`} />
-                    </svg>
-              </div>
-              <div className={style.containerInfo}>
-                <p className={style.description}>
-                  <span className={style.spanDescription}>Name</span> 
-                  {noticeItem.name}
-                </p>
-                <p className={style.description}>
-                  <span className={style.spanDescription}>Birthday</span> 
-                  {noticeItem.birthday}
-                </p>
-                <p className={style.description}>
-                  <span className={style.spanDescription}>Sex</span> 
-                  {noticeItem.sex}
-                </p>
-                <p className={style.description}>
-                  <span className={style.spanDescription}>Species</span> 
-                  {noticeItem.species}
-                </p>
-                <p className={style.description}>
-                  <span className={style.spanDescription}>Category</span> 
-                  {noticeItem.category}
-                </p>
-              </div>
-              <p className={style.comment}>{noticeItem.comment}</p>
-              <p className={style.price}>${noticeItem.price}</p>
-
-              <div className={style.containerButton}>
-                <button className="btn btn--primary" type='button'>Learn more</button>
-                <button 
-                 type='button'
-                 className={style.buttonHeart}>
-                <svg 
-                    width={14} 
-                    height={14} 
-                    className={style.iconHeart}>
-                    <use xlinkHref={`${icons}#icon-heart`} />
-                </svg>
-                </button>
-              </div>
-            </li>
-          ))}
-  </ul>
-)}
-
-            
+            <NoticesList/> 
 
         </Container>
     </section>
