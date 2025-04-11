@@ -26,8 +26,9 @@ interface NoticeCardProps {
   };
 
 function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
+  
   return (
-    <div>
+    <div className={style.containerNotices}>
       <img
         src={notice.imgURL}
         alt={notice.title}
@@ -66,9 +67,7 @@ function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
       <p className={style.comment}>{notice.comment}</p>
       <p className={style.price}>${notice.price}</p>
 
-      <div>
         <LearneMore notice={notice} isBurgerMenu={isBurgerMenu}/>
-      </div>
     </div>
   )
 };

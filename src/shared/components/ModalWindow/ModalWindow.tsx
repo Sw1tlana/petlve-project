@@ -10,6 +10,7 @@ interface ModalWindowProps {
     onRequestClose: () => void;
     children: ReactNode;
     shouldCloseOnOverlayClick?: boolean;
+    additionalClassName?: string;
 }
 
 Modal.setAppElement('#root');
@@ -44,7 +45,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
       zIndex: '15',
       overflow: 'auto',
       display: 'grid',
-      placeItems: 'center',
+      placeItems: isBurgerMenu ? 'end' : 'center',
     },
   }}
   className={`${style.modalContent} ${isOpen ? style.modalContentOpen : style.beforeClose}`}

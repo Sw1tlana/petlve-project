@@ -2,6 +2,7 @@ import style from '../../scss/components/_learneMore.module.scss';
 import icons from '../../shared/icons/sprite.svg';
 import { useModalContext } from '../../context/useModalContext';
 import ModalNotices from '../Modals/ModalNotices/ModalNotices';
+import ModalWindow from '../../shared/components/ModalWindow/ModalWindow';
 
 interface ModalContextType {
     openModal: (context: React.ReactNode) => void;
@@ -33,11 +34,19 @@ interface NoticeType {
 
 function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
-    const { openModal } = useModalContext() as unknown as ModalContextType;
+    const { openModal, closeModal } = useModalContext() as unknown as ModalContextType;
 
 
     const handleClick = () => {
-       openModal(<ModalNotices notice={notice} isBurgerMenu={isBurgerMenu}/>);
+      openModal(
+        <ModalWindow
+          isOpen={true}
+          onRequestClose={closeModal}
+          isBurgerMenu={isBurgerMenu}
+        >
+          <ModalNotices notice={notice} isBurgerMenu={isBurgerMenu} />
+        </ModalWindow>
+      );
     };
 
   return (

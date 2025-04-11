@@ -39,7 +39,7 @@ useEffect(() => {
 
   return (
     <div>
-      {loading && <Loader />}
+      {!loading && Array.isArray(notices) && notices.length === 0 && <Loader/>}
           {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>
           {notices.map((noticeItem: Notices, index: number) => (
