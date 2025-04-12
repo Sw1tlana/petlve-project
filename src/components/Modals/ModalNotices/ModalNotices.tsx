@@ -1,6 +1,6 @@
 import style from '../../../scss/components/_modalNotices.module.scss';
-import LearneMore from '../../LearnMore/LearneMore';
 import icons from '../../../shared/icons/sprite.svg';
+import Contact from '../../Contact/Contact';
 
 interface NoticeType {
     _id: string;
@@ -25,7 +25,7 @@ interface NoticeCardProps {
     isBurgerMenu: boolean;
   };
 
-function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
+function ModalNotices({ notice }: NoticeCardProps) {
   
   return (
     <div className={style.containerNotices}>
@@ -35,8 +35,8 @@ function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
         className={style.noticesImage}
         width={300}
       />
-      <div className={style.containerTitle}>
         <p className={style.noticesTitle}>{notice.title}</p>
+        <div className={style.containerPopularity}>
         <p className={style.noticesPopular}>{notice.popularity}</p>
         <svg width={16} height={16} className={style.iconStar}>
           <use xlinkHref={`${icons}#icon-star`} />
@@ -66,8 +66,10 @@ function ModalNotices({ notice, isBurgerMenu }: NoticeCardProps) {
       </div>
       <p className={style.comment}>{notice.comment}</p>
       <p className={style.price}>${notice.price}</p>
-
-        <LearneMore notice={notice} isBurgerMenu={isBurgerMenu}/>
+        <div className={style.containerBtn}>
+          <button className={`btn btn--primary ${style.btnCard}`} type='button'>Add to</button>
+          <Contact/>
+        </div>
     </div>
   )
 };

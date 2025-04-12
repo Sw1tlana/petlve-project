@@ -5,6 +5,71 @@
 
 
 .containerNotices {
- 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 335px;
+  height: auto;
+  border-radius: 30px;
+  padding: 40px;
+  background-color: fn.get-color('light');
+
+}
+
+.noticesImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.noticesTitle {
+    @extend %subtitle;
+
+    font-size: 16px;
+    letter-spacing: 0%;
+    margin-bottom: 12px;
+}
+
+.containerPopularity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.noticesPopular {
+    font-size: 14px;
+}
+
+.containerInfo {
+    display: flex;
+}
+
+.description {
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+}
+
+.containerBtn {
+   display: flex;
+   gap: 10px;
+}
+
+.btnCard {
+    width: 134px;
+    background-color: fn.get-color('accent-secondary');
+    color: fn.get-color('accent-primary');
+    text-transform: capitalize;
+
+    @include mx.transition(all, 300ms, ease-in-out);
+}
+
+.btnCard:active,
+.btnCard:hover {
+    background-color: fn.get-color('accent-primary');
+    color: fn.get-color('accent-secondary');
 }
 

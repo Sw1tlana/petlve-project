@@ -10,7 +10,6 @@ interface ModalWindowProps {
     onRequestClose: () => void;
     children: ReactNode;
     shouldCloseOnOverlayClick?: boolean;
-    additionalClassName?: string;
 }
 
 Modal.setAppElement('#root');
@@ -45,15 +44,16 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
       zIndex: '15',
       overflow: 'auto',
       display: 'grid',
-      placeItems: isBurgerMenu ? 'end' : 'center',
     },
   }}
-  className={`${style.modalContent} ${isOpen ? style.modalContentOpen : style.beforeClose}`}
+      className={`${style.modalContent} 
+      ${isOpen ? style.modalContentOpen : style.beforeClose}
+      ${isBurgerMenu ? style.modalContent : style.noticeContent}`}
 >
-  <button onClick={onRequestClose} className={style.closeButton}>
-    <svg className={style.iconClose} width={26} height={26}>
+  <button onClick={onRequestClose} className={isBurgerMenu ? style.closeButton : style.closeBtn}>
+    <svg className={isBurgerMenu ? style.iconClose : style.iconCloseBtn} width={26} height={26}>
       <use xlinkHref={`${icons}#icon-close`} />
-    </svg>
+  </svg>
   </button>
   {children}
 </Modal>

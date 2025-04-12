@@ -25,6 +25,18 @@
     @include mx.transition(all, 300ms, ease-in-out);
 }
 
+.closeBtn {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 20px;
+    right: -20px;
+
+    animation: fadeInScale 1s ease-in-out;
+
+    @include mx.transition(all, 300ms, ease-in-out);
+}
+
 .iconClose {
     fill: fn.get-color('light');
 }
@@ -34,6 +46,17 @@
     fill: fn.get-color('dark-secondary');
 }
 
+.iconCloseBtn {
+    fill: fn.get-color('dark-primary'); 
+    width: 14px;
+    height: 14px;
+}
+
+.iconCloseBtn:active,
+.iconClose:hover {
+    fill: fn.get-color('accent-primary');
+}
+
 .modalContent {
     position: absolute;
     top: 0;
@@ -41,6 +64,13 @@
     opacity: 20%;
     border-radius: 15px;
     z-index: 15;
+}
+
+.noticeContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .modalContentOpen {
