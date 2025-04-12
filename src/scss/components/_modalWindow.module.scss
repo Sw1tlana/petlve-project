@@ -30,7 +30,7 @@
     background-color: transparent;
     position: absolute;
     top: 20px;
-    right: -20px;
+    right: 40px;
 
     animation: fadeInScale 1s ease-in-out;
 
@@ -47,6 +47,9 @@
 }
 
 .iconCloseBtn {
+    position: absolute;
+    top: 20px;
+    right: -40px;
     fill: fn.get-color('dark-primary'); 
     width: 14px;
     height: 14px;
@@ -73,6 +76,7 @@
     transform: translate(-50%, -50%);
 }
 
+
 .modalContentOpen {
     opacity: 1;
 }
@@ -87,4 +91,10 @@
     .modalContent {
         right: 0;
     }
+
+    .noticeContent {
+        left: 56%;
+    }
+
+    
 }

@@ -1,6 +1,10 @@
+import { useEffect, useState } from 'react';
 import style from '../../../scss/components/_modalNotices.module.scss';
-import icons from '../../../shared/icons/sprite.svg';
 import Contact from '../../Contact/Contact';
+import icons from '../../../shared/icons/sprite.svg';
+
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
 
 interface NoticeType {
     _id: string;
@@ -26,7 +30,12 @@ interface NoticeCardProps {
   };
 
 function ModalNotices({ notice }: NoticeCardProps) {
+  const [value, setValue] = useState<number | null>(1);
   
+  useEffect(() => {
+    setValue(notice.popularity);
+  }, [notice.popularity]);
+
   return (
     <div className={style.containerNotices}>
       <img
@@ -36,12 +45,20 @@ function ModalNotices({ notice }: NoticeCardProps) {
         width={300}
       />
         <p className={style.noticesTitle}>{notice.title}</p>
+
         <div className={style.containerPopularity}>
-        <p className={style.noticesPopular}>{notice.popularity}</p>
-        <svg width={16} height={16} className={style.iconStar}>
-          <use xlinkHref={`${icons}#icon-star`} />
-        </svg>
-      </div>
+        <Stack spacing={1}>
+            <Rating
+              name="star-rating"
+              value={value}
+              precision={0.5} 
+              readOnly 
+              onChange={(_, newValue) => setValue(newValue)} 
+            />
+       </Stack>
+       <p className={style.noticesPopular}>{notice.popularity}</p>
+       </div>
+
       <div className={style.containerInfo}>
         <p className={style.description}>
           <span className={style.spanDescription}>Name</span>
@@ -67,7 +84,12 @@ function ModalNotices({ notice }: NoticeCardProps) {
       <p className={style.comment}>{notice.comment}</p>
       <p className={style.price}>${notice.price}</p>
         <div className={style.containerBtn}>
-          <button className={`btn btn--primary ${style.btnCard}`} type='button'>Add to</button>
+          <button className={`btn btn--primary ${style.btnCard}`} type='button'>
+            Add to
+            <svg width={18} height={18} className={style.iconHeart}>
+              <use xlinkHref={`${icons}#icon-heart`} />
+            </svg>
+          </button>
           <Contact/>
         </div>
     </div>
