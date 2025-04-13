@@ -137,7 +137,6 @@ const handleCategoryChange = (selected: SingleValue<OptionType>) => {
             </div>
             </div>
             <NoticesList/> 
-
         </Container>
     </section>
   )
