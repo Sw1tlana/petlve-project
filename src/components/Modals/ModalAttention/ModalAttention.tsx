@@ -1,8 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import style from '../../../scss/components/_modalAttention.module.scss';
 import icons from '../../../shared/icons/sprite.svg';
 
 
 function ModalAttention() {
+    const navigate = useNavigate();
+
+    const handleClickRegister = () => {
+        navigate('/signup');
+    };
+
+    const handleClickLogin = () => {
+        navigate('/signin');
+    };
+
   return (
     <section className={style.containerAttention}>
         <div className={style.avatar}>
@@ -17,8 +28,18 @@ function ModalAttention() {
             you must register to access these features.
         </p>
         <div className={style.containerBtn}>
-            <button type='button' className={`btn btn--primary ${style.btnAttention}`}>Log In</button>
-            <button type='button' className={`btn btn--primary ${style.btnAttention}`}>Registration</button>
+            <button
+            onClick={handleClickLogin}
+                type='button' 
+                className={`btn btn--primary ${style.btnAttention}`}>
+                Log In
+            </button>
+            <button 
+                onClick={handleClickRegister} 
+                type='button' 
+                className={`btn btn--primary ${style.btnAttention}`}>
+                Registration
+            </button>
         </div>
     </section>
   )

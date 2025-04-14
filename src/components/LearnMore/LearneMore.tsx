@@ -3,6 +3,9 @@ import icons from '../../shared/icons/sprite.svg';
 import { useModalContext } from '../../context/useModalContext';
 import ModalNotices from '../Modals/ModalNotices/ModalNotices';
 import ModalWindow from '../../shared/components/ModalWindow/ModalWindow';
+import ModalAttention from '../Modals/ModalAttention/ModalAttention';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '../../reduce/auth/selectors';
 
 interface ModalContextType {
     openModal: (context: React.ReactNode) => void;
@@ -33,6 +36,7 @@ interface NoticeType {
   };
 
 function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
+  const isLoggeding = useSelector(selectIsLoggedIn);
 
     const { openModal, closeModal } = useModalContext() as unknown as ModalContextType;
 
@@ -44,8 +48,12 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
           onRequestClose={closeModal}
           isBurgerMenu={isBurgerMenu}
         >
-          <ModalNotices notice={notice} isBurgerMenu={isBurgerMenu} />
-        </ModalWindow>
+      {isLoggeding ? (
+        <ModalNotices notice={notice} isBurgerMenu={isBurgerMenu} />
+      ) : (
+        <ModalAttention />
+      )}
+    </ModalWindow>
       );
     };
 

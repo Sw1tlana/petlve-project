@@ -7,6 +7,7 @@ import Loader from './shared/components/Loader.tsx/Loader';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './reduce/store';
 import { refreshTokenUser } from './reduce/auth/operations';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 
 const HomePage = lazy(() => import('../src/pages/HomePage/HomePage'));
 const NewsPage = lazy(() => import('../src/pages/NewsPage/NewsPage'));
@@ -31,8 +32,16 @@ useEffect(() => {
         <Route path='/news' element={<NewsPage/>}/>
         <Route path='/notices' element={<NoticesPage/>}/>
         <Route path='/friends' element={<FriendsPage/>}/>
-        <Route path='signup' element={<RegistrationPage/>}/>
-        <Route path='/signin' element={<LoginPage/>}/>
+        <Route path='signup' element={
+          <RestrictedRoute>
+            <RegistrationPage/>
+          </RestrictedRoute>
+          }/>
+        <Route path='/signin' element={
+          <RestrictedRoute>
+            <LoginPage/>
+          </RestrictedRoute>
+          }/>
       </Routes>
       </Suspense>
     </Layout>
