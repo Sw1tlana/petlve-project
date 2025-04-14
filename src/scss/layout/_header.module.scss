@@ -43,15 +43,26 @@
     @include mx.frame(50px, 50px, true);
 
     background-color: fn.get-color('accent-secondary');
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 
-}
+    @include mx.transition(all, 300ms, ease-in-out);
 
-.iconUser {
-    fill: fn.get-color('accent-primary');
+    &:hover,
+    &:active {
+        background-color: fn.get-color('accent-primary');
+
+        .iconUser {
+            fill: fn.get-color('light');
+        }
+    }
+
+    .iconUser {
+        fill: fn.get-color('accent-primary');
+    }
 }
 
 @include mx.mq('lg') {

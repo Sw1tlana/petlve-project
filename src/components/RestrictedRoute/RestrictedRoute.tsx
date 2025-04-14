@@ -9,7 +9,7 @@ interface RestrictedRouteProps {
   redirectTo?: string;
 }
 
-function RestrictedRoute({ children, redirectTo = "/profile" }: RestrictedRouteProps) {
+function RestrictedRoute({ children, redirectTo = "/current" }: RestrictedRouteProps) {
 
     const isLoggedIn = useSelector(selectIsLoggedIn);
 

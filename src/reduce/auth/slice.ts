@@ -95,7 +95,6 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         toast.success('Login successful');
-        console.log('User logged out:', state.isLoggedIn);
       })
       .addCase(signInUser.rejected, (state) => {
         state.loading = false;  

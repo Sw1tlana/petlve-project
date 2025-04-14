@@ -1,5 +1,5 @@
 import Container from '../../shared/components/Container/Container';
-import Logo from '../../shared/components/Logo.tsx/Logo';
+import Logo from '../../shared/components/Logo/Logo';
 import AppBar from '../AppBar/AppBar';
 import Nav from '../Nav/Nav';
 import { useModalContext } from '../../context/useModalContext';
@@ -7,7 +7,7 @@ import style from '../../scss/layout/_header.module.scss';
 import icons from '../../shared/icons/sprite.svg';
 import ModalBurgerMenu from '../Modals/ModalBurgerMenu';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ModalContextType {
   openModal: (content: React.ReactNode) => void;
@@ -17,6 +17,8 @@ function Header() {
   const location = useLocation();
   const isHome = location.pathname ===  '/';
 
+  const navigate = useNavigate();
+
   const { openModal } = useModalContext() as unknown as ModalContextType;
 
 const headerClass = isHome ? style.headerWidth : "";
@@ -24,6 +26,11 @@ const burgerClass = isHome ? style.burgerHome : "";
 
   const handleClick = () => {
     openModal(<ModalBurgerMenu isBurgerMenu={true}/>);
+  };
+
+  const handleClickProfile = () => {
+    console.log('Клік на аватар');
+       navigate('/current');
   };
   
 // conts getInitial = (name) {
@@ -41,11 +48,14 @@ const burgerClass = isHome ? style.burgerHome : "";
             <div className={style.appBar}>
               <AppBar isBurgerMenu={false} />
             </div>
-            <div className={style.authInitial}>
+            <button
+              onClick={handleClickProfile} 
+              type='button' 
+              className={style.authInitial}>
             <svg width={20} height={20} className={style.iconUser}>
               <use xlinkHref={`${icons}#icon-user`} />
             </svg> 
-            </div>
+            </button>
         {/* {user && getInitial(user.name)} */}
         </div>
             <button className={style.burgerMenu} onClick={handleClick}>
