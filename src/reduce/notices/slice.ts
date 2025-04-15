@@ -60,9 +60,8 @@ export interface NoticesResponse {
         addFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
           state.favoritePet.push(...action.payload)
         },
-        deleteFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
-          const idsToDelete = action.payload.map(pet => pet._id);
-          state.favoritePet = state.favoritePet.filter(pet => !idsToDelete.includes(pet._id))
+        deleteFavorite: (state, action: PayloadAction<string>) => {
+          state.favoritePet = state.favoritePet.filter(pet => pet._id !== action.payload);
         }
       },
       extraReducers: (builder) => {

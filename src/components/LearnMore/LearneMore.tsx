@@ -4,19 +4,21 @@ import { useModalContext } from '../../context/useModalContext';
 import ModalNotices from '../Modals/ModalNotices/ModalNotices';
 import ModalWindow from '../../shared/components/ModalWindow/ModalWindow';
 import ModalAttention from '../Modals/ModalAttention/ModalAttention';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, 
+         useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { addFavorite, 
-  deleteFavorite 
+         deleteFavorite 
  } from '../../reduce/notices/slice';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { FavoriteResponse } from '../../reduce/notices/slice';
+import { ReactNode } from 'react';
 
-interface ModalContextType {
-    openModal: (context: React.ReactNode) => void;
-    closeModal: () => void;
-};
+interface IModalContextType {
+  openModal: (context: ReactNode) => void;
+  closeModal: () => void;
+}
 
 interface NoticeType {
     _id: string;
@@ -42,24 +44,41 @@ interface NoticeType {
     petId: string; 
   };
 
-function LearneMore({ notice, isBurgerMenu, petId }: ModalNoticesProps) {
+function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const isLoggeding = useSelector(selectIsLoggedIn);
 
   const dispatch = useDispatch<AppDispatch>();
   const favoritePet = useSelector(selectFavoritePet) || [];
 
-  const handleFavoriteClick = () => {
-    const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === petId);
+    const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === notice._id);
 
+  const handleFavoriteClick = () => {
+    if (!isLoggeding) {
+      openModal(
+        <ModalWindow
+          isOpen={true}
+          onRequestClose={closeModal}
+          isBurgerMenu={isBurgerMenu}
+        >
+          <ModalAttention />
+        </ModalWindow>
+      );
+      return;
+    }
+  
     if (isFavorite) {
-      dispatch(deleteFavorite([notice]));
+      const favoriteToDelete = favoritePet.find((pet) => pet._id === notice._id);
+      if (favoriteToDelete) {
+        console.log('Deleting pet with _id:', favoriteToDelete._id); 
+        dispatch(deleteFavorite(favoriteToDelete._id)); 
+      }
     } else {
       dispatch(addFavorite([notice]));
     }
   };
 
-    const { openModal, closeModal } = useModalContext() as unknown as ModalContextType;
+  const { openModal, closeModal } = useModalContext() as IModalContextType;
 
 
     const handleClick = () => {
@@ -88,14 +107,12 @@ function LearneMore({ notice, isBurgerMenu, petId }: ModalNoticesProps) {
             </button>
             <button
                 onClick={handleFavoriteClick}
-                 type='button'
-                 aria-label='Add to favorites'
-                 className={style.buttonHeart}>
-                <svg 
-                    width={14} 
-                    height={14} 
-                    className={style.iconHeart}>
-                    <use xlinkHref={`${icons}#icon-heart`} />
+                type='button'
+                aria-label={isFavorite ? 'Delete from favorites' : 'Add to favorites'}
+                className={style.buttonHeart}
+              >
+                <svg width={14} height={14} className={style.iconHeart}>
+                  <use xlinkHref={`${icons}#${isFavorite ? 'icon-trash' : 'icon-heart'}`} />
                 </svg>
             </button>
     </div>

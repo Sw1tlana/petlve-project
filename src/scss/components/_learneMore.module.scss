@@ -15,30 +15,26 @@
 
 .buttonHeart {
     @include mx.frame(46px, 46px, true);
-
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: none;
     border: none;
     background-color: fn.get-color('accent-secondary');
-
+  
     @include mx.transition(all, 300ms, ease-in-out);
-}
-
-.buttonHeart:hover,
-.buttonHeart:active { 
-    background-color: fn.get-color('accent-primary');
-}
-
-.iconHeart {
-  fill: transparent;
-  stroke: fn.get-color('accent-primary');
-
-  @include mx.transition(all, 300ms, ease-in-out);
-}
-
-.iconHeart:hover,
-.iconHeart:active {
-    stroke: fn.get-color('light'); 
-}
+  
+    &:hover,
+    &:active {
+      background-color: fn.get-color('accent-primary');
+  
+      .iconHeart {
+        stroke: fn.get-color('light');
+      }
+    }
+  
+    .iconHeart {
+      fill: transparent;
+      stroke: fn.get-color('accent-primary');
+      @include mx.transition(all, 300ms, ease-in-out);
+    }
+  }
