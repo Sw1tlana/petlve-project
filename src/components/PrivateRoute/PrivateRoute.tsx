@@ -9,7 +9,7 @@ interface PrivateRouteProps {
     redirectTo?: string;
   }
 
-function PrivateRoute({ children, redirectTo = "/login" }: PrivateRouteProps) {
+function PrivateRoute({ children, redirectTo = "/signin" }: PrivateRouteProps) {
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return isLoggedIn ? children : <Navigate to={redirectTo} replace/>;

@@ -2,7 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { fetchNotices } from "./operations";
 
-interface NoticesResponse {
+export interface NoticesResponse {
+    _id: string;
+    species: string;
+    category: string;
+    price: number;
+    title: string;
+    name: string;
+    birthday: string;
+    comment: string;
+    sex: string;
+    location: string;
+    imgURL: string;
+    createdAt: string;
+    updatedAt: string;
+    user: string;
+    popularity: number;
+  };
+
+  export interface FavoriteResponse {
     _id: string;
     species: string;
     category: string;
@@ -22,6 +40,7 @@ interface NoticesResponse {
 
   interface State {
     items: NoticesResponse[];
+    favoritePet: FavoriteResponse[];
     error: boolean | null;
     loading: boolean;  
   };
@@ -30,13 +49,22 @@ interface NoticesResponse {
     items: [],
     error: null,
     loading: false,
+    favoritePet: [],
   };
 
     export const noticesSlice = createSlice({
       name: "notices",
       initialState: INITIAL_STATE,
 
-      reducers: {},
+      reducers: {
+        addFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
+          state.favoritePet.push(...action.payload)
+        },
+        deleteFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
+          const idsToDelete = action.payload.map(pet => pet._id);
+          state.favoritePet = state.favoritePet.filter(pet => !idsToDelete.includes(pet._id))
+        }
+      },
       extraReducers: (builder) => {
         builder
           .addCase(fetchNotices.pending, (state) => {
@@ -54,5 +82,10 @@ interface NoticesResponse {
       }
   
     });
+
+    export  const {
+      addFavorite,
+      deleteFavorite
+    } = noticesSlice.actions;
 
     export const noticesReducer = noticesSlice.reducer;

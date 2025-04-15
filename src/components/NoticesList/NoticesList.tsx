@@ -7,24 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
-
-interface Notices {
-  _id: string;
-  species: string;
-  category: string;
-  price: number;
-  title: string;
-  name: string;
-  birthday: string;
-  comment: string;
-  sex: string;
-  location: string;
-  imgURL: string;
-  createdAt: string;
-  updatedAt: string;
-  user: string;
-  popularity: number;
-};
+import { NoticesResponse } from '../../reduce/notices/slice';
 
 function NoticesList() {
     const loading = useSelector(selectIsLoggedINotices);
@@ -42,7 +25,7 @@ useEffect(() => {
       {!loading && Array.isArray(notices) && notices.length === 0 && <Loader/>}
           {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>
-          {notices.map((noticeItem: Notices, index: number) => (
+          {notices.map((noticeItem: NoticesResponse, index: number) => (
             <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
                     <img
                         src={noticeItem.imgURL}
@@ -86,7 +69,7 @@ useEffect(() => {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearneMore notice={noticeItem} isBurgerMenu={false}/>
+                <LearneMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
               </div>
             </li>
           ))}
