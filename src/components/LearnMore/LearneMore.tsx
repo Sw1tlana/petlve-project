@@ -70,10 +70,18 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
     }
   
     if (isFavorite) {
-      const favoriteToDelete = favoritePet.find((pet) => pet._id === notice._id);
+      const favoriteToDelete = favoritePet.find(
+        (pet) => pet._id?.toString?.() === notice._id.toString()
+      );
+
       if (favoriteToDelete) {
-        console.log('Deleting pet with _id:', favoriteToDelete._id); 
-        dispatch(deleteFavorite(favoriteToDelete._id.toString())); 
+        const idToDelete =
+        typeof favoriteToDelete._id === 'object' && typeof favoriteToDelete._id.toString === 'function'
+          ? favoriteToDelete._id.toString()
+          : String(favoriteToDelete._id);
+
+        console.log('Deleting pet with _id:', idToDelete);
+        dispatch(deleteFavorite(idToDelete));
       }
     } else {
       dispatch(addFavorite([notice]));
