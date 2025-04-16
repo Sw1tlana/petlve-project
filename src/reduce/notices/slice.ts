@@ -61,7 +61,7 @@ export interface NoticesResponse {
           state.favoritePet.push(...action.payload)
         },
         deleteFavorite: (state, action: PayloadAction<string>) => {
-          state.favoritePet = state.favoritePet.filter(pet => pet._id !== action.payload);
+          state.favoritePet = state.favoritePet.filter(pet => pet._id.toString() !== action.payload);
         }
       },
       extraReducers: (builder) => {

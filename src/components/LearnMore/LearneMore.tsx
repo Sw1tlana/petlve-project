@@ -48,6 +48,8 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const isLoggeding = useSelector(selectIsLoggedIn);
 
+  const { openModal, closeModal } = useModalContext() as IModalContextType;
+
   const dispatch = useDispatch<AppDispatch>();
   const favoritePet = useSelector(selectFavoritePet) || [];
 
@@ -71,15 +73,12 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       const favoriteToDelete = favoritePet.find((pet) => pet._id === notice._id);
       if (favoriteToDelete) {
         console.log('Deleting pet with _id:', favoriteToDelete._id); 
-        dispatch(deleteFavorite(favoriteToDelete._id)); 
+        dispatch(deleteFavorite(favoriteToDelete._id.toString())); 
       }
     } else {
       dispatch(addFavorite([notice]));
     }
   };
-
-  const { openModal, closeModal } = useModalContext() as IModalContextType;
-
 
     const handleClick = () => {
       openModal(
