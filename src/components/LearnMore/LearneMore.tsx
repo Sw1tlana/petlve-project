@@ -75,11 +75,7 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       );
 
       if (favoriteToDelete) {
-        const idToDelete =
-        typeof favoriteToDelete._id === 'object' && typeof favoriteToDelete._id.toString === 'function'
-          ? favoriteToDelete._id.toString()
-          : String(favoriteToDelete._id);
-
+        const idToDelete = favoriteToDelete._id?.toString?.() ?? '';
         console.log('Deleting pet with _id:', idToDelete);
         dispatch(deleteFavorite(idToDelete));
       }

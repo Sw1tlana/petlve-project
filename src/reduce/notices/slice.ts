@@ -21,7 +21,7 @@ export interface NoticesResponse {
   };
 
   export interface FavoriteResponse {
-    _id: string | { toString(): string };
+    _id: string;
     species: string;
     category: string;
     price: number;
@@ -62,7 +62,7 @@ export interface NoticesResponse {
         },
         deleteFavorite: (state, action: PayloadAction<string>) => {
           state.favoritePet = state.favoritePet.filter((pet: { _id: string | { toString(): string } }) => {
-            return pet._id?.toString?.() !== action.payload.toString();
+            return pet._id?.toString?.() !== action.payload;
           });
         }
       },
