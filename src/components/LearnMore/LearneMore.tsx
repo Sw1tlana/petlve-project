@@ -67,18 +67,12 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
         </ModalWindow>
       );
       return;
-    }
-  
-    if (isFavorite) {
-      const favoriteToDelete = favoritePet.find(
-        (pet) => pet._id?.toString?.() === notice._id.toString()
-      );
-
-      if (favoriteToDelete) {
-        const idToDelete = favoriteToDelete._id?.toString?.() ?? '';
-        console.log('Deleting pet with _id:', idToDelete);
-        dispatch(deleteFavorite(idToDelete));
-      }
+    }  
+    const petId = JSON.stringify(notice._id); 
+    console.log("Pet ID: ", petId, typeof petId); 
+      if (isFavorite) {
+     
+        dispatch(deleteFavorite(petId));
     } else {
       dispatch(addFavorite([notice]));
     }
