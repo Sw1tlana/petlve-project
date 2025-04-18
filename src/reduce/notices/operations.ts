@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getNotices } from '../services/authServices';
+import { addNoticesFavorites, getNotices } from '../services/authServices';
 
 interface Notices {
     _id: string;
@@ -35,3 +35,19 @@ export const fetchNotices = createAsyncThunk<Notices[], void>(
             }
         }
     );
+
+export const addFavorite = createAsyncThunk<Notices[], { id: string, favorites: object }>(
+  'notices/addFavorites',
+  async({ id, favorites }, thunkAPI) => {
+    try {
+      const response: Notices[] = await addNoticesFavorites(id, favorites);
+      return response;
+
+    }catch(err) {
+      if (err instanceof Error) {
+        return thunkAPI.rejectWithValue(err.message);
+      }
+      return thunkAPI.rejectWithValue('Notices failed');
+    }
+  }
+);

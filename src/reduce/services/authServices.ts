@@ -163,4 +163,18 @@ interface GetNoticesResponse {
 export const getNotices = async (): Promise<Notices[]> => {
   const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
   return data.data;
+};
+
+export const addNoticesFavorites = async  (id: string, favorites: object): Promise<Notices[]> => {
+  try {
+  
+    const { data } = await axios.post(`/notices/favorites/add/${id}`, favorites);
+    
+    return data.data.favorite;
+  } catch (error) {
+    console.error('Error adding to favorites:', error);
+    throw error;
+  }
 }
+
+

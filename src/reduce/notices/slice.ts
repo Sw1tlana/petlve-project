@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchNotices } from "./operations";
+import { addFavorite, fetchNotices } from "./operations";
 
 export interface NoticesResponse {
     _id: string;
@@ -56,18 +56,7 @@ export interface NoticesResponse {
       name: "notices",
       initialState: INITIAL_STATE,
 
-      reducers: {
-        addFavorite(state, action: PayloadAction<FavoriteResponse>) {
-          const isExist = state.favoritePet.some(pet => pet._id === action.payload._id);
-          if (!isExist) {
-            state.favoritePet.push({ ...action.payload });
-          }
-        },
-        deleteFavorite(state, action: PayloadAction<string>) {
-          // Фільтруємо улюблені тварини за ID
-          state.favoritePet = state.favoritePet.filter(pet => pet._id !== action.payload);
-        }
-      },
+      reducers: {},
       extraReducers: (builder) => {
         builder
           .addCase(fetchNotices.pending, (state) => {
@@ -82,13 +71,20 @@ export interface NoticesResponse {
             .addCase(fetchNotices.rejected, (state) => {
             state.error = true;
           })
+          .addCase(addFavorite.pending, (state) => {
+            state.loading = true;  
+            state.error = null; 
+          })
+            .addCase(addFavorite.fulfilled, (state, action: PayloadAction<NoticesResponse[]>) => {
+            state.loading = false;
+            state.favoritePet.push(...action.payload);
+            state.error = null;
+          })
+            .addCase(addFavorite.rejected, (state) => {
+            state.error = true;
+          })
       }
   
     });
-
-    export  const {
-      addFavorite,
-      deleteFavorite
-    } = noticesSlice.actions;
 
     export const noticesReducer = noticesSlice.reducer;
