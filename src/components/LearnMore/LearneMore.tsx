@@ -68,11 +68,11 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       );
       return;
     }  
-    const petId = JSON.stringify(notice._id); 
-    console.log("Pet ID: ", petId, typeof petId); 
-      if (isFavorite) {
-     
-        dispatch(deleteFavorite(petId));
+    const petId = notice._id; // БЕЗ stringify
+    console.log("Pet ID: ", petId, typeof petId);
+  
+    if (isFavorite) {
+      dispatch(deleteFavorite(petId)); // Правильно передаємо рядок
     } else {
       dispatch(addFavorite([notice]));
     }

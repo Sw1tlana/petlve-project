@@ -61,12 +61,12 @@ export interface NoticesResponse {
           state.favoritePet.push(...action.payload)
         },
         deleteFavorite: (state, action: PayloadAction<string>) => {
-  console.log('Deleting favorite pet with id:', action.payload);
-  state.favoritePet = state.favoritePet.filter((pet) => {
-    // Переконатись, що порівнюється саме рядок
-    const petId = typeof pet._id === 'string' ? pet._id : String(pet._id);
-    return petId !== action.payload;
-  });
+          const petIdToDelete = action.payload;
+          console.log('Deleting favorite pet with id:', petIdToDelete);
+        
+          state.favoritePet = state.favoritePet.filter((pet) => {
+            return pet._id !== petIdToDelete;
+          })
         }
       },
       extraReducers: (builder) => {
