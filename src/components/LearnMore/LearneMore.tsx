@@ -8,7 +8,8 @@ import { useDispatch,
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { addFavorite, 
-         deleteFavorite 
+         deleteFavorite, 
+         NoticesResponse
  } from '../../reduce/notices/slice';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
@@ -20,27 +21,10 @@ interface IModalContextType {
   closeModal: () => void;
 }
 
-interface NoticeType {
-    _id: string;
-    species: string;
-    category: string;
-    price: number;
-    title: string;
-    name: string;
-    birthday: string;
-    comment: string;
-    sex: string;
-    location: string;
-    imgURL: string;
-    createdAt: string;
-    updatedAt: string;
-    user: string;
-    popularity: number;
-  };
 
   interface ModalNoticesProps {
     isBurgerMenu: boolean;
-    notice: NoticeType;
+    notice: NoticesResponse;
     petId: string; 
   };
 
@@ -53,7 +37,11 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
   const dispatch = useDispatch<AppDispatch>();
   const favoritePet = useSelector(selectFavoritePet) || [];
 
-    const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === notice._id);
+  const petId = notice._id.toString(); 
+  console.log("Pet ID:", petId, typeof petId);
+
+  const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === petId);
+  
 
   const handleFavoriteClick = () => {
     if (!isLoggeding) {
@@ -68,15 +56,17 @@ function LearneMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       );
       return;
     }  
-    const petId = notice._id; // БЕЗ stringify
-    console.log("Pet ID: ", petId, typeof petId);
-  
+
     if (isFavorite) {
-      dispatch(deleteFavorite(petId)); // Правильно передаємо рядок
+      dispatch(deleteFavorite(petId));
+      console.log("Delete:", petId, typeof petId);
     } else {
-      dispatch(addFavorite([notice]));
-    }
-  };
+      dispatch(addFavorite({
+        ...notice,
+        _id: petId, 
+      }));
+  }
+};
 
     const handleClick = () => {
       openModal(

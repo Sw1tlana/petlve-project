@@ -57,16 +57,15 @@ export interface NoticesResponse {
       initialState: INITIAL_STATE,
 
       reducers: {
-        addFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
-          state.favoritePet.push(...action.payload)
+        addFavorite(state, action: PayloadAction<FavoriteResponse>) {
+          const isExist = state.favoritePet.some(pet => pet._id === action.payload._id);
+          if (!isExist) {
+            state.favoritePet.push({ ...action.payload });
+          }
         },
-        deleteFavorite: (state, action: PayloadAction<string>) => {
-          const petIdToDelete = action.payload;
-          console.log('Deleting favorite pet with id:', petIdToDelete);
-        
-          state.favoritePet = state.favoritePet.filter((pet) => {
-            return pet._id !== petIdToDelete;
-          })
+        deleteFavorite(state, action: PayloadAction<string>) {
+          // Фільтруємо улюблені тварини за ID
+          state.favoritePet = state.favoritePet.filter(pet => pet._id !== action.payload);
         }
       },
       extraReducers: (builder) => {
