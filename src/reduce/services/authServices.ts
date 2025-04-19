@@ -165,16 +165,6 @@ export const getNotices = async (): Promise<Notices[]> => {
   return data.data;
 };
 
-export const addNoticesFavorites = async  (id: string, favorites: object): Promise<Notices[]> => {
-  try {
-  
-    const { data } = await axios.post(`/notices/favorites/add/${id}`, favorites);
-    
-    return data.data.favorite;
-  } catch (error) {
-    console.error('Error adding to favorites:', error);
-    throw error;
-  }
-}
+
 
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import style from '../../scss/components/_noticesList.module.scss';
 import Loader from '../../shared/components/Loader.tsx/Loader';
-import LearneMore from '../LearnMore/LearneMore';
+import LearnMore from '../LearnMore/LearneMore';
 import { fetchNotices } from '../../reduce/notices/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
@@ -69,7 +69,7 @@ useEffect(() => {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearneMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
+                <LearnMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
               </div>
             </li>
           ))}
