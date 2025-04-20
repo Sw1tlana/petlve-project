@@ -1,34 +1,23 @@
 import style from '../../scss/components/_myFavorite.module.scss';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { useSelector } from 'react-redux';
-import LearneMore from '../LearnMore/LearneMore';
+import LearnMore from '../LearnMore/LearnMore';
 import { FavoriteResponse } from '../../reduce/notices/slice';
 import icons from '../../shared/icons/sprite.svg';
-
-const safeId = (id: unknown): string => {
-  if (typeof id === 'string') return id;
-
-  if (
-    typeof id === 'object' &&
-    id !== null &&
-    '$oid' in id &&
-    typeof (id as { $oid: unknown }).$oid === 'string'
-  ) {
-    return (id as { $oid: string }).$oid;
-  }
-
-  return String(id); 
-};
 
 function MyFavorite() {
   const favoritePets = useSelector(selectFavoritePet);
 
   return (
     <>
+        <div className={style.containerFavoriteProfile}>
+         <button className={`btn btn--primary ${style.btnFavorite}`} type="button">My favorite pets</button>
+         <button className={`btn btn--primary ${style.btnViewed}`} type="button">Viewed</button>
+     </div>
   {Array.isArray(favoritePets) && favoritePets.length > 0 && (
         <ul className={style.noticesList}>
-          {favoritePets.map((noticeItem: FavoriteResponse) => (
-            <li className={style.noticesItem} key={safeId(noticeItem._id)}>
+          {favoritePets.map((noticeItem: FavoriteResponse, index: number) => (
+            <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
                     <img
                         src={noticeItem.imgURL}
                         alt={noticeItem.title}
@@ -71,7 +60,7 @@ function MyFavorite() {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearneMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
+                <LearnMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
               </div>
             </li>
           ))}

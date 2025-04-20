@@ -7,7 +7,7 @@ import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
-import { addFavorite, NoticesResponse, removeFavorite } from '../../reduce/notices/slice';
+import { addFavorite, FavoriteResponse, NoticesResponse, removeFavorite } from '../../reduce/notices/slice';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
@@ -15,28 +15,12 @@ import { ReactNode } from 'react';
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
   closeModal: () => void;
-}
-
+};
 
   interface ModalNoticesProps {
     isBurgerMenu: boolean;
     notice: NoticesResponse;
     petId: string; 
-  };
-
-  const safeId = (id: unknown): string => {
-    if (typeof id === 'string') return id;
-  
-    if (
-      typeof id === 'object' &&
-      id !== null &&
-      '$oid' in id &&
-      typeof (id as { $oid: unknown }).$oid === 'string'
-    ) {
-      return (id as { $oid: string }).$oid;
-    }
-  
-    return String(id); 
   };
 
 function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
@@ -49,9 +33,9 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const favoritePet = useSelector(selectFavoritePet) || [];
   
-  const petId = safeId(notice._id);
+  const petId: string = notice._id;
   
-  const isFavorite = favoritePet.some(pet => pet._id === notice._id);
+  const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === petId);
   
   const handleFavoriteClick = () => {
     if (!isLoggeding) {
@@ -68,10 +52,10 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
     }  
 
     if (isFavorite) {
-      dispatch(removeFavorite(petId));
+      dispatch(removeFavorite([petId.toString()]));
       console.log("Removed from favorites:", petId);
     } else {
-      dispatch(addFavorite(notice)); 
+      dispatch(addFavorite([notice])); 
       console.log("Added to favorites:", notice._id);
     }
 };

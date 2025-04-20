@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import style from '../../scss/components/_noticesList.module.scss';
 import Loader from '../../shared/components/Loader.tsx/Loader';
-import LearnMore from '../LearnMore/LearneMore';
+import LearnMore from '../LearnMore/LearnMore';
 import { fetchNotices } from '../../reduce/notices/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
@@ -15,37 +15,19 @@ function NoticesList() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const safeId = (id: unknown): string => {
-      if (typeof id === 'string') return id;
-    
-      if (
-        typeof id === 'object' &&
-        id !== null &&
-        '$oid' in id &&
-        typeof (id as { $oid: unknown }).$oid === 'string'
-      ) {
-        return (id as { $oid: string }).$oid;
-      }
-    
-      return String(id); 
-    };
-
-
 useEffect(() => {
   dispatch(fetchNotices());
 }, [dispatch]);
 
   return (
     <div>
-      {!loading && Array.isArray(notices) && notices.length === 0 && <Loader />}
+     {!loading && Array.isArray(notices) && notices.length === 0 && <Loader />}
       
       {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>
-          {notices.map((noticeItem: NoticesResponse) => {
-            const id = safeId(noticeItem._id);
-
+          {notices.map((noticeItem: NoticesResponse, index: number) => {
             return (
-              <li className={style.noticesItem} key={safeId(noticeItem._id)}>
+              <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
                 <img
                   src={noticeItem.imgURL}
                   alt={noticeItem.title}
@@ -85,7 +67,7 @@ useEffect(() => {
                 <p className={style.price}>${noticeItem.price}</p>
 
                 <div>
-                  <LearnMore notice={noticeItem} isBurgerMenu={false} petId={id} />
+                  <LearnMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id} />
                 </div>
               </li>
             );

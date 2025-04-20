@@ -57,16 +57,21 @@ export interface NoticesResponse {
       initialState: INITIAL_STATE,
 
       reducers: {
-        addFavorite(state, action: PayloadAction<FavoriteResponse>) {
-          const exists = state.favoritePet.some(pet => pet._id === action.payload._id);
-          if (!exists) {
-            state.favoritePet.push(action.payload);
-          }
+        addFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
+          action.payload.forEach(newPet => {
+            const exists = state.favoritePet.some(
+              pet => pet._id.toString() === newPet._id.toString()
+            );
+            if (!exists) {
+              state.favoritePet.push(newPet);
+            }
+          });
         },
-        removeFavorite(state, action: PayloadAction<string>) {
-          const removeId = action.payload;
-          state.favoritePet = state.favoritePet.filter(pet => pet._id !== removeId);
-        }
+        removeFavorite(state, action: PayloadAction<string[]>) {
+          console.log("Removing pets with IDs:", action.payload);
+          const idsToDelete = action.payload;
+          state.favoritePet = state.favoritePet.filter(pet => !idsToDelete.includes(pet._id.toString()));
+        },
       },
       extraReducers: (builder) => {
         builder
