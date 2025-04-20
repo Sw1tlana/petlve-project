@@ -5,6 +5,21 @@ import LearneMore from '../LearnMore/LearneMore';
 import { FavoriteResponse } from '../../reduce/notices/slice';
 import icons from '../../shared/icons/sprite.svg';
 
+const safeId = (id: unknown): string => {
+  if (typeof id === 'string') return id;
+
+  if (
+    typeof id === 'object' &&
+    id !== null &&
+    '$oid' in id &&
+    typeof (id as { $oid: unknown }).$oid === 'string'
+  ) {
+    return (id as { $oid: string }).$oid;
+  }
+
+  return String(id); 
+};
+
 function MyFavorite() {
   const favoritePets = useSelector(selectFavoritePet);
 
@@ -12,8 +27,8 @@ function MyFavorite() {
     <>
   {Array.isArray(favoritePets) && favoritePets.length > 0 && (
         <ul className={style.noticesList}>
-          {favoritePets.map((noticeItem: FavoriteResponse, index: number) => (
-            <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
+          {favoritePets.map((noticeItem: FavoriteResponse) => (
+            <li className={style.noticesItem} key={safeId(noticeItem._id)}>
                     <img
                         src={noticeItem.imgURL}
                         alt={noticeItem.title}

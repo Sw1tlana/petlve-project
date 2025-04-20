@@ -24,6 +24,21 @@ interface IModalContextType {
     petId: string; 
   };
 
+  const safeId = (id: unknown): string => {
+    if (typeof id === 'string') return id;
+  
+    if (
+      typeof id === 'object' &&
+      id !== null &&
+      '$oid' in id &&
+      typeof (id as { $oid: unknown }).$oid === 'string'
+    ) {
+      return (id as { $oid: string }).$oid;
+    }
+  
+    return String(id); 
+  };
+
 function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const isLoggeding = useSelector(selectIsLoggedIn);
@@ -33,18 +48,10 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const favoritePet = useSelector(selectFavoritePet) || [];
-  type PossibleId = string | { toString(): string } | { _id: PossibleId };
-
-  const getStringId = (id: PossibleId): string => {
-    if (typeof id === 'string') return id;
-    if ('_id' in id) return getStringId(id._id);
-    if (typeof id.toString === 'function') return id.toString();
-    return '';
-  };
   
-  const petId = getStringId(notice._id);
+  const petId = safeId(notice._id);
   
-  const isFavorite = favoritePet.find(pet => getStringId(pet._id) === petId);
+  const isFavorite = favoritePet.some(pet => pet._id === notice._id);
   
   const handleFavoriteClick = () => {
     if (!isLoggeding) {

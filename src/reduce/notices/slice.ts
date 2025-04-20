@@ -58,18 +58,14 @@ export interface NoticesResponse {
 
       reducers: {
         addFavorite(state, action: PayloadAction<FavoriteResponse>) {
-            state.favoritePet.push(action.payload); 
-          
+          const exists = state.favoritePet.some(pet => pet._id === action.payload._id);
+          if (!exists) {
+            state.favoritePet.push(action.payload);
+          }
         },
         removeFavorite(state, action: PayloadAction<string>) {
           const removeId = action.payload;
-
-          state.favoritePet = state.favoritePet.filter(pet => {
-            const currentId = typeof pet._id === 'string' ? pet._id : pet._id?;
-            return currentId !== removeId;
-          });
-        
-          console.log("Remaining favorites after removal:", state.favoritePet);
+          state.favoritePet = state.favoritePet.filter(pet => pet._id !== removeId);
         }
       },
       extraReducers: (builder) => {
