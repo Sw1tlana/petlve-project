@@ -1,46 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {fetchNotices } from "./operations";
+import {addFavorite, fetchNotices } from "./operations";
 
-export interface NoticesResponse {
-    _id: string;
-    species: string;
-    category: string;
-    price: number;
-    title: string;
-    name: string;
-    birthday: string;
-    comment: string;
-    sex: string;
-    location: string;
-    imgURL: string;
-    createdAt: string;
-    updatedAt: string;
-    user: string;
-    popularity: number;
-  };
-
-  export interface FavoriteResponse {
-    _id: string;
-    species: string;
-    category: string;
-    price: number;
-    title: string;
-    name: string;
-    birthday: string;
-    comment: string;
-    sex: string;
-    location: string;
-    imgURL: string;
-    createdAt: string;
-    updatedAt: string;
-    user: string;
-    popularity: number;
-  };
+export interface Pet {
+  _id: string;
+  species: string;
+  category: string;
+  price: number;
+  title: string;
+  name: string;
+  birthday: string;
+  comment: string;
+  sex: string;
+  location: string;
+  imgURL: string;
+  createdAt: string;
+  updatedAt: string;
+  user: string;
+  popularity: number;
+}
 
   interface State {
-    items: NoticesResponse[];
-    favoritePet: FavoriteResponse[];
+    items: Pet[];
+    favoritePet: Pet[];
     error: boolean | null;
     loading: boolean;  
   };
@@ -56,26 +38,14 @@ export interface NoticesResponse {
       name: "notices",
       initialState: INITIAL_STATE,
 
-      reducers: {
-        addFavorite(state, action: PayloadAction<FavoriteResponse[]>) {
-          const newPets = action.payload.filter(
-            newPet => !state.favoritePet.some(pet => pet._id === newPet._id)
-          );
-          state.favoritePet.push(...newPets);
-        },
-        removeFavorite(state, action: PayloadAction<string[]>) {
-          console.log("Removing pets with IDs:", action.payload);
-          const idsToDelete = action.payload;
-          state.favoritePet = state.favoritePet.filter(pet => !idsToDelete.includes(pet._id.toString()));
-        },
-      },
+      reducers: {},
       extraReducers: (builder) => {
         builder
           .addCase(fetchNotices.pending, (state) => {
             state.loading = true;  
             state.error = null; 
           })
-            .addCase(fetchNotices.fulfilled, (state, action: PayloadAction<NoticesResponse[]>) => {
+            .addCase(fetchNotices.fulfilled, (state, action: PayloadAction<Pet[]>) => {
             state.loading = false;
             state.items = action.payload;
             state.error = null;
@@ -83,10 +53,20 @@ export interface NoticesResponse {
             .addCase(fetchNotices.rejected, (state) => {
             state.error = true;
           })
+          .addCase(addFavorite.pending, (state) => {
+            state.loading = true;  
+            state.error = null; 
+          })
+            .addCase(addFavorite.fulfilled, (state, action: PayloadAction<Pet[]>) => {
+            state.loading = false;
+            state.favoritePet.push(...action.payload);
+            state.error = null;
+          })
+            .addCase(addFavorite.rejected, (state) => {
+            state.error = true;
+          })
       }
   
     });
-
-    export const {addFavorite, removeFavorite} = noticesSlice.actions
 
     export const noticesReducer = noticesSlice.reducer;

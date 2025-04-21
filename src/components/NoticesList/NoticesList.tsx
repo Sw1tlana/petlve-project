@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
-import { NoticesResponse } from '../../reduce/notices/slice';
+import { Pet } from '../../reduce/notices/slice';
 
 function NoticesList() {
     const loading = useSelector(selectIsLoggedINotices);
@@ -25,7 +25,7 @@ useEffect(() => {
       
       {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>
-          {notices.map((noticeItem: NoticesResponse, index: number) => {
+          {notices.map((noticeItem: Pet, index: number) => {
             return (
               <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
                 <img
@@ -67,7 +67,7 @@ useEffect(() => {
                 <p className={style.price}>${noticeItem.price}</p>
 
                 <div>
-                  <LearnMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id} />
+                  <LearnMore notice={noticeItem} isBurgerMenu={false}/>
                 </div>
               </li>
             );

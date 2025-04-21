@@ -2,7 +2,7 @@ import style from '../../scss/components/_myFavorite.module.scss';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { useSelector } from 'react-redux';
 import LearnMore from '../LearnMore/LearnMore';
-import { FavoriteResponse } from '../../reduce/notices/slice';
+import { Pet } from '../../reduce/notices/slice';
 import icons from '../../shared/icons/sprite.svg';
 
 function MyFavorite() {
@@ -16,7 +16,7 @@ function MyFavorite() {
      </div>
   {Array.isArray(favoritePets) && favoritePets.length > 0 && (
         <ul className={style.noticesList}>
-          {favoritePets.map((noticeItem: FavoriteResponse, index: number) => (
+          {favoritePets.map((noticeItem: Pet, index: number) => (
             <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
                     <img
                         src={noticeItem.imgURL}
@@ -60,7 +60,10 @@ function MyFavorite() {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearnMore notice={noticeItem} isBurgerMenu={false} petId={noticeItem._id}/>
+                <LearnMore 
+                  key={String(noticeItem._id) as string} 
+                  notice={noticeItem} 
+                  isBurgerMenu={false} />
               </div>
             </li>
           ))}

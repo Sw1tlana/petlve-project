@@ -2,6 +2,7 @@ import axios from "../../helpers/axiosConfig";
 import { Store } from "redux";
 import { RootState } from "../store";
 import { setToken } from "../auth/slice";
+import { Pet } from "../notices/slice";
 
 
 export const setAuthHeader = (token: string) => {
@@ -137,34 +138,22 @@ export const getNews = async (): Promise<News[]> => {
 
 // notices
 
-interface Notices {
-  _id: string;
-  species: string;
-  category: string;
-  price: number;
-  title: string;
-  name: string;
-  birthday: string;
-  comment: string;
-  sex: string;
-  location: string;
-  imgURL: string;
-  createdAt: string;
-  updatedAt: string;
-  user: string;
-  popularity: number;
-};
-
 interface GetNoticesResponse {
   success: boolean;
-  data: Notices[];
+  data: {
+    favorite: Pet[]; 
+  };
 }
 
-export const getNotices = async (): Promise<Notices[]> => {
+
+export const getNotices = async (): Promise<Pet[]> => {
   const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
-  return data.data;
+  return data.data.favorite;
 };
 
-
+export const getFavorites = async (id: string, favorites: object): Promise<Pet[]> => {
+  const { data } : { data: GetNoticesResponse } = await axios.post(`/notices/favorites/add:${id}`, favorites );
+  return data.data.favorite;
+};
 
 

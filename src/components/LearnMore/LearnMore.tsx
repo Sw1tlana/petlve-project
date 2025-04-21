@@ -7,10 +7,11 @@ import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
-import { addFavorite, FavoriteResponse, NoticesResponse, removeFavorite } from '../../reduce/notices/slice';
+import { Pet } from '../../reduce/notices/slice';
 import { selectFavoritePet } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
+import { addFavorite } from '../../reduce/notices/operations';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
@@ -19,8 +20,7 @@ interface IModalContextType {
 
   interface ModalNoticesProps {
     isBurgerMenu: boolean;
-    notice: NoticesResponse;
-    petId: string; 
+    notice: Pet;
   };
 
 function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
@@ -33,9 +33,8 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const favoritePet = useSelector(selectFavoritePet) || [];
   
-  const petId: string = notice._id;
-  
-  const isFavorite = favoritePet.some((pet: FavoriteResponse) => pet._id === petId);
+  const petId = String(notice._id); 
+  const isFavorite = favoritePet.some(pet => String(pet._id) === petId);
   
   const handleFavoriteClick = () => {
     if (!isLoggeding) {
@@ -50,20 +49,22 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       );
       return;
     }  
+
+    const cleanedNotice = {
+      ...notice,
+      _id: petId,
+    };
+  
     if (isFavorite) {
-      dispatch(removeFavorite([petId])); // або просто [petId], якщо вже string
-      console.log("Removed from favorites:", petId);
+      // Тут має бути removeFavorite, додамо його пізніше
+      console.log("Pet is already in favorites — remove logic needed");
     } else {
-      const cleanedNotice: FavoriteResponse = {
-        ...notice,
-        _id: petId,
-      };
-      dispatch(addFavorite([cleanedNotice]));
-      console.log("Added to favorites:", cleanedNotice);
-    }
+      dispatch(addFavorite({ id: petId, favorites: cleanedNotice }));
+      console.log("Added to favorites:", JSON.stringify(cleanedNotice));
+    };
 };
 
-    const handleClick = () => {
+const handleClick = () => {
       openModal(
         <ModalWindow
           isOpen={true}
