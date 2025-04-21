@@ -50,13 +50,16 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       );
       return;
     }  
-
     if (isFavorite) {
-      dispatch(removeFavorite([petId.toString()]));
+      dispatch(removeFavorite([petId])); // або просто [petId], якщо вже string
       console.log("Removed from favorites:", petId);
     } else {
-      dispatch(addFavorite([notice])); 
-      console.log("Added to favorites:", notice._id);
+      const cleanedNotice: FavoriteResponse = {
+        ...notice,
+        _id: petId,
+      };
+      dispatch(addFavorite([cleanedNotice]));
+      console.log("Added to favorites:", cleanedNotice);
     }
 };
 
