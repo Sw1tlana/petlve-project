@@ -148,6 +148,7 @@ interface GetNoticesResponse {
 
 export const getNotices = async (): Promise<Pet[]> => {
   const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
+  console.log("Received response from API:", data); 
   return data.data.favorite;
 };
 

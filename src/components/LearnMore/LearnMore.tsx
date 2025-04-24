@@ -8,7 +8,7 @@ import { useDispatch,
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { Pet } from '../../reduce/notices/slice';
-import { selectFavoritePet } from '../../reduce/notices/selectors';
+import { selectFavoritePets } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
 import { addFavorite } from '../../reduce/notices/operations';
@@ -31,10 +31,10 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const favoritePet = useSelector(selectFavoritePet) || [];
-  
+  const favoritePets = useSelector(selectFavoritePets) || [];
+
   const petId = String(notice._id); 
-  const isFavorite = favoritePet.some(pet => String(pet._id) === petId);
+  const isFavorite = favoritePets.some((pet: Pet) => String(pet._id) === petId);
   
   const handleFavoriteClick = () => {
     if (!isLoggeding) {

@@ -1,12 +1,12 @@
 import style from '../../scss/components/_myFavorite.module.scss';
-import { selectFavoritePet } from '../../reduce/notices/selectors';
+import { selectFavoritePets } from '../../reduce/notices/selectors';
 import { useSelector } from 'react-redux';
 import LearnMore from '../LearnMore/LearnMore';
 import { Pet } from '../../reduce/notices/slice';
 import icons from '../../shared/icons/sprite.svg';
 
 function MyFavorite() {
-  const favoritePets = useSelector(selectFavoritePet);
+  const favoritePets = useSelector(selectFavoritePets);
 
   return (
     <>

@@ -22,7 +22,7 @@ export interface Pet {
 
   interface State {
     items: Pet[];
-    favoritePet: Pet[];
+    favoritePets: Pet[];
     error: boolean | null;
     loading: boolean;  
   };
@@ -31,7 +31,7 @@ export interface Pet {
     items: [],
     error: null,
     loading: false,
-    favoritePet: [],
+    favoritePets: [],
   };
 
     export const noticesSlice = createSlice({
@@ -58,8 +58,10 @@ export interface Pet {
             state.error = null; 
           })
             .addCase(addFavorite.fulfilled, (state, action: PayloadAction<Pet[]>) => {
+            console.log(action.payload);
             state.loading = false;
-            state.favoritePet.push(...action.payload);
+            state.favoritePets.push(...action.payload);
+            console.log(action.payload);
             state.error = null;
           })
             .addCase(addFavorite.rejected, (state) => {

@@ -1,21 +1,9 @@
-import { Pet } from "./slice";
-
-interface NoticesState {
-    items: Pet[];
-    favoritePet: Pet[];
-    isLoggedIn: boolean;
-    error: string | null;
-  };
-
-
-  interface RootState {
-    notices: NoticesState;
-  }
+import { RootState } from "../store";
 
 export const selectItemsNotices = (state: RootState) => state.notices.items;
-export const selectFavoritePet = (state: RootState) => state.notices.favoritePet;
 
+export const selectFavoritePets = (state: RootState) => state.notices.favoritePets;
 
-export const selectIsLoggedINotices = (state: RootState) => state.notices.isLoggedIn;
+export const selectIsLoggedINotices = (state: RootState) => state.notices.loading;
 
- export const selectErrorNotices = (state: RootState) => state.notices.error;
+export const selectErrorNotices = (state: RootState) => state.notices.error;
