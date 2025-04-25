@@ -12,7 +12,7 @@ import { Pet } from '../../reduce/notices/slice';
 function NoticesList() {
     const loading = useSelector(selectIsLoggedINotices);
     const notices = useSelector(selectItemsNotices);
-    console.log('Received notices:', notices);
+    console.log(typeof notices);
 
     const dispatch = useDispatch<AppDispatch>();
 
