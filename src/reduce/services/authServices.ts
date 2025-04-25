@@ -145,7 +145,7 @@ interface GetNoticesResponse {
 
 export interface FavoriteRequest {
   id: string;
-  favorites: Pet[];
+  data: { favorites: Pet[] };
 }
 
 export const getNotices = async (): Promise<Pet[]> => {
@@ -155,10 +155,10 @@ export const getNotices = async (): Promise<Pet[]> => {
 };
 
 export const getFavorites = async (id: string, favorites: object): Promise<Pet[]> => {
-  const { data } : { data: FavoriteRequest } = await axios.post(`/notices/favorites/add/${id}`, favorites );
+  const { data } : { data: FavoriteRequest } = await axios.post(`/notices/favorites/add/${id}`, favorites);
 
   console.log("Favorite response from API:", data); 
-  return data.favorites;
+  return data.data.favorites;
 };
 
 

@@ -25,7 +25,7 @@ interface IModalContextType {
 
 function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
 
-  const isLoggeding = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const { openModal, closeModal } = useModalContext() as IModalContextType;
 
@@ -40,7 +40,7 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
   const isFavorite = favoritePets.some((pet: Pet) => String(pet._id) === petId);
   
   const handleFavoriteClick = async() => {
-    if (!isLoggeding) {
+    if (!isLoggedIn) {
       openModal(
         <ModalWindow
           isOpen={true}
@@ -53,18 +53,18 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       return;
     }  
 
-    const cleanedNotice = {
-      ...notice,
-      _id: petId,
-    };
+    // const cleanedNotice = {
+    //   ...notice,
+    //   _id: petId,
+    // };
   
     try {
       if (isFavorite) {
         // Тут має бути removeFavorite, додамо його пізніше
         console.log("Pet is already in favorites — remove logic needed");
       } else {
-        await dispatch(addFavorite({ id: notice._id, favorites: [cleanedNotice] }));
-        console.log("Added to favorites:", JSON.stringify(cleanedNotice));
+        await dispatch(addFavorite({ id: notice._id, favorites: notice }));
+        console.log("Added to favorites:", JSON.stringify(notice));
       }
     } catch (error) {
       console.error("Error handling favorite click:", error);
@@ -78,7 +78,7 @@ const handleClick = () => {
           onRequestClose={closeModal}
           isBurgerMenu={isBurgerMenu}
         >
-      {isLoggeding ? (
+      {isLoggedIn ? (
         <ModalNotices notice={notice} isBurgerMenu={isBurgerMenu} />
       ) : (
         <ModalAttention />

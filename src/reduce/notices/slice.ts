@@ -60,7 +60,7 @@ export interface Pet {
             .addCase(addFavorite.fulfilled, (state, action: PayloadAction<Pet[]>) => {
             console.log(action.payload);
             state.loading = false;
-            state.favoritePets.push(...action.payload);
+            state.favoritePets = [...state.favoritePets, ...action.payload];
             console.log(action.payload);
             state.error = null;
           })
