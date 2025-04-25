@@ -140,21 +140,25 @@ export const getNews = async (): Promise<News[]> => {
 
 interface GetNoticesResponse {
   success: boolean;
-  data: {
-    favorite: Pet[]; 
-  };
-}
+  data: Pet[]; 
+};
 
+export interface FavoriteRequest {
+  id: string;
+  favorites: Pet[];
+}
 
 export const getNotices = async (): Promise<Pet[]> => {
   const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
   console.log("Received response from API:", data); 
-  return data.data.favorite;
+  return data.data;
 };
 
 export const getFavorites = async (id: string, favorites: object): Promise<Pet[]> => {
-  const { data } : { data: GetNoticesResponse } = await axios.post(`/notices/favorites/add:${id}`, favorites );
-  return data.data.favorite;
+  const { data } : { data: FavoriteRequest } = await axios.post(`/notices/favorites/add/${id}`, favorites );
+
+  console.log("Favorite response from API:", data); 
+  return data.favorites;
 };
 
 

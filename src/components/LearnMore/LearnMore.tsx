@@ -59,7 +59,7 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       // Тут має бути removeFavorite, додамо його пізніше
       console.log("Pet is already in favorites — remove logic needed");
     } else {
-      dispatch(addFavorite({ id: petId, favorites: cleanedNotice }));
+      dispatch(addFavorite({ id: notice._id, favorites: [cleanedNotice] }));
       console.log("Added to favorites:", JSON.stringify(cleanedNotice));
     };
 };

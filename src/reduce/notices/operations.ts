@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getFavorites, getNotices } from '../services/authServices';
+import { FavoriteRequest, getFavorites, getNotices } from '../services/authServices';
 import { Pet } from './slice';
 
 export const fetchNotices = createAsyncThunk<Pet[], void>(
@@ -19,19 +19,17 @@ export const fetchNotices = createAsyncThunk<Pet[], void>(
         }
     );
 
- export const addFavorite = createAsyncThunk<Pet[], { id: string, favorites: object }>(
-  'notices/addFavorites',
-  async({ id, favorites }, thunkAPI) => {
-    try {
-      const response: Pet[] = await getFavorites(id, favorites);
-      return response;
-
-    }catch(err) {
-      if (err instanceof Error) {
-        return thunkAPI.rejectWithValue(err.message);
+    export const addFavorite = createAsyncThunk<Pet[], FavoriteRequest>(
+      'notices/addFavorites',
+      async ({ id, favorites }: FavoriteRequest, thunkAPI) => {
+        try {
+          const response: Pet[] = await getFavorites(id, favorites);
+          return response;
+        } catch (err) {
+          if (err instanceof Error) {
+            return thunkAPI.rejectWithValue(err.message);
+          }
+          return thunkAPI.rejectWithValue('Notices failed');
+        }
       }
-      return thunkAPI.rejectWithValue('Notices failed');
-    }
-  }
-);
-
+    );
