@@ -6,6 +6,7 @@
 
 .containerFavoriteProfile {
     display: flex;
+    align-self: start;
     gap: 8px;
 }
 
@@ -157,4 +158,13 @@
         width: 380px;
         height: 240px;
       }
+
+      .containerFavoriteProfile {
+       margin-top: 40px;
+    }
+
+    .sectionFavorite {
+        display: flex;
+        flex-direction: column;
+    }
 }

@@ -54,5 +54,11 @@
 @include mx.mq('lg') {
     .profileContainer {
         width: 520px;
+        align-self: start;
+    }
+
+    .sectionProfile {
+        display: flex;
+        gap: 32px;
     }
 }

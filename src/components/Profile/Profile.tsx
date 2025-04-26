@@ -8,9 +8,10 @@ import UserBlock from '../UserBlock/UserBlock';
 import UserNav from '../UserNav/UserNav';
 
 function Profile() {
+  
   return (
-    <section>
         <Container>
+          <section className={style.sectionProfile}>
             <div className={style.profileContainer}>
               <div className={style.containerBtnUser}>
                 <div className={style.user}>
@@ -31,8 +32,8 @@ function Profile() {
           <UserNav/> 
           </div>
           <MyFavorite/>
+          </section>
         </Container>
-    </section>
   )
 };
 

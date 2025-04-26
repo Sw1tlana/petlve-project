@@ -20,14 +20,14 @@ export interface Pet {
   popularity: number;
 }
 
-  interface State {
+export interface NoticesState {
     items: Pet[];
     favoritePets: Pet[];
     error: boolean | null;
     loading: boolean;  
   };
 
-  const INITIAL_STATE: State = {
+  const INITIAL_STATE: NoticesState = {
     items: [],
     error: null,
     loading: false,

@@ -21,9 +21,10 @@ interface IModalContextType {
   interface ModalNoticesProps {
     isBurgerMenu: boolean;
     notice: Pet;
+    onViewed?: () => void;
   };
 
-function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
+function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -52,13 +53,16 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
     }  
 
     if (isFavorite) {
-      dispatch(removeFavorite(petId)); // Використовуємо petId
+      dispatch(removeFavorite(petId)); 
     } else {
-      dispatch(addFavorite(notice)); // Використовуємо об'єкт Pet
+      dispatch(addFavorite(notice));
     }
 };
 
 const handleClick = () => {
+  if (onViewed) {
+    onViewed(); 
+  }
       openModal(
         <ModalWindow
           isOpen={true}

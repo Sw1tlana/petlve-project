@@ -1,32 +1,21 @@
-import { useEffect } from 'react';
-import style from '../../scss/components/_noticesList.module.scss';
-import LearnMore from '../LearnMore/LearnMore';
-import { fetchNotices } from '../../reduce/notices/operations';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
-import { AppDispatch } from '../../reduce/store';
+import style from '../../scss/components/_viewed.module.scss';
 import icons from '../../shared/icons/sprite.svg';
-import { Pet } from '../../reduce/notices/slice';
 
-function NoticesList() {
-    const loading = useSelector(selectIsLoggedINotices);
-    const notices = useSelector(selectItemsNotices);
-    console.log(typeof notices);
+import { Pet } from "../../reduce/notices/slice";
+import LearnMore from '../LearnMore/LearnMore';
 
-    const dispatch = useDispatch<AppDispatch>();
+interface ViewedProps {
+    viewedItems: Pet[];
+    onViewed: (pet: Pet) => void;
+  };
 
-useEffect(() => {
-  dispatch(fetchNotices());
-}, [dispatch]);
-
+const Viewed: React.FC<ViewedProps> = ({ viewedItems, onViewed }) => {
   return (
-    <div>     
-      {!loading && Array.isArray(notices) && notices.length > 0 && (
-        <ul className={style.noticesList}>
-          {notices.map((noticeItem: Pet, index: number) => {
-            return (
-              <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
-                <img
+    <>
+      <ul>
+        {viewedItems.map((noticeItem, index: number) => (
+          <li key={`${noticeItem._id}-${index}`}>
+            <img
                   src={noticeItem.imgURL}
                   alt={noticeItem.title}
                   className={style.noticesImage}
@@ -65,15 +54,16 @@ useEffect(() => {
                 <p className={style.price}>${noticeItem.price}</p>
 
                 <div>
-                  <LearnMore notice={noticeItem} isBurgerMenu={false}/>
+                  <LearnMore 
+                        notice={noticeItem} 
+                        isBurgerMenu={false}
+                        onViewed={() => onViewed(noticeItem)}/>
                 </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
+          </li>
+        ))}
+      </ul>
+    </>
   )
 };
 
-export default NoticesList;
+export default Viewed;

@@ -1,11 +1,4 @@
-import { Pet } from "./slice";
-
-interface NoticesState {
-    items: Pet[];
-    favoritePets: Pet[];
-    error: boolean | null;
-    loading: boolean;  
-  }
+import { NoticesState } from "./slice";
   
   interface RootState {
     notices: NoticesState;
