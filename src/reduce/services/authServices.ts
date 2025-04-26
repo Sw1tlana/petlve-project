@@ -22,7 +22,7 @@ export const clearAuthHeader = () => {
           originalRequest._retry = true;
           try {
             const { refreshToken } = store.getState().auth;
-            const { data } = await axios.post('/user/refresh-tokens', { refreshToken });
+            const { data } = await axios.post('/users/refresh-tokens', { refreshToken });
     
             setAuthHeader(data.token);
             console.log("Data-token", data.token);
@@ -154,11 +154,5 @@ export const getNotices = async (): Promise<Pet[]> => {
   return data.data;
 };
 
-export const getFavorites = async (id: string, favorites: object): Promise<Pet[]> => {
-  const { data } : { data: FavoriteRequest } = await axios.post(`/notices/favorites/add/${id}`, favorites);
-
-  console.log("Favorite response from API:", data); 
-  return data.data.favorites;
-};
 
 

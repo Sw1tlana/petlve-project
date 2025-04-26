@@ -7,11 +7,11 @@ import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
-import { Pet } from '../../reduce/notices/slice';
+import { addFavorite, Pet, removeFavorite } from '../../reduce/notices/slice';
 import { selectFavoritePets } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
-import { addFavorite } from '../../reduce/notices/operations';
+
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
@@ -32,10 +32,8 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const favoritePets = useSelector(selectFavoritePets) || [];
+
   const petId = notice._id && notice._id.toString ? notice._id.toString() : String(notice._id);
-  console.log("notice._id:", notice._id);  // Покажіть значення _id
-  console.log("Type of notice._id:", typeof notice._id);  // Покажіть тип _id
-  console.log("petId:", petId);  // Перевірте кінцеве значення petId
 
   const isFavorite = favoritePets.some((pet: Pet) => String(pet._id) === petId);
   
@@ -53,21 +51,10 @@ function LearnMore({ notice, isBurgerMenu }: ModalNoticesProps) {
       return;
     }  
 
-    // const cleanedNotice = {
-    //   ...notice,
-    //   _id: petId,
-    // };
-  
-    try {
-      if (isFavorite) {
-        // Тут має бути removeFavorite, додамо його пізніше
-        console.log("Pet is already in favorites — remove logic needed");
-      } else {
-        await dispatch(addFavorite({ id: notice._id, favorites: notice }));
-        console.log("Added to favorites:", JSON.stringify(notice));
-      }
-    } catch (error) {
-      console.error("Error handling favorite click:", error);
+    if (isFavorite) {
+      dispatch(removeFavorite(petId)); // Використовуємо petId
+    } else {
+      dispatch(addFavorite(notice)); // Використовуємо об'єкт Pet
     }
 };
 

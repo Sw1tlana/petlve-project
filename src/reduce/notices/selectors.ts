@@ -1,4 +1,15 @@
-import { RootState } from "../store";
+import { Pet } from "./slice";
+
+interface NoticesState {
+    items: Pet[];
+    favoritePets: Pet[];
+    error: boolean | null;
+    loading: boolean;  
+  }
+  
+  interface RootState {
+    notices: NoticesState;
+  }
 
 export const selectItemsNotices = (state: RootState) => state.notices.items;
 
