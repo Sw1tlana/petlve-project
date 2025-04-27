@@ -1,32 +1,53 @@
 import favoriteStyle from '../../scss/components/_myFavorite.module.scss';
 import { selectFavoritePets, selectViewedItems } from '../../reduce/notices/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LearnMore from '../LearnMore/LearnMore';
-import { Pet } from '../../reduce/notices/slice';
 import icons from '../../shared/icons/sprite.svg';
+import { useState } from 'react';
+import Viewed from '../Viewed/Viewed';
+import { removeViewedItem, Pet } from '../../reduce/notices/slice';
 
 function MyFavorite() {
   const favoritePets = useSelector(selectFavoritePets);
   const viewedItems = useSelector(selectViewedItems);
-  console.log('Viewed items from Redux:', viewedItems);
+
+  const dispatch = useDispatch();
+
+  const [showViewed, setShowViewed] = useState(false);
+
+    const toggleViewed = () => {
+      setShowViewed(!showViewed);
+    };
+
+    const handleViewedItemClick = (pet: Pet) => {
+      dispatch(removeViewedItem(pet._id));
+    };
 
   return (
     <section className={favoriteStyle.sectionFavorite}>
       <div className={favoriteStyle.containerFavoriteProfile}>
-        <button className={`btn btn--primary ${favoriteStyle.btnFavorite}`} type="button">
+        <button 
+            className={`btn btn--primary ${favoriteStyle.btnFavorite}`} 
+            type="button" 
+            onClick={() => setShowViewed(false)}>
           My favorite pets
         </button>
-        <button className={`btn btn--primary ${favoriteStyle.btnViewed}`} type="button">
+        <button 
+            className={`btn btn--primary ${favoriteStyle.btnViewed}`} 
+            type="button" 
+            onClick={toggleViewed}>
           Viewed
         </button>
       </div>
-        {Array.isArray(favoritePets) && favoritePets.length > 0 && (
+
+      {showViewed ? (  
+        <Viewed viewedItems={viewedItems} onViewed={handleViewedItemClick}/>
+      ) : (
+
+        Array.isArray(favoritePets) && favoritePets.length > 0 && (
           <ul className={favoriteStyle.noticesList}>
             {favoritePets.map((noticeItem: Pet, index: number) => (
-              <li
-                className={favoriteStyle.noticesItem}
-                key={`${noticeItem._id}-${index}`}
-              >
+              <li className={favoriteStyle.noticesItem} key={`${noticeItem._id}-${index}`}>
                 <img
                   src={noticeItem.imgURL}
                   alt={noticeItem.title}
@@ -44,18 +65,38 @@ function MyFavorite() {
                   <p className={favoriteStyle.description}>
                     <span className={favoriteStyle.spanDescription}>Name: </span>{noticeItem.name}
                   </p>
-                 
+                  <p className={favoriteStyle.description}>
+                  <span className={favoriteStyle.spanDescription}>Birthday</span>
+                  {noticeItem.birthday}
+                </p>
+                <p className={favoriteStyle.description}>
+                  <span className={favoriteStyle.spanDescription}>Sex</span>
+                  {noticeItem.sex}
+                </p>
+                <p className={favoriteStyle.description}>
+                  <span className={favoriteStyle.spanDescription}>Species</span>
+                  {noticeItem.species}
+                </p>
+                <p className={favoriteStyle.description}>
+                  <span className={favoriteStyle.spanDescription}>Category</span>
+                  {noticeItem.category}
+                </p>
                 </div>
                 <p className={favoriteStyle.comment}>{noticeItem.comment}</p>
                 <p className={favoriteStyle.price}>${noticeItem.price}</p>
 
                 <div>
-                  <LearnMore key={String(noticeItem._id)} notice={noticeItem} isBurgerMenu={false}/>
+                  <LearnMore 
+                      key={String(noticeItem._id)} 
+                      notice={noticeItem} 
+                      isBurgerMenu={false} 
+                  />
                 </div>
               </li>
             ))}
           </ul>
-        )}
+        )
+      )}
     </section>
   )};
   

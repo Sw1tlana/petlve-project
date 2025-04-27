@@ -59,9 +59,9 @@ export interface NoticesState {
             console.log(newPet);
           }
         },
-        clearViewedItems(state) {
-          state.viewedItems = [];
-        },
+        removeViewedItem(state, action: PayloadAction<string>) {
+          state.viewedItems = state.viewedItems.filter(pet => pet._id !== action.payload);
+        }
       },
       extraReducers: (builder) => {
         builder
@@ -85,7 +85,7 @@ export interface NoticesState {
                 addFavorite, 
                 removeFavorite,
                 addViewedItems,
-                clearViewedItems
+                removeViewedItem
     } = noticesSlice.actions;
 
     export const noticesReducer = noticesSlice.reducer;
