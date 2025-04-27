@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import style from '../../scss/components/_noticesList.module.scss';
 import LearnMore from '../LearnMore/LearnMore';
 import { fetchNotices } from '../../reduce/notices/operations';
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
-import { Pet } from '../../reduce/notices/slice';
+import { addViewedItems, Pet } from '../../reduce/notices/slice';
 
 function NoticesList() {
     const loading = useSelector(selectIsLoggedINotices);
@@ -15,9 +15,26 @@ function NoticesList() {
 
     const dispatch = useDispatch<AppDispatch>();
 
+     const [showViewed, setShowViewed] = useState<boolean>(false);
+
 useEffect(() => {
   dispatch(fetchNotices());
-}, [dispatch]);  
+}, [dispatch]); 
+
+  const handleMarkAsViewed = (pet: Pet) => {
+    console.log('Adding pet to viewed items:', pet);
+   dispatch(addViewedItems(pet));
+   console.log('Adding pet to viewed items:', pet);
+   setShowViewed(true);
+  };
+
+  const toggleViewed = () => {
+    setShowViewed(!showViewed);
+  };
+
+  const handleClick = () => {
+     setShowViewed(false);
+  };
 
   return (
     <div> 
@@ -66,7 +83,7 @@ useEffect(() => {
                 <p className={style.price}>${noticeItem.price}</p>
 
                 <div>
-                  <LearnMore notice={noticeItem} isBurgerMenu={false}/>
+                  <LearnMore notice={noticeItem} isBurgerMenu={false} onViewed={handleMarkAsViewed}/>
                 </div>
               </li>
             );

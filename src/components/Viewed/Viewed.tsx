@@ -8,7 +8,7 @@ interface ViewedProps {
     onViewed: (pet: Pet) => void;
   };
 
-const Viewed: React.FC<ViewedProps> = ({ viewedItems }) => {
+const Viewed: React.FC<ViewedProps> = ({ viewedItems, onViewed  }) => {
   return (
     <>
 {viewedItems.length === 0 ? (
@@ -16,7 +16,7 @@ const Viewed: React.FC<ViewedProps> = ({ viewedItems }) => {
 ) : (
   <ul className={style.viewedList}>
     {viewedItems.map((noticeItem: Pet) => (
-      <li key={noticeItem._id} className={style.viewedItem}>
+      <li key={noticeItem._id} className={style.viewedItem} onClick={() => onViewed(noticeItem)}>
             <img
             src={noticeItem.imgURL}
             alt={noticeItem.title}

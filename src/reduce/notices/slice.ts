@@ -52,9 +52,11 @@ export interface NoticesState {
           state.favoritePets = state.favoritePets.filter((pet) => pet._id !== petId);
         },
         addViewedItems(state, action: PayloadAction<Pet>) {
-          if(!state.viewedItems.some(item => item._id === action.payload._id)) {
-            state.viewedItems.push(action.payload);
-            console.log('After adding:', state.viewedItems);
+          const newPet = action.payload;
+           console.log(action.payload);
+          if (!state.viewedItems.some((pet) => pet._id === newPet._id)) {
+            state.viewedItems.push(newPet);
+            console.log(newPet);
           }
         },
         clearViewedItems(state) {
