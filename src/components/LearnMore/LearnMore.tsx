@@ -21,7 +21,7 @@ interface IModalContextType {
   interface ModalNoticesProps {
     isBurgerMenu: boolean;
     notice: Pet;
-    onViewed?: () => void;
+    onViewed?: (pet: Pet) => void;
   };
 
 function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
@@ -61,7 +61,7 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
 
 const handleClick = () => {
   if (onViewed) {
-    onViewed(); 
+    onViewed(notice); 
   }
       openModal(
         <ModalWindow

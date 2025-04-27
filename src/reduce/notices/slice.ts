@@ -23,6 +23,7 @@ export interface Pet {
 export interface NoticesState {
     items: Pet[];
     favoritePets: Pet[];
+    viewedItems: Pet[];
     error: boolean | null;
     loading: boolean;  
   };
@@ -32,6 +33,7 @@ export interface NoticesState {
     error: null,
     loading: false,
     favoritePets: [],
+    viewedItems: [],
   };
 
     export const noticesSlice = createSlice({
@@ -48,7 +50,16 @@ export interface NoticesState {
         removeFavorite(state, action: PayloadAction<string>) {  
           const petId = action.payload;  
           state.favoritePets = state.favoritePets.filter((pet) => pet._id !== petId);
-        }
+        },
+        addViewedItems(state, action: PayloadAction<Pet>) {
+          if(!state.viewedItems.some(item => item._id === action.payload._id)) {
+            state.viewedItems.push(action.payload);
+            console.log('After adding:', state.viewedItems);
+          }
+        },
+        clearViewedItems(state) {
+          state.viewedItems = [];
+        },
       },
       extraReducers: (builder) => {
         builder
@@ -68,6 +79,11 @@ export interface NoticesState {
   
     });
 
-    export const {addFavorite, removeFavorite} = noticesSlice.actions;
+    export const {
+                addFavorite, 
+                removeFavorite,
+                addViewedItems,
+                clearViewedItems
+    } = noticesSlice.actions;
 
     export const noticesReducer = noticesSlice.reducer;

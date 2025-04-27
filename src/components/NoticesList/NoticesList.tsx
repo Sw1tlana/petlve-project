@@ -17,12 +17,13 @@ function NoticesList() {
 
 useEffect(() => {
   dispatch(fetchNotices());
-}, [dispatch]);
+}, [dispatch]);  
 
   return (
-    <div>     
+    <div> 
+      
       {!loading && Array.isArray(notices) && notices.length > 0 && (
-        <ul className={style.noticesList}>
+        <ul className={style.noticesList}>   
           {notices.map((noticeItem: Pet, index: number) => {
             return (
               <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
