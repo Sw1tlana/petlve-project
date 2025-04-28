@@ -3,7 +3,7 @@ import ModalWindow from '../shared/components/ModalWindow/ModalWindow';
 
 interface ModalContextType {
   isOpen: boolean;
-  openModal: (content: ReactNode) => void;
+  openModal: (content: ReactNode, burgerMenu?: boolean) => void;
   closeModal: () => void;
   modalContent: ReactNode | null;
   isBurgerMenu: boolean;

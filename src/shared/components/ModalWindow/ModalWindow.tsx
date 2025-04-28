@@ -40,15 +40,15 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
   shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
   style={{
     overlay: {
-      backgroundColor: isBurgerMenu ? 'transparent' : 'rgba(47, 47, 47, 0.6)',
-      zIndex: '15',
-      overflow: 'auto',
-      display: 'grid',
+        display: 'grid',
+        placeItems: 'center',
+        backgroundColor: isBurgerMenu ? 'transparent' : 'rgba(47, 47, 47, 0.6)',
+        zIndex: '15',
+        overflow: 'auto',
     },
   }}
-      className={`${style.modalContent} 
-      ${isOpen ? style.modalContentOpen : style.beforeClose}
-      ${isBurgerMenu ? style.modalContent : style.noticeContent}`}
+  className={`${isBurgerMenu ? style.modalContent : style.noticeContent} 
+  ${isOpen ? style.modalContentOpen : style.beforeClose}`}
 >
   <button onClick={onRequestClose} className={isBurgerMenu ? style.closeButton : style.closeBtn}>
     <svg className={isBurgerMenu ? style.iconClose : style.iconCloseBtn} width={26} height={26}>

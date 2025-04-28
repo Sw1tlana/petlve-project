@@ -13,6 +13,19 @@
     }
 }
 
+.noticeContent {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .modalContent {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+
 .closeButton {
     position: absolute;
     top: 20px;
@@ -30,7 +43,7 @@
     background-color: transparent;
      position: relative;
      top: 50px;
-     left: 280px;
+     right: 20px;
 
     animation: fadeInScale 1s ease-in-out;
 

@@ -31,7 +31,7 @@
     z-index: 9;
 }
 
-.textModal {
+.titleModal {
     @extend %text;
 
     font-size: 20px;
@@ -55,4 +55,15 @@
 .btnModalLogout:focus {
     color: fn.get-color('dark-primary');
     background-color: fn.get-color('dark-secondary');
+}
+
+@include mx.mq('md') {
+    .containerModal {
+        width: 448px;
+        height: 364px;
+    }
+
+    .titleModal {   
+        font-size: 24px;
+    }
 }
