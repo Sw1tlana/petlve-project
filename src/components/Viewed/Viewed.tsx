@@ -1,4 +1,5 @@
 import favoriteStyle from '../../scss/components/_myFavorite.module.scss';
+import style from '../../scss/components/_viewed.module.scss';
 
 import { Pet } from "../../reduce/notices/slice";
 import LearnMore from '../LearnMore/LearnMore';
@@ -13,7 +14,11 @@ const Viewed: React.FC<ViewedProps> = ({ viewedItems, onViewed  }) => {
   return (
     <>
 {viewedItems.length === 0 ? (
-  <p>No items viewed yet.</p>
+      <p className={style.descriptionFavorite}>
+        Oops,<span className={style.textSpan}> looks like there aren't any furries </span>on our adorable page yet. 
+        Do not worry! View your pets on the "find your favorite pet" 
+        page and add them to your favorites. <span className={style.notifySpan}>🐾</span>
+      </p>
 ) : (
   <ul className={favoriteStyle.noticesList}>
     {viewedItems.map((noticeItem: Pet) => (

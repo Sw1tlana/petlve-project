@@ -1,0 +1,58 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.containerModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 335px;
+    height: 270px;
+    border-radius: 30px;
+    background-color: fn.get-color('light');
+}
+
+.avatar {
+    @include mx.frame(80px, 80px, true);
+    
+    background-color: fn.get-color('accent-secondary');
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.iconAvatar {
+    fill: fn.get-color('light');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+}
+
+.textModal {
+    @extend %text;
+
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.containerBtn {
+    display: flex;
+    gap: 8px; 
+}
+
+.btnModalLogout {
+    text-transform: capitalize;
+    font-size: 14px;
+    width: 134px;
+}
+
+.btnModalLogout:active,
+.btnModalLogout:hover,
+.btnModalLogout:focus {
+    color: fn.get-color('dark-primary');
+    background-color: fn.get-color('dark-secondary');
+}

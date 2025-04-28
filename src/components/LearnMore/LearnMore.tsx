@@ -55,7 +55,7 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
     if (isFavorite) {
       dispatch(removeFavorite(petId)); 
     } else {
-      dispatch(addFavorite(notice));
+      dispatch(addFavorite(notice));     
     }
 };
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { fetchNotices } from "./operations";
+import { toast } from 'react-hot-toast';
 
 export interface Pet {
   _id: string;
@@ -44,23 +45,25 @@ export interface NoticesState {
         addFavorite(state, action: PayloadAction<Pet>) {
           const newPet = action.payload;
           if (!state.favoritePets.some((pet) => pet._id === newPet._id)) {
-            state.favoritePets.push(newPet); 
+            state.favoritePets.push(newPet);
+            toast.success('Pet added to favorites ❤️'); 
           }
         },
         removeFavorite(state, action: PayloadAction<string>) {  
           const petId = action.payload;  
           state.favoritePets = state.favoritePets.filter((pet) => pet._id !== petId);
+          toast.error('Animal removed from favorites 🗑️'); 
         },
         addViewedItems(state, action: PayloadAction<Pet>) {
           const newPet = action.payload;
-           console.log(action.payload);
           if (!state.viewedItems.some((pet) => pet._id === newPet._id)) {
             state.viewedItems.push(newPet);
-            console.log(newPet);
+            toast.success('Pet added to viewed items 👀');
           }
         },
         removeViewedItem(state, action: PayloadAction<string>) {
           state.viewedItems = state.viewedItems.filter(pet => pet._id !== action.payload);
+          toast.error('Pet removed from viewed items ❌');
         }
       },
       extraReducers: (builder) => {

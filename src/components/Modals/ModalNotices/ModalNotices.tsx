@@ -5,6 +5,9 @@ import icons from '../../../shared/icons/sprite.svg';
 
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../reduce/store';
+import { addFavorite } from '../../../reduce/notices/slice';
 
 interface NoticeType {
     _id: string;
@@ -31,10 +34,16 @@ interface NoticeCardProps {
 
 function ModalNotices({ notice }: NoticeCardProps) {
   const [value, setValue] = useState<number | null>(1);
+
+  const dispatch = useDispatch<AppDispatch>();
   
   useEffect(() => {
     setValue(notice.popularity);
   }, [notice.popularity]);
+
+  const handleClick = () => {
+    dispatch(addFavorite(notice));
+  }
 
   return (
     <div className={style.containerNotices}>
@@ -84,7 +93,10 @@ function ModalNotices({ notice }: NoticeCardProps) {
       <p className={style.comment}>{notice.comment}</p>
       <p className={style.price}>${notice.price}</p>
         <div className={style.containerBtn}>
-          <button className={`btn btn--primary ${style.btnCard}`} type='button'>
+          <button 
+              onClick = {handleClick}
+              className={`btn btn--primary ${style.btnCard}`} 
+              type='button'>
             Add to
             <svg width={18} height={18} className={style.iconHeart}>
               <use xlinkHref={`${icons}#icon-heart`} />

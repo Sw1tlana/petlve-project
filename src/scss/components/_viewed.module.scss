@@ -2,3 +2,25 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
+
+.descriptionFavorite {
+    @extend %text;
+
+    font-size: 16px;
+    text-align: center;
+    padding: 180px 20px;
+}
+
+.textSpan {
+   color: fn.get-color('accent-primary');
+}
+
+.notifySpan {
+    font-size: 40px;
+ }
+
+@include mx.mq('md') {
+    .descriptionFavorite {
+        padding: 180px 150px;
+    }
+}
