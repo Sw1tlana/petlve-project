@@ -17,4 +17,10 @@ export const editInformationSchema = Yup.object().shape({
     phone: Yup.string()
         .matches(isValidPhoneNumber,"Invalid phone number")
         .required("Required"),
+        photoUrl: Yup.string()
+        .url("Invalid URL format")
+        .nullable(),
+    
+    uploadPhoto: Yup.mixed()
+        .nullable(),
 });

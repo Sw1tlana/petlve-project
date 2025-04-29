@@ -10,9 +10,10 @@ import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { formValuesEditInform } from '../../../helpers/contacts';
 
 // interface formData {
+//   photoUrl?: string | null;
+//   uploadPhoto?: File | null;
 //   name: string;
 //   email: string;
-//   password: string;
 //   phone: string;
 // }
 
@@ -22,8 +23,10 @@ function ModalEditInformation() {
     const nameId = useId();
     const emailId = useId();
     const phoneId = useId();
+    const photoUrl = useId();
+    const uploadPhoto = useId();
 
-      const { register, watch, formState: { errors } } = useForm({
+      const { register, watch, formState: { errors }, } = useForm({
          defaultValues: formValuesEditInform,
          resolver: yupResolver(editInformationSchema),
           mode: 'onTouched'
@@ -34,7 +37,7 @@ function ModalEditInformation() {
       const emailValue = watch('email');
 
           // const onSubmit = (data: formData) => {
-          //   dispatch();
+          //   console.log(data);
           //   reset();
           // };
 
@@ -46,8 +49,44 @@ function ModalEditInformation() {
                 <use xlinkHref={`${icons}#icon-avatar`} />
             </svg>
         </div>
-        <form>
-        <div className={style.iconContainerAuth}>
+        <form className={style.formContainer}>
+          <div className={style.containerUpload}>
+              <div>
+                <input
+                        id={photoUrl}
+                        type="url"
+                        className={`input input--secondary ${style.inputUrl}`}
+                        placeholder="https://ftp.goit.study/img/pets/5.webp"
+                        {...register("photoUrl")}
+                        autoComplete="off"
+                        aria-required="true"
+                      />
+                      {errors.photoUrl?.message && 
+                      (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
+                    </div>
+          
+                    <div className={style.uploadInput}>
+                      <input
+                        id={uploadPhoto}
+                        type="file"
+                        {...register("uploadPhoto")}
+                        aria-required="true"
+                        style={{ display: "none" }} 
+                      />
+                        <button type="button"  
+                        className={`input input--secondary ${style.uploadButton}`}>
+                          <span className={style.spanBtn}>Uploat photo</span>
+                        </button>
+                      {errors.uploadPhoto?.message && (
+                        <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
+                      )}
+                      <svg width={20} height={20} className={style.iconUpload}>
+                        <use xlinkHref={`${icons}#icon-upload-cloud`} />
+                      </svg>
+                    </div>
+                  </div>
+
+                    <div className={style.iconContainerAuth}>
                         <input
                         id={nameId}
                         type="name"
@@ -122,7 +161,7 @@ function ModalEditInformation() {
                           <input
                           id={phoneId}
                            className={`input input--secondary ${!errors.phone && phoneValue ? style.validPhone : ''}`}
-                          placeholder="Phone number"
+                          placeholder="+380 65 669 12 24"
                           {...register('phone')}
                           autoComplete="phone"
                           aria-required="true"
@@ -155,7 +194,7 @@ function ModalEditInformation() {
                     </div>
 
                     <button 
-                        className="btn btn--primary" 
+                        className={`btn btn--primary ${style.btnProfile}`} 
                         type="submit">
                           Go to profile
                     </button>

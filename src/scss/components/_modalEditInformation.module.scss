@@ -5,8 +5,76 @@
 
 .sectionInformation {
     width: 335px;
-    height: 473px;
+    padding: 40px 20px;
     border-radius: 30px;
     background-color: fn.get-color('light');
 }
 
+.titleInformation {
+    @extend %subtitle;
+
+    font-size: 20px;
+    letter-spacing: 0%;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    @include mx.frame(80px, 80px, true);
+    
+    background-color: fn.get-color('accent-secondary');
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.iconAvatar {
+    fill: fn.get-color('light');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.containerUpload {
+   display: flex;
+}
+
+.containerUpload {
+    display: flex;
+    gap: 8px;
+}
+
+.inputUrl {
+    width: 170px; 
+}
+
+.uploadInput {
+    position: relative;
+    width: 128px;
+}
+
+.uploadButton {
+    width: 117px;
+    padding: 14px;
+    background-color: fn.get-color('accent-secondary');
+    border: none;
+}
+
+.iconUpload {
+    position: absolute;
+    top: 14px;
+    right: 2px;
+    fill: transparent;
+    stroke: fn.get-color('accent-primary');
+}
+
+.btnProfile {
+    text-transform: capitalize;
+}

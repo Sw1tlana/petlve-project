@@ -7,7 +7,6 @@ export const isValidLatinInput = /^[a-zA-Z]+$/;
 
 export const isValidPhoneNumber = /^(\+?[0-9]{1,3})?([0-9]{10})$/;
 
-
 export const formValuesSignUp = {
     name: '',
     email: '',
@@ -24,4 +23,6 @@ export const formValuesEditInform = {
     name: '',
     email: '',
     phone: '',
+    uploadPhoto: '',
+    photoUrl: '',
 };
