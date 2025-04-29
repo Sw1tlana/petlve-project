@@ -1,0 +1,12 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+@use '../utils/placeholders';
+
+.sectionInformation {
+    width: 335px;
+    height: 473px;
+    border-radius: 30px;
+    background-color: fn.get-color('light');
+}
+

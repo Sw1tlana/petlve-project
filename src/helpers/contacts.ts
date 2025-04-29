@@ -19,3 +19,9 @@ export const formValuesSignIn = {
     email: '',
     password: '',
 };
+
+export const formValuesEditInform = {
+    name: '',
+    email: '',
+    phone: '',
+};

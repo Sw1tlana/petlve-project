@@ -43,7 +43,7 @@
     background-color: transparent;
      position: relative;
      top: 50px;
-     right: 20px;
+     left: 280px;
 
     animation: fadeInScale 1s ease-in-out;
 
@@ -102,15 +102,11 @@
         right: 0;
     }
 
-    .noticeContent {
-        left: 56%;
-    }
-
     .closeBtn {
          top: 50px;
-         left: 420px;
-    
+         left: 400px;
     }
+
     .modalContent {
         right: 0;
     }
