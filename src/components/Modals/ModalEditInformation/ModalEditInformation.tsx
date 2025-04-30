@@ -2,23 +2,26 @@ import style from '../../../scss/components/_modalEditInformation.module.scss';
 import icons from '../../../shared/icons/sprite.svg';
 
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// import { AppDispatch } from '../../../reduce/store';
-// import { useDispatch } from 'react-redux';
-import { useId } from 'react';
-import { editInformationSchema } from '../../../shemas/editInformationShema';
-import { formValuesEditInform } from '../../../helpers/contacts';
+// import { yupResolver } from '@hookform/resolvers/yup';
+import { AppDispatch } from '../../../reduce/store';
+import { useDispatch } from 'react-redux';
+import { useId, useRef } from 'react';
+// import { editInformationSchema } from '../../../shemas/editInformationShema';
+// import { formValuesEditInform } from '../../../helpers/contacts';
+import { userCurrentEdit } from '../../../reduce/auth/operations';
 
-// interface formData {
-//   photoUrl?: string | null;
-//   uploadPhoto?: File | null;
-//   name: string;
-//   email: string;
-//   phone: string;
-// }
+interface formData {
+  uploadPhoto?: File | null;
+  photoUrl: string;
+  name: string;
+  email: string;
+  phone: string;
+}
 
 function ModalEditInformation() {
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const nameId = useId();
     const emailId = useId();
@@ -26,9 +29,9 @@ function ModalEditInformation() {
     const photoUrl = useId();
     const uploadPhoto = useId();
 
-      const { register, watch, formState: { errors }, } = useForm({
-         defaultValues: formValuesEditInform,
-         resolver: yupResolver(editInformationSchema),
+      const { register, watch, reset, handleSubmit, formState: { errors } } = useForm<formData>({
+        //  defaultValues: formValuesEditInform,
+        //  resolver: yupResolver(editInformationSchema),
           mode: 'onTouched'
       });
 
@@ -36,10 +39,32 @@ function ModalEditInformation() {
       const nameValue = watch('name');
       const emailValue = watch('email');
 
-          // const onSubmit = (data: formData) => {
-          //   console.log(data);
-          //   reset();
-          // };
+      // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      //   const file = event.target.files?.[0];
+      //   if (file) {
+      //     setValue("uploadPhoto", file, { shouldValidate: true });
+      //   }
+      // };
+
+      const onSubmit = async (data: formData) => {
+        try {
+          const { uploadPhoto, ...rest } = data;
+
+          const formDataForSubmit = {
+            ...rest,
+            uploadPhoto: uploadPhoto ?? new File([], "empty"),
+          };
+          
+          await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
+          reset(); 
+        } catch (err) {
+          console.error('Помилка редагування:', err);
+        }
+      };
+
+      const handleButtonClick = () => {
+        fileInputRef.current?.click();
+      };
 
   return (
     <section className={style.sectionInformation}>
@@ -49,7 +74,7 @@ function ModalEditInformation() {
                 <use xlinkHref={`${icons}#icon-avatar`} />
             </svg>
         </div>
-        <form className={style.formContainer}>
+        <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
           <div className={style.containerUpload}>
               <div>
                 <input
@@ -67,13 +92,19 @@ function ModalEditInformation() {
           
                     <div className={style.uploadInput}>
                       <input
-                        id={uploadPhoto}
-                        type="file"
-                        {...register("uploadPhoto")}
-                        aria-required="true"
-                        style={{ display: "none" }} 
+      id={uploadPhoto}
+      type="file"
+      {...register("uploadPhoto")}
+      ref={(e) => {
+        register("uploadPhoto").ref(e);
+        fileInputRef.current = e;
+      }}
+      aria-required="true"
+      style={{ display: "none" }} 
                       />
-                        <button type="button"  
+                        <button 
+                        onClick={handleButtonClick}
+                        type="button"  
                         className={`input input--secondary ${style.uploadButton}`}>
                           <span className={style.spanBtn}>Uploat photo</span>
                         </button>

@@ -6,7 +6,9 @@ import { signUpUser,
           refreshTokenUser, 
           logoutUser, 
           SignUpResponse,
-          RefreshTokenResponse} from './operations';
+          RefreshTokenResponse,
+          userCurrentEdit
+      } from './operations';
 
 interface AuthState extends State, PersistState {
   version: number;
@@ -109,19 +111,32 @@ export const authSlice = createSlice({
         state.isRefreshing = false; 
       })
       .addCase(logoutUser.fulfilled, (state) => {
-        console.log('State after logout', state);
         state.user = INITIAL_STATE.user;
         state.token = null;
         state.refreshToken = null;
         state.isLoggedIn = false;
-        console.log('User logged out:', state.isLoggedIn);
         toast.success('Logout successful');
       })
       .addCase(logoutUser.rejected, (state) => {
         state.error = true;
-        console.log('User logged out: rejected', state.isLoggedIn); 
         toast.error('Incorrect email or password');
-      });
+      })
+      .addCase(userCurrentEdit.pending, (state) => {
+        state.error = false;
+        state.isRefreshing = false;
+      })
+      .addCase(userCurrentEdit.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = {
+          name: action.payload.user.name,
+          email: action.payload.user.email,
+        };
+        toast.success('Current successful');
+      })
+      .addCase(userCurrentEdit.rejected, (state) => {
+        state.error = true;
+        toast.error('Incorrect email or password');
+      })
   },
 });
 

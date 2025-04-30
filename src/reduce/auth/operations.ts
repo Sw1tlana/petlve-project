@@ -101,12 +101,14 @@ export const userCurrentEdit = createAsyncThunk<
   CurrentFormData,
   {rejectValue: string}>(
     'auth/userCurrentEdit',
-    async(formData, thunkAPI) => {
+    async (
+      formData,
+      thunkAPI
+    ): Promise<EditUserResponse | ReturnType<typeof thunkAPI.rejectWithValue>> => {
       try {
 
         const response = await updateCurrentEdit(formData);
-        const { name, phone, email, avatar } = response.data;
-        return { name, phone, email, avatar };
+        return response.data as EditUserResponse;
 
       } catch(err){
         if (err instanceof Error) {
@@ -115,9 +117,7 @@ export const userCurrentEdit = createAsyncThunk<
       return thunkAPI.rejectWithValue('Current failed');
     }
   }
-  )
-
-
+  );
 
 export const refreshTokenUser = createAsyncThunk<
   RefreshTokenResponse,
