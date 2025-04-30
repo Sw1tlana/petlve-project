@@ -1,16 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { requestSignup,
+import { requestSignUp,
          requestSignIn,
          getRefreshToken,
          setAuthHeader,
-         requestLogout
+         requestLogout,
+         SignupFormData,
+         SignInFormData,
+         CurrentFormData,
+         updateCurrentEdit
          
  } from '../services/authServices';
 import { setToken } from './slice';
 import { RootState } from '../store';
 
- interface SignUpResponse {
+export interface SignUpResponse {
   user: { 
     id: string; 
     name: string; 
@@ -22,14 +26,7 @@ import { RootState } from '../store';
   refreshToken: string;
 };
   
-  interface SignUpFormData {
-    name: string;
-    email: string;
-    password: string;
-    phone: string;
-  };
-
-  interface SignInResponse {
+export interface SignInResponse {
     user: {
       id: string;
       name: string | null;  
@@ -39,25 +36,30 @@ import { RootState } from '../store';
     refreshToken: string;
   };
 
-  interface SignInFormData {
-    email: string;
-    password: string;
-  };
+  export interface EditUserResponse {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      avatar?: string; 
+    };
+  }
 
-  interface RefreshTokenResponse {
+export interface RefreshTokenResponse {
     token: string;
     refreshToken: string;
   };
 
   export const signUpUser = createAsyncThunk<
   SignUpResponse,  
-  SignUpFormData,  
+  SignupFormData,  
   { rejectValue: string }  
 >(
   'auth/signUpUser',
   async (formData, thunkAPI) => {
     try {
-      const response = await requestSignup(formData);
+      const response = await requestSignUp(formData);
       const { token, refreshToken, user } = response.data;
       const cleanedToken = token.replace(/"/g, '');  
       const cleanedRefreshToken = refreshToken.replace(/"/g, '');
@@ -93,6 +95,29 @@ export const signInUser = createAsyncThunk<
     }
   }
 );
+
+export const userCurrentEdit = createAsyncThunk<
+  EditUserResponse,
+  CurrentFormData,
+  {rejectValue: string}>(
+    'auth/userCurrentEdit',
+    async(formData, thunkAPI) => {
+      try {
+
+        const response = await updateCurrentEdit(formData);
+        const { name, phone, email, avatar } = response.data;
+        return { name, phone, email, avatar };
+
+      } catch(err){
+        if (err instanceof Error) {
+          return thunkAPI.rejectWithValue(err.message);  
+        }
+      return thunkAPI.rejectWithValue('Current failed');
+    }
+  }
+  )
+
+
 
 export const refreshTokenUser = createAsyncThunk<
   RefreshTokenResponse,

@@ -4,7 +4,9 @@ import { PersistState } from "redux-persist";
 import { signUpUser, 
           signInUser, 
           refreshTokenUser, 
-          logoutUser } from './operations';
+          logoutUser, 
+          SignUpResponse,
+          RefreshTokenResponse} from './operations';
 
 interface AuthState extends State, PersistState {
   version: number;
@@ -26,16 +28,6 @@ const INITIAL_STATE: AuthState = {
   rehydrated: false,  
 };
 
-interface SignUpResponse {
-  user: { 
-    id: string; 
-    name: string | null;
-    email: string;
- }; 
-  token: string;
-  refreshToken: string;
-};
-
 interface State {
   user: {
     name: string | null;
@@ -47,11 +39,6 @@ interface State {
   error: boolean | null;
   isRefreshing: boolean;
   loading: boolean;  
-};
-
-interface RefreshTokenResponse {
-  token: string;
-  refreshToken: string;
 };
 
 export const authSlice = createSlice({

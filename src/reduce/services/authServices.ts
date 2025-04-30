@@ -38,19 +38,27 @@ export const clearAuthHeader = () => {
     );
   };
 
-  interface SignupFormData {
+export interface SignupFormData {
     email: string;
     password: string;
     name: string; 
     phone: string;
-  }
+  };
 
-  interface SignInFormData {
+export interface SignInFormData {
     email: string;
     password: string;
-  }
+  };
 
-export const requestSignup = async(formData: SignupFormData) => {
+export  interface  CurrentFormData {
+    email: string;
+    name: string; 
+    phone: string;
+    photoUrl: string;
+    uploadPhoto: File;
+  };
+
+export const requestSignUp = async(formData: SignupFormData) => {
    const { data } = await axios.post('users/signup', formData);
    if (data?.token) {
     setAuthHeader(data.token);
@@ -63,6 +71,11 @@ export const requestSignIn = async(formData: SignInFormData) => {
   setAuthHeader(data.token);
   return data;
 };
+
+export const updateCurrentEdit = async(formData: CurrentFormData) => {
+  const { data } = await axios.patch('users/current/edit', formData);
+  return data;
+}
 
 export const getRefreshToken = async(refreshToken: string) => {
   try {

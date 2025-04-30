@@ -61,8 +61,10 @@
 }
 
 .uploadButton {
+    display: flex;
+    justify-content: flex-start;
     width: 117px;
-    padding: 14px;
+    padding: 16px;
     background-color: fn.get-color('accent-secondary');
     border: none;
 }
@@ -70,11 +72,32 @@
 .iconUpload {
     position: absolute;
     top: 14px;
-    right: 2px;
+    right: 6px;
     fill: transparent;
     stroke: fn.get-color('accent-primary');
 }
 
 .btnProfile {
     text-transform: capitalize;
+}
+
+@include mx.mq('md') {
+    .sectionInformation {
+        width: 480px;
+        padding: 50px;
+    }
+
+    .avatar {
+        @include mx.frame(86px, 86px, true);
+    
+        margin-bottom: 12px;
+    }
+
+    .inputUrl {
+        width: 226px; 
+    }
+
+    .uploadButton {
+        width: 146px;
+    }
 }
