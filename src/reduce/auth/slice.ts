@@ -125,17 +125,16 @@ export const authSlice = createSlice({
         state.error = false;
         state.isRefreshing = false;
       })
-      .addCase(userCurrentEdit.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = {
-          name: action.payload.user.name,
-          email: action.payload.user.email,
-        };
-        toast.success('Current successful');
-      })
+      // .addCase(userCurrentEdit.fulfilled, (state, action) => {
+      //   // state.user.name = action.payload.name;
+      //   // state.user.email = action.payload.email;
+      //   // state.user.phone = action.payload.phone;
+      //   // state.user.photoUrl = action.payload.photoUrl;
+      //   // toast.success('Current successful');
+      // })
       .addCase(userCurrentEdit.rejected, (state) => {
         state.error = true;
-        toast.error('Incorrect email or password');
+        toast.error('User information could not be updated');
       })
   },
 });

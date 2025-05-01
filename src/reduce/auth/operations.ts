@@ -21,6 +21,7 @@ export interface SignUpResponse {
     email: string;
     phone: string;
     password: string;
+    photoUrl: string;
  }; 
   token: string;
   refreshToken: string;
@@ -36,13 +37,13 @@ export interface SignInResponse {
     refreshToken: string;
   };
 
-export interface EditUserResponse {
-  user: {
-    name: string;
-    email: string;
-  };
-  message: string;
-};
+  export interface EditUserResponse {
+    user: {
+      name: string;
+      email: string;
+    };
+    message: string;
+  }
 
 export interface RefreshTokenResponse {
     token: string;
@@ -97,35 +98,31 @@ export const signInUser = createAsyncThunk<
 export const userCurrentEdit = createAsyncThunk<
   EditUserResponse,
   CurrentFormData,
-  {rejectValue: string,
-   state: RootState;
-  }>(
-    'auth/userCurrentEdit',
-    async (
-      formData,
-      thunkAPI
-    ): Promise<EditUserResponse | ReturnType<typeof thunkAPI.rejectWithValue>> => {
-      try {
-        const token = thunkAPI.getState().auth.token;
-  
-        if (!token) {
-          return thunkAPI.rejectWithValue("No token found");
-        }
-  
-        setAuthHeader(token); 
-  
-        const response = await updateCurrentEdit(formData);
-        return response as EditUserResponse;
-  
-
-      } catch(err){
-        if (err instanceof Error) {
-          return thunkAPI.rejectWithValue(err.message);  
-        }
-      return thunkAPI.rejectWithValue('Current failed');
-    }
+  {
+    state: RootState;
+    rejectValue: string;
   }
-  );
+>(
+  'auth/userCurrentEdit',
+  async (formData, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue('No token provided');
+    }
+
+    try {
+      const response = await updateCurrentEdit(formData, token);
+      return response;
+    } catch(err){
+      if (err instanceof Error) {
+        return thunkAPI.rejectWithValue(err.message);  
+      }
+    return thunkAPI.rejectWithValue('Login failed');
+  }
+}
+);
 
 export const refreshTokenUser = createAsyncThunk<
   RefreshTokenResponse,

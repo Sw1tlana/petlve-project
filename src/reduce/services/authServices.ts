@@ -3,6 +3,7 @@ import { Store } from "redux";
 import { RootState } from "../store";
 import { setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
+import { EditUserResponse } from "../auth/operations";
 
 
 export const setAuthHeader = (token: string) => {
@@ -72,19 +73,24 @@ export const requestSignIn = async(formData: SignInFormData) => {
   return data;
 };
 
-export const updateCurrentEdit = async(formData: CurrentFormData) => {
+export const updateCurrentEdit = async (
+  formData: CurrentFormData,
+  token: string
+): Promise<EditUserResponse> => {
   const dataForm = new FormData();
   dataForm.append('name', formData.name);
   dataForm.append('email', formData.email);
   dataForm.append('phone', formData.phone);
+
   if (formData.uploadPhoto) {
     dataForm.append('avatar', formData.uploadPhoto);
   }
 
-  const response = await axios.patch('users/current/edit', dataForm);
+   setAuthHeader(token);
 
-  return response.data;  
-}
+  const response = await axios.patch('users/current/edit', dataForm);
+  return response.data;
+};
 
 export const getRefreshToken = async(refreshToken: string) => {
   try {

@@ -48,8 +48,14 @@ function ModalEditInformation() {
 
       const onSubmit = async (data: formData) => {
         try {
+          // Перевірка наявності значень
+          if (!data.name || !data.email || !data.phone) {
+            console.error('Усі поля повинні бути заповнені');
+            return;
+          }
+      
           const { uploadPhoto, ...rest } = data;
-
+      
           const formDataForSubmit = {
             ...rest,
             uploadPhoto: uploadPhoto ?? new File([], "empty"),
