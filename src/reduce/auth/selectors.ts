@@ -1,3 +1,4 @@
+
 interface AuthState {
     user: string | null;
     email: string | null;

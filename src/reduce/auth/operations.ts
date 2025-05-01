@@ -38,12 +38,17 @@ export interface SignInResponse {
   };
 
   export interface EditUserResponse {
+    message: string;
     user: {
+      _id: string;
       name: string;
       email: string;
+      phone?: string;
+      avatar?: string;
+      noticesFavorites: string[];
+      pets: string[];
     };
-    message: string;
-  }
+  };
 
 export interface RefreshTokenResponse {
     token: string;

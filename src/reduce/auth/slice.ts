@@ -7,12 +7,20 @@ import { signUpUser,
           logoutUser, 
           SignUpResponse,
           RefreshTokenResponse,
-          userCurrentEdit
+          userCurrentEdit,
+          EditUserResponse
       } from './operations';
 
 interface AuthState extends State, PersistState {
   version: number;
   rehydrated: boolean;
+}
+
+export interface User {
+  name: string | null;
+  email: string | null;
+  phone?: string;
+  photoUrl?: string;
 }
 
 const INITIAL_STATE: AuthState = {
@@ -31,18 +39,14 @@ const INITIAL_STATE: AuthState = {
 };
 
 interface State {
-  user: {
-    name: string | null;
-    email: string | null;
-  };
+  user: User;
   token: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
   error: boolean | null;
   isRefreshing: boolean;
-  loading: boolean;  
-};
-
+  loading: boolean;
+}
 export const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,  
@@ -125,13 +129,21 @@ export const authSlice = createSlice({
         state.error = false;
         state.isRefreshing = false;
       })
-      // .addCase(userCurrentEdit.fulfilled, (state, action) => {
-      //   // state.user.name = action.payload.name;
-      //   // state.user.email = action.payload.email;
-      //   // state.user.phone = action.payload.phone;
-      //   // state.user.photoUrl = action.payload.photoUrl;
-      //   // toast.success('Current successful');
-      // })
+      .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
+        if (action.payload && action.payload.user) {
+          state.user = {
+            name: action.payload.user.name,
+            email: action.payload.user.email,
+            phone: action.payload.user.phone,
+            photoUrl: action.payload.user.avatar,
+          };
+          toast.success('Current successful');
+        } else {
+          // Якщо дані користувача відсутні, обробка помилки
+          toast.error('Failed to update user information. No user data found.');
+        }
+        toast.success('Current successful');
+      })
       .addCase(userCurrentEdit.rejected, (state) => {
         state.error = true;
         toast.error('User information could not be updated');
