@@ -50,13 +50,13 @@ export interface SignInFormData {
     password: string;
   };
 
-export  interface  CurrentFormData {
+  export interface CurrentFormData {
     email: string;
-    name: string; 
+    name: string;
     phone: string;
     photoUrl: string;
     uploadPhoto: File;
-  };
+  }
 
 export const requestSignUp = async(formData: SignupFormData) => {
    const { data } = await axios.post('users/signup', formData);
@@ -73,8 +73,17 @@ export const requestSignIn = async(formData: SignInFormData) => {
 };
 
 export const updateCurrentEdit = async(formData: CurrentFormData) => {
-  const { data } = await axios.patch('users/current/edit', formData);
-  return data;
+  const dataForm = new FormData();
+  dataForm.append('name', formData.name);
+  dataForm.append('email', formData.email);
+  dataForm.append('phone', formData.phone);
+  if (formData.uploadPhoto) {
+    dataForm.append('avatar', formData.uploadPhoto);
+  }
+
+  const response = await axios.patch('users/current/edit', dataForm);
+
+  return response.data;  
 }
 
 export const getRefreshToken = async(refreshToken: string) => {

@@ -36,15 +36,13 @@ export interface SignInResponse {
     refreshToken: string;
   };
 
-  export interface EditUserResponse {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      phone: string;
-      avatar?: string; 
-    };
-  }
+export interface EditUserResponse {
+  user: {
+    name: string;
+    email: string;
+  };
+  message: string;
+};
 
 export interface RefreshTokenResponse {
     token: string;
@@ -99,16 +97,26 @@ export const signInUser = createAsyncThunk<
 export const userCurrentEdit = createAsyncThunk<
   EditUserResponse,
   CurrentFormData,
-  {rejectValue: string}>(
+  {rejectValue: string,
+   state: RootState;
+  }>(
     'auth/userCurrentEdit',
     async (
       formData,
       thunkAPI
     ): Promise<EditUserResponse | ReturnType<typeof thunkAPI.rejectWithValue>> => {
       try {
-
+        const token = thunkAPI.getState().auth.token;
+  
+        if (!token) {
+          return thunkAPI.rejectWithValue("No token found");
+        }
+  
+        setAuthHeader(token); 
+  
         const response = await updateCurrentEdit(formData);
-        return response.data as EditUserResponse;
+        return response as EditUserResponse;
+  
 
       } catch(err){
         if (err instanceof Error) {
