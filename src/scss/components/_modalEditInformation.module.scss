@@ -36,6 +36,15 @@
     z-index: 9;
 }
 
+.userPhoto {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+//   sdfhfgjghhg
+
 .formContainer {
     display: flex;
     flex-direction: column;

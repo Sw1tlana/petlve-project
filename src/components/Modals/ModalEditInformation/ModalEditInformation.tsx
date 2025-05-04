@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useId, useRef } from 'react';
+import { useId, useRef } from 'react';
 // import { editInformationSchema } from '../../../shemas/editInformationShema';
 // import { formValuesEditInform } from '../../../helpers/contacts';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
+import { User } from '../../../reduce/auth/slice';
 
 interface formData {
   uploadPhoto?: File | null;
@@ -17,11 +18,12 @@ interface formData {
   name: string;
   email: string;
   phone: string;
-}
+};
 
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser) as User | null;
+  console.log(user);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,18 +51,6 @@ function ModalEditInformation() {
       mode: 'onTouched'
       // resolver: yupResolver(editInformationSchema),
     });
-
-      useEffect(() => {
-        if (user) {
-          reset({
-            name: user.name || '',
-            email: user.email || '',
-            phone: user.phone || '',
-            photoUrl: user.photoUrl || '',
-            uploadPhoto: null
-          });
-        }
-      }, [user, reset]);
 
       const phoneValue = watch('phone');
       const nameValue = watch('name');
@@ -105,10 +95,18 @@ function ModalEditInformation() {
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
       <div className={style.avatar}>
-        <svg width={44} height={44} className={style.iconAvatar}>
-          <use xlinkHref={`${icons}#icon-avatar`} />
-        </svg>
-      </div>
+  {user?.photoUrl ? (
+    <img
+      src={user.photoUrl}
+      alt="User avatar"
+      className={style.userPhoto}
+    />
+  ) : (
+    <svg width={44} height={44} className={style.iconAvatar}>
+      <use xlinkHref={`${icons}#icon-avatar`} />
+    </svg>
+  )}
+</div>
 
       <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={style.containerUpload}>

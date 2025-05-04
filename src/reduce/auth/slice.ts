@@ -17,10 +17,12 @@ interface AuthState extends State, PersistState {
 }
 
 export interface User {
+  _id?: string;
   name: string | null;
   email: string | null;
   phone?: string;
   photoUrl?: string;
+  avatar?: string; 
 }
 
 const INITIAL_STATE: AuthState = {
@@ -130,17 +132,16 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
       })
       .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
-        if (action.payload && action.payload.user) {
+        console.log('userCurrentEdit fulfilled:', action.payload); 
+        const userData = action.payload?.user;
+        if (userData) {
           state.user = {
-            name: action.payload.user.name,
-            email: action.payload.user.email,
-            phone: action.payload.user.phone,
-            photoUrl: action.payload.user.avatar,
+            _id: userData._id,
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            avatar: userData.avatar || '', // якщо поле може бути відсутнім
           };
-          toast.success('Current successful');
-        } else {
-          // Якщо дані користувача відсутні, обробка помилки
-          toast.error('Failed to update user information. No user data found.');
         }
         toast.success('Current successful');
       })

@@ -83,12 +83,13 @@ export const updateCurrentEdit = async (
   dataForm.append('phone', formData.phone);
 
   if (formData.uploadPhoto) {
-    dataForm.append('avatar', formData.uploadPhoto);
+    dataForm.append('avatar', formData.uploadPhoto); 
   }
 
    setAuthHeader(token);
 
   const response = await axios.patch('users/current/edit', dataForm);
+  console.log(response.data);
   return response.data;
 };
 
