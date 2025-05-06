@@ -1,131 +1,110 @@
-import style from '../../../scss/components/_modalEditInformation.module.scss';
-import icons from '../../../shared/icons/sprite.svg';
-
-import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useId, useRef } from 'react';
-// import { editInformationSchema } from '../../../shemas/editInformationShema';
-// import { formValuesEditInform } from '../../../helpers/contacts';
+import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
 import { User } from '../../../reduce/auth/slice';
 
-interface formData {
-  uploadPhoto?: File | null;
-  photoUrl: string;
+type formData = {
   name: string;
   email: string;
   phone: string;
+  photoUrl: string | null;
+  uploadPhoto: File | null;
 };
 
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
-  console.log(user);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    const nameId = useId();
-    const emailId = useId();
-    const phoneId = useId();
-    const photoUrl = useId();
-    const uploadPhoto = useId();
+  const nameId = useId();
+  const emailId = useId();
+  const phoneId = useId();
+  const photoUrl = useId();
+  const uploadPhoto = useId();
 
-    const {
-      register,
-      watch,
-      reset,
-      setValue,
-      handleSubmit,
-      formState: { errors }
-    } = useForm<formData>({
-      defaultValues: {
-        name: '',
-        email: '',
-        phone: '',
-        photoUrl: '',
-        uploadPhoto: null
-      },
-      mode: 'onTouched'
-      // resolver: yupResolver(editInformationSchema),
-    });
+  const { register, watch, reset, setValue, handleSubmit, formState: { errors } } = useForm<formData>({
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      photoUrl: null,
+      uploadPhoto: null,
+    },
+    mode: 'onTouched',
+    resolver: yupResolver(editInformationSchema),
+  });
 
-      const phoneValue = watch('phone');
-      const nameValue = watch('name');
-      const emailValue = watch('email');
+  const phoneValue = watch('phone');
+  const nameValue = watch('name');
+  const emailValue = watch('email');
 
-      const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-          setValue("uploadPhoto", file, { shouldValidate: true });
-        }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setValue("uploadPhoto", file, { shouldValidate: true });
+    }
+  };
+
+  const onSubmit: SubmitHandler<formData> = async (data) => {
+    try {
+      const { uploadPhoto, ...rest } = data;
+
+      const formDataForSubmit = {
+        ...rest,
+        photoUrl: rest.photoUrl ?? "",
+        uploadPhoto: uploadPhoto ?? new File([], "empty"),
       };
 
-      const onSubmit = async (data: formData) => {
-        try {
-          // Перевірка наявності значень
-          if (!data.name || !data.email || !data.phone) {
-            console.error('Усі поля повинні бути заповнені');
-            return;
-          }
-      
-          const { uploadPhoto, ...rest } = data;
-      
-          const formDataForSubmit = {
-            ...rest,
-            uploadPhoto: uploadPhoto ?? new File([], "empty"),
-          };
-          
-          await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
-          reset(); 
-        } catch (err) {
-          console.error('Помилка редагування:', err);
-        }
-      };
+      await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
+      reset();
+    } catch (err) {
+      console.error('Помилка редагування:', err);
+    }
+  };
 
-      const handleButtonClick = () => {
-        fileInputRef.current?.click();
-      };
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
-      const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
+  const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
 
   return (
-    <section className={style.sectionInformation}>
-      <h2 className={style.titleInformation}>Edit information</h2>
-      <div className={style.avatar}>
-  {user?.photoUrl ? (
-    <img
-      src={user.photoUrl}
-      alt="User avatar"
-      className={style.userPhoto}
-    />
-  ) : (
-    <svg width={44} height={44} className={style.iconAvatar}>
-      <use xlinkHref={`${icons}#icon-avatar`} />
-    </svg>
-  )}
-</div>
+    <section className="sectionInformation">
+      <h2 className="titleInformation">Edit information</h2>
+      <div className="avatar">
+        {user?.avatar ? (
+          <img src={user.avatar} alt="User avatar" className="userPhoto" />
+        ) : (
+          <svg width={44} height={44} className="iconAvatar">
+            <use xlinkHref="#icon-avatar" />
+          </svg>
+        )}
+      </div>
 
-      <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
-        <div className={style.containerUpload}>
+      <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
+        <div className="containerUpload">
           <div>
             <input
               id={photoUrl}
               type="url"
-              className={`input input--secondary ${style.inputUrl}`}
+              className="input input--secondary"
               placeholder="https://ftp.goit.study/img/pets/5.webp"
               {...register("photoUrl")}
               autoComplete="off"
               aria-required="true"
             />
             {errors.photoUrl?.message && (
-              <p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>
+              <p className="errorMsg">{String(errors.photoUrl.message)}</p>
             )}
           </div>
 
-          <div className={style.uploadInput}>
+          <div className="uploadInput">
             <input
               id={uploadPhoto}
               type="file"
@@ -141,112 +120,69 @@ function ModalEditInformation() {
             <button
               onClick={handleButtonClick}
               type="button"
-              className={`input input--secondary ${style.uploadButton}`}
+              className="input input--secondary"
             >
-              <span className={style.spanBtn}>Upload photo</span>
+              <span className="spanBtn">Upload photo</span>
             </button>
             {errors.uploadPhoto?.message && (
-              <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
+              <p className="errorMsg">{String(errors.uploadPhoto.message)}</p>
             )}
-            <svg width={20} height={20} className={style.iconUpload}>
-              <use xlinkHref={`${icons}#icon-upload-cloud`} />
+            <svg width={20} height={20} className="iconUpload">
+              <use xlinkHref="#icon-upload-cloud" />
             </svg>
           </div>
         </div>
 
-        <div className={style.iconContainerAuth}>
+        <div className="iconContainerAuth">
           <input
             id={nameId}
             type="text"
-            className={`input input--secondary ${!errors.name ? style.validName : ''}`}
+            className={`input input--secondary ${!errors.name ? "validName" : ''}`}
             placeholder="Name"
             {...register('name')}
             autoComplete="name"
             aria-required="true"
           />
-          {typeof errors.name?.message === "string" && (
-            <p className={style.errorMsg}>{errors.name.message}</p>
+          {errors.name?.message && (
+            <p className="errorMsg">{errors.name.message}</p>
           )}
-          {!errors.name && nameValue && (
-            <p className={style.successMsg}>Name is valid!</p>
-          )}
-          <div className="iconContainerAuth">
-            {errors.name && nameValue && (
-              <svg width={16} height={16} className={style.iconClose}>
-                <use xlinkHref={`${icons}#icon-close`} />
-              </svg>
-            )}
-            {!errors.name && nameValue && (
-              <svg width={16} height={16} className={style.iconCheck}>
-                <use xlinkHref={`${icons}#icon-check`} />
-              </svg>
-            )}
-          </div>
         </div>
 
-        <div className={style.iconContainerAuth}>
+        <div className="iconContainerAuth">
           <input
             id={emailId}
             type="email"
-            className={`input input--secondary ${!errors.email ? style.validEmail : ''}`}
+            className={`input input--secondary ${!errors.email ? "validEmail" : ''}`}
             placeholder="Email"
             {...register('email')}
             autoComplete="email"
             aria-required="true"
           />
-          {typeof errors.email?.message === "string" && (
-            <p className={style.errorMsg}>{errors.email.message}</p>
-          )}
-          {!errors.email && emailValue && (
-            <p className={style.successMsg}>Email is valid!</p>
-          )}
-          {errors.email && emailValue && (
-            <svg width={16} height={16} className={style.iconClose}>
-              <use xlinkHref={`${icons}#icon-close`} />
-            </svg>
-          )}
-          {!errors.email && emailValue && (
-            <svg width={16} height={16} className={style.iconCheck}>
-              <use xlinkHref={`${icons}#icon-check`} />
-            </svg>
+          {errors.email?.message && (
+            <p className="errorMsg">{errors.email.message}</p>
           )}
         </div>
 
-        <div className={style.iconContainerAuth}>
+        <div className="iconContainerAuth">
           <input
             id={phoneId}
-            className={`input input--secondary ${!errors.phone && phoneValue ? style.validPhone : ''}`}
+            className={`input input--secondary ${!errors.phone && phoneValue ? "validPhone" : ''}`}
             placeholder="+380 65 669 12 24"
             {...register('phone')}
             autoComplete="phone"
             aria-required="true"
           />
-          {typeof errors.phone?.message === "string" && (
-            <p className={style.errorMsg}>{errors.phone.message}</p>
+          {errors.phone?.message && (
+            <p className="errorMsg">{errors.phone.message}</p>
           )}
-          {!errors.phone && phoneValue && (
-            <p className={style.successMsg}>Phone is valid!</p>
-          )}
-          <div>
-            {errors.phone && phoneValue && (
-              <svg width={16} height={16} className={style.iconClose}>
-                <use xlinkHref={`${icons}#icon-close`} />
-              </svg>
-            )}
-            {!errors.phone && phoneValue && (
-              <svg width={16} height={16} className={style.iconCheck}>
-                <use xlinkHref={`${icons}#icon-check`} />
-              </svg>
-            )}
-          </div>
         </div>
 
-        <button className={`btn btn--primary ${style.btnProfile}`} type="submit">
+        <button className="btn btn--primary" type="submit">
           Go to profile
         </button>
       </form>
     </section>
-  )
-};
+  );
+}
 
 export default ModalEditInformation;

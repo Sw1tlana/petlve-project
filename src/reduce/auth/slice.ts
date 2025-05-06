@@ -140,7 +140,7 @@ export const authSlice = createSlice({
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
-            avatar: userData.avatar || '', // якщо поле може бути відсутнім
+            avatar: userData.avatar || '', 
           };
         }
         toast.success('Current successful');
