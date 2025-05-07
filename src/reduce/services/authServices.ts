@@ -57,7 +57,7 @@ export interface SignInFormData {
     phone: string;
     photoUrl: string;
     uploadPhoto: File;
-  }
+  };
 
 export const requestSignUp = async(formData: SignupFormData) => {
    const { data } = await axios.post('users/signup', formData);
