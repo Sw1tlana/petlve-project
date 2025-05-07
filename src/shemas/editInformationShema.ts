@@ -7,27 +7,27 @@ export const editInformationSchema = Yup.object({
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name cannot exceed 50 characters")
     .optional()
-    .notRequired(),
+    .nullable(),
 
   email: Yup.string()
     .matches(emailRegex, "Invalid email format")
     .optional()
-    .notRequired(),
+    .nullable(),
 
   phone: Yup.string()
     .matches(isValidPhoneNumber, "Invalid phone number")
     .optional()
-    .notRequired(),
+    .nullable(),
 
   photoUrl: Yup.string()
     .url("Invalid URL format")
     .optional()
-    .notRequired(),
+    .nullable(),
 
   uploadPhoto: Yup.mixed<File>()
     .nullable()
     .notRequired()
-    .notRequired()
+    .nullable()
     .test("fileSize", "File is too large", (value) => {
       return !value || value.size <= 5 * 1024 * 1024;
     }),

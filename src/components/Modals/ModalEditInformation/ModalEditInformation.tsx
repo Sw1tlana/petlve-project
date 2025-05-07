@@ -1,5 +1,5 @@
 import style from '../../../scss/components/_modalEditInformation.module.scss';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,11 +10,11 @@ import { selectUser } from '../../../reduce/auth/selectors';
 import { User } from '../../../reduce/auth/slice';
 
 type formData = {
-  name?: string;
-  email?: string;
-  phone?: string;
-  photoUrl?: string;
-  uploadPhoto?: File | null;
+  name: string | null | undefined;
+  email: string | null | undefined;
+  phone: string | null | undefined;
+  photoUrl: string | null | undefined;
+  uploadPhoto: File | null | undefined;
 };
 
 function ModalEditInformation() {
@@ -29,15 +29,8 @@ function ModalEditInformation() {
   const photoUrl = useId();
   const uploadPhoto = useId();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm<formData>({
-    resolver: yupResolver(editInformationSchema),
+  const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<formData>({
+    resolver: yupResolver(editInformationSchema) as Resolver<formData>,
     defaultValues: {
       name: '',
       email: '',
@@ -45,6 +38,7 @@ function ModalEditInformation() {
       photoUrl: '',
       uploadPhoto: null,
     },
+    mode: 'onTouched',
   });
 
   const phoneValue = watch('phone');

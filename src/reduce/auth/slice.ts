@@ -21,7 +21,7 @@ export interface User {
   name: string | null;
   email: string | null;
   phone?: string;
-  photoUrl?: string;
+  photoUrl?: string | null;
   avatar?: string; 
 }
 
@@ -140,6 +140,7 @@ export const authSlice = createSlice({
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
+            photoUrl: userData.photoUrl ?? null,
             avatar: userData.avatar || '', 
           };
         }

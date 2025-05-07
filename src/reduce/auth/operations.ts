@@ -44,6 +44,7 @@ export interface SignInResponse {
       name: string;
       email: string;
       phone?: string;
+      photoUrl?: string;
       avatar?: string;
       noticesFavorites: string[];
       pets: string[];
