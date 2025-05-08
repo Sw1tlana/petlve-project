@@ -147,7 +147,9 @@ export const authSlice = createSlice({
         toast.success('Current successful');
       })
       .addCase(userCurrentEdit.rejected, (state) => {
+        
         state.error = true;
+        console.error('Помилка:', state.error);
         toast.error('User information could not be updated');
       })
   },

@@ -17,6 +17,8 @@ type formData = {
   uploadPhoto: File | null | undefined;
 };
 
+const BASE_IMAGE_URL = "https://petlve-api.onrender.com";
+
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
@@ -86,7 +88,11 @@ function ModalEditInformation() {
       <h2 className={style.titleInformation}>Edit information</h2>
       <div className={style.avatar}>
         {user?.avatar ? (
-          <img src={user.avatar} alt="User avatar" className={style.userPhoto} />
+          <img
+          src={`${BASE_IMAGE_URL}${user?.avatar}`}
+          alt="User avatar"
+          className={style.userPhoto}
+        />
         ) : (
           <svg width={44} height={44} className={style.iconAvatar}>
             <use xlinkHref="#icon-avatar" />
