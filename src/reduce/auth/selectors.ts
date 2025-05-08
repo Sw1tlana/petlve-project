@@ -1,7 +1,7 @@
-
 interface AuthState {
     user: string | null;
     email: string | null;
+    avatar: string | null;
     isLoggedIn: boolean;
     isRefreshing: boolean;
     error: string | null;

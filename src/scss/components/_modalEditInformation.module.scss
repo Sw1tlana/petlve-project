@@ -90,6 +90,13 @@
     text-transform: capitalize;
 }
 
+.userPhoto {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
 @include mx.mq('md') {
     .sectionInformation {
         width: 480px;

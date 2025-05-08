@@ -41,14 +41,15 @@ const INITIAL_STATE: AuthState = {
 };
 
 interface State {
-  user: User;
+  user: User | null;
   token: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
   error: boolean | null;
   isRefreshing: boolean;
   loading: boolean;
-}
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,  

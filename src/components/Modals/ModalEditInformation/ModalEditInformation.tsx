@@ -22,6 +22,8 @@ function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
 
+  const avatar = user?.avatar;
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const nameId = useId();
@@ -85,15 +87,19 @@ function ModalEditInformation() {
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
       <div className={style.avatar}>
-        {user?.avatar ? (
-       <img src={`http://localhost:4000${user.avatar}`} alt="User Avatar" />
-
-        ) : (
-          <svg width={44} height={44} className={style.iconAvatar}>
-            <use xlinkHref="#icon-avatar" />
-          </svg>
-        )}
-      </div>
+  {user?.avatar ? (
+    <>
+      {console.log('Avatar URL:', `https://petlve-api.onrender.com${avatar}`)}  
+      <img 
+        src={`https://petlve-api.onrender.com${avatar}`} 
+/>
+    </>
+  ) : (
+    <svg width={44} height={44} className={style.iconAvatar}>
+      <use xlinkHref="#icon-avatar" />
+    </svg>
+  )}
+</div>
 
       <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={style.containerUpload}>
