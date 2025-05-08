@@ -56,7 +56,7 @@ export interface SignInFormData {
     name: string;
     phone: string;
     photoUrl: string;
-    uploadPhoto: File;
+    uploadPhoto?: File;
   };
 
 export const requestSignUp = async(formData: SignupFormData) => {

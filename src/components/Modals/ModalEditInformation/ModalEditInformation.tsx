@@ -8,6 +8,7 @@ import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
 import { User } from '../../../reduce/auth/slice';
+import { CurrentFormData } from '../../../reduce/services/authServices';
 
 type formData = {
   name: string | null | undefined;
@@ -16,8 +17,6 @@ type formData = {
   photoUrl: string | null | undefined;
   uploadPhoto: File | null | undefined;
 };
-
-const BASE_IMAGE_URL = "https://petlve-api.onrender.com";
 
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
@@ -62,14 +61,13 @@ function ModalEditInformation() {
     try {
       const { name, email, phone, photoUrl, uploadPhoto } = data;
 
-      const formDataForSubmit = {
+      const formDataForSubmit: CurrentFormData = {
         name: name ?? '',
         email: email ?? '',
         phone: phone ?? '',
         photoUrl: photoUrl ?? '',
-        uploadPhoto: uploadPhoto ?? new File([], "empty"),
+        uploadPhoto: uploadPhoto ?? undefined,
       };
-
       await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
       reset();
     } catch (err) {
@@ -88,11 +86,8 @@ function ModalEditInformation() {
       <h2 className={style.titleInformation}>Edit information</h2>
       <div className={style.avatar}>
         {user?.avatar ? (
-          <img
-          src={`${BASE_IMAGE_URL}${user?.avatar}`}
-          alt="User avatar"
-          className={style.userPhoto}
-        />
+       <img src={`http://localhost:4000${user.avatar}`} alt="User Avatar" />
+
         ) : (
           <svg width={44} height={44} className={style.iconAvatar}>
             <use xlinkHref="#icon-avatar" />
