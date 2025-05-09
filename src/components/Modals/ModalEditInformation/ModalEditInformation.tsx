@@ -22,7 +22,19 @@ function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
 
-  const avatar = user?.avatar;
+  
+  console.log("User:", user);
+  console.log("Avatar (raw):", user?.avatar);
+
+
+console.log("User:", user);
+console.log("Avatar (raw):", user?.avatar);
+const avatarUrl = user?.avatar
+  ? `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
+  : 'https://default-avatar.url/avatar.png'; 
+console.log("Avatar URL (final):", avatarUrl);
+
+  console.log("Avatar URL (final):", avatarUrl);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -89,10 +101,11 @@ function ModalEditInformation() {
       <div className={style.avatar}>
   {user?.avatar ? (
     <>
-      {console.log('Avatar URL:', `https://petlve-api.onrender.com${avatar}`)}  
-      <img 
-        src={`https://petlve-api.onrender.com${avatar}`} 
-/>
+      {console.log('Avatar URL:', `https://petlve-api.onrender.com${avatarUrl}`)}  
+      
+        <img className={style.userPhoto} src={avatarUrl} alt="User avatar" />
+
+
     </>
   ) : (
     <svg width={44} height={44} className={style.iconAvatar}>

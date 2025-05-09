@@ -1,9 +1,19 @@
+import { useSelector } from 'react-redux';
 import style from '../../scss/components/_userBlock.module.scss';
 import icons from '../../shared/icons/sprite.svg';
 
 import { useForm } from 'react-hook-form';
+import { selectUser } from '../../reduce/auth/selectors';
 
 function UserBlock() {
+
+    const user = useSelector(selectUser); 
+
+  const avatarUrl = user?.avatar
+    ? user.avatar.startsWith('http')
+      ? `${user.avatar}?t=${Date.now()}`
+      : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
+    : null;
 
   const { register, formState: { errors } } = useForm({
     mode: 'onTouched'
@@ -12,11 +22,15 @@ function UserBlock() {
   return (
   <div>
     <div className={style.containerAvatarInfo}>
-       <div className={style.avatar}>
+        <div className={style.avatar}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="User avatar" />
+          ) : (
             <svg width={40} height={40} className={style.iconUser}>
-                <use xlinkHref={`${icons}#icon-user`} />
+              <use xlinkHref={`${icons}#icon-user`} />
             </svg>
-       </div>
+          )}
+        </div>
        <p className={style.textAvatar}>Upload photo</p>
     </div>
     <div className={style.containerInformation}>

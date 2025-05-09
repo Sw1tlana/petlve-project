@@ -38,17 +38,17 @@ export interface SignInResponse {
   };
 
   export interface EditUserResponse {
-    message: string;
-    user: {
-      _id: string;
-      name: string;
-      email: string;
-      phone?: string;
-      photoUrl?: string;
-      avatar?: string;
-      noticesFavorites: string[];
-      pets: string[];
-    };
+  success: boolean;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    photoUrl?: string;
+    avatar?: string;
+    noticesFavorites: string[];
+    pets: string[];
+  };
   };
 
 export interface RefreshTokenResponse {
@@ -120,6 +120,7 @@ export const userCurrentEdit = createAsyncThunk<
 
     try {
       const response = await updateCurrentEdit(formData, token);
+      console.log('updateCurrentEdit response:', response);
       return response;
     } catch(err){
       if (err instanceof Error) {
