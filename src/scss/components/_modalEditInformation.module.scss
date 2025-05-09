@@ -37,13 +37,14 @@
 }
 
 .userPhoto {
+    display: block;
+    margin: 0 auto;
     width: 44px;
     height: 44px;
     border-radius: 50%;
     object-fit: cover;
+    margin-bottom: 20px;
   }
-  
-//   sdfhfgjghhg
 
 .formContainer {
     display: flex;

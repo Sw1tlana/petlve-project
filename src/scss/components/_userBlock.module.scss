@@ -26,13 +26,24 @@
    fill: fn.get-color('accent-primary');
 }
 
+.avatarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgAvatar {
+    display: block;
+    width: 94px;
+    height: 94px;
+    border-radius: 100px;
+}
+
 .textAvatar {
     @extend %text;
 
     font-size: 12px;
 }
-
-// .containerInformation {}
 
 .titleInformation {
     font-size: 16px;

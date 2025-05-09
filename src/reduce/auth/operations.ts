@@ -11,7 +11,7 @@ import { requestSignUp,
          updateCurrentEdit
          
  } from '../services/authServices';
-import { setToken } from './slice';
+import { setToken, User } from './slice';
 import { RootState } from '../store';
 
 export interface SignUpResponse {
@@ -39,15 +39,9 @@ export interface SignInResponse {
 
   export interface EditUserResponse {
   success: boolean;
-  user: {
-    _id: string;
-    name: string;
-    email: string;
-    phone?: string;
-    photoUrl?: string;
-    avatar?: string;
-    noticesFavorites: string[];
-    pets: string[];
+  data: {
+    message: string;
+    user: User;
   };
   };
 

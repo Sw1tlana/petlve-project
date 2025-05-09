@@ -82,9 +82,11 @@ export const updateCurrentEdit = async (
   dataForm.append('email', formData.email);
   dataForm.append('phone', formData.phone);
 
-  if (formData.uploadPhoto) {
-    dataForm.append('avatar', formData.uploadPhoto); 
-  }
+if (formData.uploadPhoto) {
+  dataForm.append('avatar', formData.uploadPhoto); 
+} else if (formData.photoUrl) {
+  dataForm.append('photoUrl', formData.photoUrl);
+};
 
    setAuthHeader(token);
 

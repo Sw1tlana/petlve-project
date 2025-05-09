@@ -9,6 +9,7 @@ import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
 import { User } from '../../../reduce/auth/slice';
 import { CurrentFormData } from '../../../reduce/services/authServices';
+import icons from '../../../shared/icons/sprite.svg';
 
 type formData = {
   name: string | null | undefined;
@@ -21,20 +22,6 @@ type formData = {
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
-
-  
-  console.log("User:", user);
-  console.log("Avatar (raw):", user?.avatar);
-
-
-console.log("User:", user);
-console.log("Avatar (raw):", user?.avatar);
-const avatarUrl = user?.avatar
-  ? `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
-  : 'https://default-avatar.url/avatar.png'; 
-console.log("Avatar URL (final):", avatarUrl);
-
-  console.log("Avatar URL (final):", avatarUrl);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -98,29 +85,28 @@ console.log("Avatar URL (final):", avatarUrl);
   return (
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
-      <div className={style.avatar}>
-  {user?.avatar ? (
-    <>
-      {console.log('Avatar URL:', `https://petlve-api.onrender.com${avatarUrl}`)}  
-      
-        <img className={style.userPhoto} src={avatarUrl} alt="User avatar" />
-
-
-    </>
-  ) : (
-    <svg width={44} height={44} className={style.iconAvatar}>
-      <use xlinkHref="#icon-avatar" />
-    </svg>
-  )}
-</div>
-
+      <div className={style.avatarPhoto}>
+        {user?.avatar ? (
+          <img
+            className={style.userPhoto}
+            src={`https://petlve-api.onrender.com${user.avatar}`}
+            alt="User avatar"
+          />
+        ) : (
+          <div className={style.avatar}>
+            <svg width={44} height={44} className={style.iconAvatar}>
+              <use xlinkHref={`${icons}#icon-avatar`} />
+            </svg>
+          </div>
+        )}
+      </div>
       <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={style.containerUpload}>
           <div>
             <input
               id={photoUrl}
               type="url"
-              className="input input--secondary"
+              className={`input input--secondary ${style.inputUrl}`}
               placeholder="https://ftp.goit.study/img/pets/5.webp"
               {...register("photoUrl")}
               autoComplete="off"
@@ -147,7 +133,7 @@ console.log("Avatar URL (final):", avatarUrl);
             <button
               onClick={handleButtonClick}
               type="button"
-              className="input input--secondary"
+              className={`input input--secondary ${style.uploadButton}`}
             >
               <span className={style.spanBtn}>Upload photo</span>
             </button>
@@ -155,7 +141,7 @@ console.log("Avatar URL (final):", avatarUrl);
               <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>
             )}
             <svg width={20} height={20} className={style.iconUpload}>
-              <use xlinkHref="#icon-upload-cloud" />
+              <use xlinkHref={`${icons}#icon-upload-cloud`} />
             </svg>
           </div>
         </div>

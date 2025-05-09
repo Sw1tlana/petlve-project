@@ -22,7 +22,7 @@ export interface User {
   email: string | null;
   phone?: string;
   photoUrl?: string | null;
-  avatar?: string; 
+  avatar?: string | null; 
 }
 
 const INITIAL_STATE: AuthState = {
@@ -134,7 +134,7 @@ export const authSlice = createSlice({
       })
       .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
         console.log('userCurrentEdit fulfilled:', action.payload); 
-        const userData = action.payload?.user;
+         const userData = action.payload.data?.user;
         if (userData) {
           state.user = {
             _id: userData._id,
@@ -142,7 +142,7 @@ export const authSlice = createSlice({
             email: userData.email,
             phone: userData.phone,
             photoUrl: userData.photoUrl ?? null,
-            avatar: userData.avatar || '', 
+            avatar: userData.avatar || undefined,
           };
         }
         toast.success('Current successful');

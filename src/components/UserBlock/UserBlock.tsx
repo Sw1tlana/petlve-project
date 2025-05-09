@@ -4,6 +4,7 @@ import icons from '../../shared/icons/sprite.svg';
 
 import { useForm } from 'react-hook-form';
 import { selectUser } from '../../reduce/auth/selectors';
+import { useEffect } from 'react';
 
 function UserBlock() {
 
@@ -15,22 +16,31 @@ function UserBlock() {
       : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
     : null;
 
-  const { register, formState: { errors } } = useForm({
+  const { register, setValue, formState: { errors } } = useForm({
     mode: 'onTouched'
 });
 
+  useEffect(() => {
+    if (user) {
+      setValue('name', user.name || '');
+      setValue('email', user.email || '');
+      setValue('phone', user.phone || '');
+    }
+  }, [user, setValue]);
+
   return (
-  <div>
+  <section>
     <div className={style.containerAvatarInfo}>
-        <div className={style.avatar}>
           {avatarUrl ? (
-            <img src={avatarUrl} alt="User avatar" />
+              <img className={style.imgAvatar} src={avatarUrl} alt="User avatar" />
           ) : (
-            <svg width={40} height={40} className={style.iconUser}>
-              <use xlinkHref={`${icons}#icon-user`} />
-            </svg>
+            <div className={style.avatar}>
+              <svg width={40} height={40} className={style.iconUser}>
+                <use xlinkHref={`${icons}#icon-user`} />
+              </svg>
+            </div>
           )}
-        </div>
+      
        <p className={style.textAvatar}>Upload photo</p>
     </div>
     <div className={style.containerInformation}>
@@ -38,7 +48,6 @@ function UserBlock() {
         <form className={style.formProfile}>
           
           <input
-                 // id={namedId}
                 type="name"
                 className="input input--secondary"
                 placeholder="Name"
@@ -50,7 +59,6 @@ function UserBlock() {
                 <p className={style.errorMsg}>{errors.name.message}</p>}
 
           <input
-                // id={emailId}
                 type="email"
                 className="input input--secondary"
                 placeholder="Email"
@@ -62,7 +70,6 @@ function UserBlock() {
                 <p className={style.errorMsg}>{errors.email.message}</p>}
 
           <input
-                // id={emailId}
                 type="phone"
                 className="input input--secondary"
                 placeholder="+380"
@@ -74,7 +81,7 @@ function UserBlock() {
                 <p className={style.errorMsg}>{errors.phone.message}</p>}
          </form>
     </div>
-  </div>
+  </section>
   )
 };
 
