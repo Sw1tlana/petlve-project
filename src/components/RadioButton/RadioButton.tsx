@@ -12,7 +12,6 @@ function RadioButton() {
       };
 
       const handleClose = () => {
-        console.log('Закрито', selectedOption); 
         setSelectedOption(null);
       };
 

@@ -8,7 +8,7 @@ import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
 import { addViewedItems, Pet } from '../../reduce/notices/slice';
 
-function NoticesList() {
+function NoticesList ( ) {
     const loading = useSelector(selectIsLoggedINotices);
     const notices = useSelector(selectItemsNotices);
     console.log(typeof notices);
@@ -24,7 +24,7 @@ const handleAddViewedItem = (pet: Pet) => {
 };
 
   return (
-    <div> 
+    <section> 
       {!loading && Array.isArray(notices) && notices.length > 0 && (
         <ul className={style.noticesList}>   
           {notices.map((noticeItem: Pet, index: number) => (
@@ -68,13 +68,16 @@ const handleAddViewedItem = (pet: Pet) => {
               <p className={style.price}>${noticeItem.price}</p>
 
               <div>
-                <LearnMore notice={noticeItem} isBurgerMenu={false} onViewed={handleAddViewedItem}/>
+                <LearnMore 
+                    notice={noticeItem} 
+                    isBurgerMenu={false} 
+                    onViewed={handleAddViewedItem}/>
               </div>
             </li>
           ))}
         </ul>
       )}
-    </div>
+    </section>
   )
 };
 

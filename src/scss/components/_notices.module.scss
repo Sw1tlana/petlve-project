@@ -4,7 +4,6 @@
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
 
-
 .titleNotices {
  @extend %subtitle-mobile;
 
@@ -66,7 +65,7 @@
     position: relative;
  }
  
- .iconSearch {
+.iconSearch {
     position: absolute;
     top: 50%;
     left: 90%;
@@ -75,11 +74,11 @@
     stroke: fn.get-color('dark-primary');
  }
 
- .locationSearch {
+.locationSearch {
     border: none;
  }
 
- .border {
+.border {
     width: 100%;
     height: 1px;
     margin: 20px 0;
