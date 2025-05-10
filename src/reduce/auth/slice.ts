@@ -141,7 +141,7 @@ export const authSlice = createSlice({
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
-            photoUrl: userData.photoUrl ?? null,
+            photoUrl: userData.avatar ?? null,
             avatar: userData.avatar || undefined,
           };
         }

@@ -20,15 +20,14 @@ export const editInformationSchema = Yup.object({
     .nullable(),
 
   photoUrl: Yup.string()
-    .url("Invalid URL format")
+    .url("Invalid URL format") 
     .optional()
     .nullable(),
 
   uploadPhoto: Yup.mixed<File>()
     .nullable()
     .notRequired()
-    .nullable()
     .test("fileSize", "File is too large", (value) => {
-      return !value || value.size <= 5 * 1024 * 1024;
+      return !value || value.size <= 5 * 1024 * 1024; 
     }),
 });
