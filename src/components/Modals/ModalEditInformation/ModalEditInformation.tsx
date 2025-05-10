@@ -28,7 +28,7 @@ function ModalEditInformation() {
   const nameId = useId();
   const emailId = useId();
   const phoneId = useId();
-  const photoUrl = useId();
+  const photoUrlId = useId();
   const uploadPhoto = useId();
 
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<formData>({
@@ -46,6 +46,7 @@ function ModalEditInformation() {
   const phoneValue = watch('phone');
   const nameValue = watch('name');
   const emailValue = watch('email');
+   const photoUrlValue = watch('photoUrl');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -66,9 +67,12 @@ function ModalEditInformation() {
         name: name ?? '',
         email: email ?? '',
         phone: phone ?? '',
-        photoUrl: photoUrl ?? '',
+        photoUrl: uploadPhoto ? '' : (photoUrl?.trim() || ''),
         uploadPhoto: uploadPhoto ?? undefined,
       };
+
+       console.log('Дані, які надсилаються:', formDataForSubmit);
+
       await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
       reset();
     } catch (err) {
@@ -104,7 +108,7 @@ function ModalEditInformation() {
         <div className={style.containerUpload}>
           <div>
             <input
-              id={photoUrl}
+              id={photoUrlId}
               type="url"
               className={`input input--secondary ${style.inputUrl}`}
               placeholder="https://ftp.goit.study/img/pets/5.webp"
@@ -114,6 +118,15 @@ function ModalEditInformation() {
             />
             {errors.photoUrl?.message && (
               <p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>
+            )}
+
+            {photoUrlValue && (
+              <img
+                src={photoUrlValue}
+                alt="Preview"
+                className={style.previewImage}
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
             )}
           </div>
 
