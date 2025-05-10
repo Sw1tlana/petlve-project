@@ -1,10 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import style from '../../../scss/components/_modalAttention.module.scss';
 import icons from '../../../shared/icons/sprite.svg';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../../reduce/auth/selectors';
 
 
 function ModalAttention() {
     const navigate = useNavigate();
+
+    const user = useSelector(selectUser);
+
+  const getUserAvatarUrl = (avatar: string) => {
+  const isAbsoluteUrl = /^https?:\/\//.test(avatar);
+  return isAbsoluteUrl
+    ? `${avatar}?t=${Date.now()}`
+    : `https://petlve-api.onrender.com${avatar}?t=${Date.now()}`;
+};
 
     const handleClickRegister = () => {
         navigate('/signup');
@@ -16,11 +27,19 @@ function ModalAttention() {
 
   return (
     <section className={style.containerAttention}>
-        <div className={style.avatar}>
+        {user?.avatar ? (
+          <img
+            className={style.userPhoto}
+            src={getUserAvatarUrl(user.avatar)}
+            alt="User avatar"
+          />
+        ) : (
+          <div className={style.avatar}>
             <svg width={44} height={44} className={style.iconAvatar}>
-                <use xlinkHref={`${icons}#icon-avatar`} />
+              <use xlinkHref={`${icons}#icon-avatar`} />
             </svg>
-        </div>
+          </div>
+        )}
         <h2 className={style.titleAttention}>Attention</h2>
         <p className={style.description}>
             We would like to remind you that certain functionality is available only to authorized users.

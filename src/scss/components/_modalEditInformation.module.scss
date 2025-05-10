@@ -92,11 +92,16 @@
 }
 
 .userPhoto {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
+
+.btnSave {
+  text-transform: capitalize;
+}
 
 @include mx.mq('md') {
     .sectionInformation {

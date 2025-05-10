@@ -10,6 +10,7 @@ import { selectUser } from '../../../reduce/auth/selectors';
 import { User } from '../../../reduce/auth/slice';
 import { CurrentFormData } from '../../../reduce/services/authServices';
 import icons from '../../../shared/icons/sprite.svg';
+import toast from 'react-hot-toast';
 
 type formData = {
   name: string | null | undefined;
@@ -24,6 +25,13 @@ function ModalEditInformation() {
   const user = useSelector(selectUser) as User | null;
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const getUserAvatarUrl = (avatar: string) => {
+  const isAbsoluteUrl = /^https?:\/\//.test(avatar);
+  return isAbsoluteUrl
+    ? `${avatar}?t=${Date.now()}`
+    : `https://petlve-api.onrender.com${avatar}?t=${Date.now()}`;
+};
 
   const nameId = useId();
   const emailId = useId();
@@ -70,14 +78,15 @@ function ModalEditInformation() {
         photoUrl: uploadPhoto ? '' : (photoUrl?.trim() || ''),
         uploadPhoto: uploadPhoto ?? undefined,
       };
-
-       console.log('Дані, які надсилаються:', formDataForSubmit);
-
       await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
       reset();
     } catch (err) {
-      console.error('Помилка редагування:', err);
-    }
+    if (err instanceof Error) {
+      toast.error('The data could not be updated. Check the link or try again.');  
+  } else {
+      toast.error('Unknown error occurred.');
+  }
+  }
   };
 
   const handleButtonClick = () => {
@@ -89,11 +98,10 @@ function ModalEditInformation() {
   return (
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
-      <div className={style.avatarPhoto}>
         {user?.avatar ? (
           <img
             className={style.userPhoto}
-            src={`https://petlve-api.onrender.com${user.avatar}`}
+            src={getUserAvatarUrl(user.avatar)}
             alt="User avatar"
           />
         ) : (
@@ -103,7 +111,6 @@ function ModalEditInformation() {
             </svg>
           </div>
         )}
-      </div>
       <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={style.containerUpload}>
           <div>
@@ -121,12 +128,12 @@ function ModalEditInformation() {
             )}
 
             {photoUrlValue && (
-              <img
-                src={photoUrlValue}
-                alt="Preview"
-                className={style.previewImage}
-                onError={(e) => (e.currentTarget.style.display = "none")}
-              />
+                <img
+                  src={`${photoUrlValue}?t=${Date.now()}`}
+                  alt="Preview"
+                  className={style.previewImage}
+                  onError={(e) => (e.currentTarget.style.display = "none")}
+                />
             )}
           </div>
 
@@ -203,8 +210,8 @@ function ModalEditInformation() {
           )}
         </div>
 
-        <button className="btn btn--primary" type="submit">
-          Go to profile
+        <button className={`btn btn--primary ${style.btnSave}`} type="submit">
+         Save
         </button>
       </form>
     </section>

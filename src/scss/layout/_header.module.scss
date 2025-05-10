@@ -39,6 +39,16 @@
     display: none;
 }
 
+.containerInitial {
+    display: flex;
+    align-items: center
+}
+
+.btnInitial {
+    border: none;
+    background-color: inherit;
+}
+
 .authInitial {
     @include mx.frame(50px, 50px, true);
 
@@ -63,6 +73,22 @@
     .iconUser {
         fill: fn.get-color('accent-primary');
     }
+}
+
+.imgAvatar {
+    display: block;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.headerHome {
+  color: fn.get-color('light');
+}
+
+.headerOther {
+  color: fn.get-color('dark-primary');
 }
 
 @include mx.mq('lg') {

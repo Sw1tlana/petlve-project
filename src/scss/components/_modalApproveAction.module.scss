@@ -31,6 +31,14 @@
     z-index: 9;
 }
 
+.imgAvatar {
+    display: block;
+    width: 94px;
+    height: 94px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
 .titleModal {
     @extend %text;
 

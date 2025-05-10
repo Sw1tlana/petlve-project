@@ -4,11 +4,13 @@ import icons from '../../../shared/icons/sprite.svg';
 import { AppDispatch } from '../../../reduce/store';
 
 import { logoutUser } from '../../../reduce/auth/operations';
-import { selectIsLoggedIn } from '../../../reduce/auth/selectors';
+import { selectIsLoggedIn, selectUser } from '../../../reduce/auth/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from '../../../context/useModalContext';
 
 function ModalApproveAction() {
+
+  const user = useSelector(selectUser); 
 
       const dispatch = useDispatch<AppDispatch>();
       const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -26,14 +28,24 @@ function ModalApproveAction() {
           closeModal();  
         };
 
+    const avatarUrl = user?.avatar
+    ? user.avatar.startsWith('http')
+      ? `${user.avatar}?t=${Date.now()}`
+      : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
+    : null;
+
   return (
     <section className={style.containerModal}>
 
-        <div className={style.avatar}>
-            <svg width={44} height={44} className={style.iconAvatar}>
-                <use xlinkHref={`${icons}#icon-avatar`} />
-            </svg>
-        </div>
+          {avatarUrl ? (
+              <img className={style.imgAvatar} src={avatarUrl} alt="User avatar" />
+          ) : (
+            <div className={style.avatar}>
+              <svg width={40} height={40} className={style.iconUser}>
+                <use xlinkHref={`${icons}#icon-user`} />
+              </svg>
+            </div>
+          )}
 
         <h2 className={style.titleModal}>Already leaving?</h2>
         
