@@ -32,6 +32,7 @@ const INITIAL_STATE: AuthState = {
   },
   token: null,
   refreshToken: null,
+  avatar: null,
   isLoggedIn: false,
   error: null,  
   isRefreshing: false,
@@ -46,6 +47,7 @@ interface State {
   refreshToken: string | null;
   isLoggedIn: boolean;
   error: boolean | null;
+  avatar: string | null;
   isRefreshing: boolean;
   loading: boolean;
 };
@@ -54,7 +56,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,  
   reducers: {
-    setToken(state, action: PayloadAction<{ token: string; refreshToken: string }>) {
+    setToken(state, action: PayloadAction<{ token: string | null; refreshToken: string | null }>) {
+      console.log('Setting token:', action.payload);
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
     },
@@ -113,22 +116,7 @@ export const authSlice = createSlice({
         state.refreshToken = null;
         state.isLoggedIn = false;
       })
-      .addCase(logoutUser.pending, (state) => {
-        state.error = false;
-        state.isRefreshing = false; 
-      })
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.user = INITIAL_STATE.user;
-        state.token = null;
-        state.refreshToken = null;
-        state.isLoggedIn = false;
-        toast.success('Logout successful');
-      })
-      .addCase(logoutUser.rejected, (state) => {
-        state.error = true;
-        toast.error('Incorrect email or password');
-      })
-      .addCase(userCurrentEdit.pending, (state) => {
+            .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;
       })
@@ -144,14 +132,29 @@ export const authSlice = createSlice({
             photoUrl: userData.avatar ?? null,
             avatar: userData.avatar || undefined,
           };
+          state.avatar = userData.avatar || null;
         }
         toast.success('Current successful');
       })
-      .addCase(userCurrentEdit.rejected, (state) => {
-        
+      .addCase(userCurrentEdit.rejected, (state) => {       
         state.error = true;
         console.error('Помилка:', state.error);
         toast.error('User information could not be updated');
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.error = false;
+        state.isRefreshing = false; 
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = INITIAL_STATE.user;
+        state.token = null;
+        state.refreshToken = null;
+        state.isLoggedIn = false;
+        toast.success('Logout successful');
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.error = true;
+        toast.error('Incorrect email or password');
       })
   },
 });
