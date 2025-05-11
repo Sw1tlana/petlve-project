@@ -105,11 +105,12 @@ export const authSlice = createSlice({
         state.error = false; 
       })
       .addCase(refreshTokenUser.fulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
+        console.log('refresh:', action.payload); 
         const { token, refreshToken } = action.payload;
         state.token = token;
         state.refreshToken = refreshToken;
         state.isRefreshing = false;
-        toast.success('Login successful');
+        toast.success('RefreshToken successful');
       })
       .addCase(refreshTokenUser.rejected, (state) => {
         state.token = null;
@@ -121,7 +122,6 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
       })
       .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
-        console.log('userCurrentEdit fulfilled:', action.payload); 
          const userData = action.payload.data?.user;
         if (userData) {
           state.user = {
@@ -138,7 +138,6 @@ export const authSlice = createSlice({
       })
       .addCase(userCurrentEdit.rejected, (state) => {       
         state.error = true;
-        console.error('Помилка:', state.error);
         toast.error('User information could not be updated');
       })
       .addCase(logoutUser.pending, (state) => {

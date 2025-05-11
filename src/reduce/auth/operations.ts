@@ -134,21 +134,30 @@ export const refreshTokenUser = createAsyncThunk<
       const state = thunkAPI.getState() as RootState;
       const refreshToken = state.auth.refreshToken;
 
+       console.log('Refreshing token. Current refreshToken:', refreshToken); 
+
       if (!refreshToken) {
+         console.log('No refresh token available');
         return thunkAPI.rejectWithValue('No refresh token available');
       }
 
 try {
+  console.log('Sending refresh token to server...');
     const { token, refreshToken: newRefreshToken } = await getRefreshToken(refreshToken);
 
+       console.log('Received new tokens:', { token, newRefreshToken });
+
     thunkAPI.dispatch(setToken({ token, refreshToken: newRefreshToken }));
+    console.log('Token dispatched:', { token, newRefreshToken });
 
     setAuthHeader(token);
     return { token, refreshToken: newRefreshToken };
 } catch(err) {
   if (err instanceof Error) {
+     console.error('Error refreshing token:', err.message); 
     return thunkAPI.rejectWithValue(err.message);  
   }
+  console.error('Token refresh failed'); 
     return thunkAPI.rejectWithValue('Token refresh failed');
 }
  });
