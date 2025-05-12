@@ -5,7 +5,6 @@ import { setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
 import { EditUserResponse } from "../auth/operations";
 
-
 export const setAuthHeader = (token: string) => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
