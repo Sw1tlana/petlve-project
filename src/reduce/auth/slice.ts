@@ -40,8 +40,19 @@ const INITIAL_STATE: AuthState = {
   rehydrated: false,  
 };
 
+const parseStringified = <T>(data: T | string): T => {
+  if (typeof data === 'string') {
+    try {
+      return JSON.parse(data);
+    } catch {
+      return data as T;
+    }
+  }
+  return data;
+};
+
 interface State {
-  user: User | string | null; 
+  user: User | null;
   token: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
@@ -60,6 +71,10 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
     },
+    setRehydrated(state) {
+    console.log("State rehydrated.");
+    state.rehydrated = true;
+  }
   },
   extraReducers: (builder) => {
     builder
@@ -68,11 +83,12 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
+        const user = parseStringified(action.payload.user) as User;
+        state.user = user;
+        state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
+        state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
         state.isLoggedIn = true;
-        state.loading = false;  
+        state.loading = false;
         state.error = null;
         toast.success('Register successful');
       })
@@ -86,9 +102,12 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signInUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
+         console.log('signInUser.fulfilled', action.payload);
+        const user = parseStringified(action.payload.user) as User;
+        state.user = user;
+        state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
+        state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
+        state.avatar = user?.avatar || null;
         state.isLoggedIn = true;
         state.loading = false;
         state.error = null;
@@ -116,7 +135,7 @@ export const authSlice = createSlice({
         state.refreshToken = null;
         state.isLoggedIn = false;
       })
-            .addCase(userCurrentEdit.pending, (state) => {
+      .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;
       })
@@ -157,5 +176,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setToken } = authSlice.actions;
+export const { setToken, setRehydrated } = authSlice.actions;
 export const authReducer = authSlice.reducer;
