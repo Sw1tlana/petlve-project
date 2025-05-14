@@ -7,7 +7,6 @@ interface AuthState {
   isLoggedIn: boolean;
   isRefreshing: boolean;
   error: string | null;
-  rehydrated: boolean;
   }
   
   interface RootState {
@@ -15,8 +14,6 @@ interface AuthState {
   }
 
   export const selectUser = (state: RootState): User | null => state.auth.user;
-
-  export const selectRehydrated = ((state: RootState) => state.auth.rehydrated);
 
   export const selectEmail = (state: RootState) => state.auth.email;
 

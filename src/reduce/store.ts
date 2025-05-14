@@ -20,7 +20,7 @@ import {
   const authConfig = {
     key: "auth",
     storage,
-    whitelist: ["token", "refreshToken", "avatar", "user"],
+    whitelist: ["token", "refreshToken", "user"],
   };
 
   const persistedAuthReducer = persistReducer(authConfig, authReducer);
@@ -41,9 +41,10 @@ import {
       }),
   });
   
+export const persistor = persistStore(store, null, () => {
   setupAxiosInterceptors(store);
+});
 
   export type RootState = ReturnType<typeof store.getState>;
   export type AppDispatch = typeof store.dispatch;
  
-  export const persistor = persistStore(store);

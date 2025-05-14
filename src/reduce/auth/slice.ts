@@ -10,11 +10,6 @@ import { signUpUser,
           EditUserResponse
       } from './operations';
 
-export interface AuthState extends State {
-  version: number;
-  rehydrated: boolean;
-}
-
 export interface User {
   _id?: string;
   name: string | null;
@@ -24,7 +19,7 @@ export interface User {
   avatar?: string | null; 
 }
 
-const INITIAL_STATE: AuthState = {
+const INITIAL_STATE: State = {
   user: {
     name: null,
     email: null,
@@ -36,19 +31,6 @@ const INITIAL_STATE: AuthState = {
   error: null,  
   isRefreshing: false,
   loading: false,
-  version: 0,  
-  rehydrated: false,  
-};
-
-const parseStringified = <T>(data: T | string): T => {
-  if (typeof data === 'string') {
-    try {
-      return JSON.parse(data);
-    } catch {
-      return data as T;
-    }
-  }
-  return data;
 };
 
 interface State {
@@ -71,10 +53,6 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
     },
-    setRehydrated(state) {
-    console.log("State rehydrated.");
-    state.rehydrated = true;
-  }
   },
   extraReducers: (builder) => {
     builder
@@ -83,7 +61,7 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
-        const user = parseStringified(action.payload.user) as User;
+        const user = action.payload.user as User;
         state.user = user;
         state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
         state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
@@ -103,7 +81,7 @@ export const authSlice = createSlice({
       })
       .addCase(signInUser.fulfilled, (state, action) => {
          console.log('signInUser.fulfilled', action.payload);
-        const user = parseStringified(action.payload.user) as User;
+        const user = action.payload.user as User;
         state.user = user;
         state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
         state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
@@ -130,11 +108,11 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
         toast.success('RefreshToken successful');
       })
-      .addCase(refreshTokenUser.rejected, (state) => {
-        state.token = null;
-        state.refreshToken = null;
-        state.isLoggedIn = false;
-      })
+      // .addCase(refreshTokenUser.rejected, (state) => {
+      //   state.token = null;
+      //   state.refreshToken = null;
+      //   state.isLoggedIn = false;
+      // })
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;
@@ -176,5 +154,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setToken, setRehydrated } = authSlice.actions;
+export const { setToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;

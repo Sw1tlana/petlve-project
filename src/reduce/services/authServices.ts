@@ -94,10 +94,15 @@ if (formData.uploadPhoto) {
   return response.data;
 };
 
-export const getRefreshToken = async(refreshToken: string) => {
+export const getRefreshToken = async(refreshToken: string): Promise<{ token: string, refreshToken: string }> => {
   try {
-    const { data } = await axios.post('users/refresh-tokens', { refreshToken });
-    return data; 
+    const response = await axios.post('users/refresh-tokens', { refreshToken });
+    const data = response.data?.data ?? response.data;
+    console.log('Raw response from server:', data);
+    return {
+      token: data.token || data.accessToken,
+      refreshToken: data.refreshToken,
+    };
   } catch {
     throw new Error('Token refresh failed');
   }
