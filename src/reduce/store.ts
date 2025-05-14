@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./auth/slice";
+import { authReducer, State } from "./auth/slice";
 import { friendsReducer } from "./friends/slice";
 import { newsReducer } from "./news/slice";
 import { noticesReducer } from "./notices/slice";
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import {
     persistStore,
@@ -15,15 +16,16 @@ import {
     REGISTER,
   } from "redux-persist";
   import storage from "redux-persist/lib/storage";
-  import { setupAxiosInterceptors } from './services/authServices';
+  import { setAuthHeader, setupAxiosInterceptors } from './services/authServices';
 
   const authConfig = {
     key: "auth",
     storage,
     whitelist: ["token", "refreshToken", "user"],
+    stateReconciler: autoMergeLevel2,
   };
 
-  const persistedAuthReducer = persistReducer(authConfig, authReducer);
+  const persistedAuthReducer = persistReducer<State>(authConfig, authReducer);
 
   export const store = configureStore({
     reducer: {
@@ -41,7 +43,13 @@ import {
       }),
   });
   
-export const persistor = persistStore(store, null, () => {
+export const persistor = persistStore(store);
+
+persistor.subscribe(() => {
+  const { token } = store.getState().auth;
+  if (token) {
+    setAuthHeader(token);
+  }
   setupAxiosInterceptors(store);
 });
 

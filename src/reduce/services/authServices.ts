@@ -11,7 +11,7 @@ export const setAuthHeader = (token: string) => {
 
 export const clearAuthHeader = () => {
     axios.defaults.headers.common['Authorization'] = '';
-  };
+};
   
   export const setupAxiosInterceptors = (store: Store<RootState>) => {
     axios.interceptors.response.use(

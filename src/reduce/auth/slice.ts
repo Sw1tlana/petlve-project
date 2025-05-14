@@ -33,7 +33,7 @@ const INITIAL_STATE: State = {
   loading: false,
 };
 
-interface State {
+export interface State {
   user: User | null;
   token: string | null;
   refreshToken: string | null;
@@ -63,8 +63,8 @@ export const authSlice = createSlice({
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
         const user = action.payload.user as User;
         state.user = user;
-        state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
-        state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
+        state.token = action.payload.token;
+        state.refreshToken = action.payload.refreshToken;
         state.isLoggedIn = true;
         state.loading = false;
         state.error = null;
@@ -83,8 +83,8 @@ export const authSlice = createSlice({
          console.log('signInUser.fulfilled', action.payload);
         const user = action.payload.user as User;
         state.user = user;
-        state.token = action.payload.token?.replace(/^"|"$/g, '') || null;
-        state.refreshToken = action.payload.refreshToken?.replace(/^"|"$/g, '') || null;
+        state.token = action.payload.token;
+        state.refreshToken = action.payload.refreshToken;
         state.avatar = user?.avatar || null;
         state.isLoggedIn = true;
         state.loading = false;
@@ -94,7 +94,7 @@ export const authSlice = createSlice({
       .addCase(signInUser.rejected, (state) => {
         state.loading = false;  
         state.error = true; 
-        toast.error('Registration failed');
+        toast.error('Login failed');
       })
       .addCase(refreshTokenUser.pending, (state) => {
         state.isRefreshing = true;
@@ -108,11 +108,11 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
         toast.success('RefreshToken successful');
       })
-      // .addCase(refreshTokenUser.rejected, (state) => {
-      //   state.token = null;
-      //   state.refreshToken = null;
-      //   state.isLoggedIn = false;
-      // })
+      .addCase(refreshTokenUser.rejected, (state) => {
+        state.token = null;
+        state.refreshToken = null;
+        state.isLoggedIn = false;
+      })
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;
