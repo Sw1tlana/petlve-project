@@ -121,7 +121,7 @@ function Login() {
                     <div className={style.iconContainerAuth}>
                       <input
                           id={passwordId}
-                          type="password"
+                          type={isPasswordVisible ? 'text' : 'password'}
                           className={`input input--secondary ${!errors.password ? style.validPassword : ''}`}
                           placeholder="Password"
                           {...register('password')}

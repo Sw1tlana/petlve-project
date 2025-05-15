@@ -17,7 +17,7 @@ export interface User {
   phone?: string | null;
   avatar?: string | null; 
   photoUrl?: string | null;
-}
+};
 
 const INITIAL_STATE: State = {
   user: {
@@ -54,7 +54,6 @@ export const authSlice = createSlice({
   initialState: INITIAL_STATE,  
   reducers: {
     setToken(state, action: PayloadAction<{ token: string | null; refreshToken: string | null }>) {
-      console.log('Setting token:', action.payload);
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken;
     },
@@ -110,7 +109,6 @@ export const authSlice = createSlice({
         state.error = false; 
       })
       .addCase(refreshTokenUser.fulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
-        console.log('refresh:', action.payload); 
         const { token, refreshToken } = action.payload;
         state.token = token;
         state.refreshToken = refreshToken;

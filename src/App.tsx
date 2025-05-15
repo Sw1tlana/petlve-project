@@ -22,8 +22,7 @@ function App() {
 const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
-    dispatch(refreshTokenUser());
-  
+    dispatch(refreshTokenUser());  
 }, [dispatch]);
 
   return (

@@ -103,6 +103,14 @@
   text-transform: capitalize;
 }
 
+.errorMsg {
+ @extend %text;
+
+ font-size: 12px;
+ color: fn.get-color('red-color');
+
+}
+
 @include mx.mq('md') {
     .sectionInformation {
         width: 480px;

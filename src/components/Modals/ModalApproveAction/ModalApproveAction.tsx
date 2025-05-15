@@ -40,7 +40,7 @@ function ModalApproveAction() {
           {avatarUrl ? (
               <img className={style.imgAvatar} src={avatarUrl} alt="User avatar" />
           ) : (
-            <div className={style.avatar}>
+            <div className={style.authInitial}>
               <svg width={40} height={40} className={style.iconUser}>
                 <use xlinkHref={`${icons}#icon-user`} />
               </svg>

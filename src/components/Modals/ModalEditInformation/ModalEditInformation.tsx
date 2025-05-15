@@ -13,11 +13,11 @@ import icons from '../../../shared/icons/sprite.svg';
 import toast from 'react-hot-toast';
 
 type formData = {
-  name: string | null | undefined;
-  email: string | null | undefined;
-  phone: string | null | undefined;
-  photoUrl: string | null | undefined;
-  uploadPhoto: File | null | undefined;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  phone?: string | null | undefined;
+  photoUrl?: string | null | undefined;
+  uploadPhoto?: File | null | undefined;
 };
 
 function ModalEditInformation() {
@@ -42,10 +42,10 @@ function ModalEditInformation() {
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<formData>({
     resolver: yupResolver(editInformationSchema) as Resolver<formData>,
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      photoUrl: '',
+      name: undefined,
+      email: undefined,
+      phone: undefined,
+      photoUrl: undefined,
       uploadPhoto: null,
     },
     mode: 'onTouched',
@@ -63,23 +63,26 @@ function ModalEditInformation() {
     }
   };
 
-  const onSubmit: SubmitHandler<formData> = async (data) =>{
-    if (!data.name && !data.email && !data.phone && !data.photoUrl && !data.uploadPhoto) {
-      return;
-    };
+const onSubmit: SubmitHandler<formData> = async (data) =>{
+  if (!data.name && !data.email && !data.phone && !data.photoUrl && !data.uploadPhoto) {
+    return;
+  }
 
-    try {
-      const { name, email, phone, photoUrl, uploadPhoto } = data;
+  try {
+      const formDataForSubmit: Partial<CurrentFormData> = {};
 
-      const formDataForSubmit: CurrentFormData = {
-        name: name ?? '',
-        email: email ?? '',
-        phone: phone ?? '',
-        photoUrl: uploadPhoto ? '' : (photoUrl?.trim() || ''),
-        uploadPhoto: uploadPhoto ?? undefined,
-      };
-      await dispatch(userCurrentEdit(formDataForSubmit)).unwrap();
-      reset();
+      if (data.name) formDataForSubmit.name = data.name;
+      if (data.email) formDataForSubmit.email = data.email;
+      if (data.phone) formDataForSubmit.phone = data.phone;
+
+      if (data.uploadPhoto) {
+        formDataForSubmit.uploadPhoto = data.uploadPhoto;
+        formDataForSubmit.photoUrl = ''; 
+      } else if (data.photoUrl?.trim()) {
+        formDataForSubmit.photoUrl = data.photoUrl.trim();
+      }
+    await dispatch(userCurrentEdit(formDataForSubmit as CurrentFormData)).unwrap();
+    reset();
     } catch (err) {
     if (err instanceof Error) {
       toast.error('The data could not be updated. Check the link or try again.');  

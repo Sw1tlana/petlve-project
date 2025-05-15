@@ -25,7 +25,7 @@ export const clearAuthHeader = () => {
             const { data } = await axios.post('/users/refresh-tokens', { refreshToken });
     
             setAuthHeader(data.token);
-            console.log("Data-token", data.token);
+
             store.dispatch(setToken({ token: data.token, refreshToken: data.refreshToken }));
             originalRequest.headers.Authorization = `Bearer ${data.token}`;
             return axios(originalRequest);
@@ -51,10 +51,10 @@ export interface SignInFormData {
   };
 
   export interface CurrentFormData {
-    email: string;
-    name: string;
-    phone: string;
-    photoUrl: string;
+    email?: string;
+    name?: string;
+    phone?: string;
+    photoUrl?: string;
     uploadPhoto?: File;
   };
 
@@ -77,20 +77,26 @@ export const updateCurrentEdit = async (
   token: string
 ): Promise<EditUserResponse> => {
   const dataForm = new FormData();
-  dataForm.append('name', formData.name);
-  dataForm.append('email', formData.email);
-  dataForm.append('phone', formData.phone);
 
-if (formData.uploadPhoto) {
-  dataForm.append('avatar', formData.uploadPhoto); 
-} else if (formData.photoUrl) {
-  dataForm.append('photoUrl', formData.photoUrl);
-};
+    if (formData.name) {
+      dataForm.append('name', formData.name);
+    }
+    if (formData.email) {
+      dataForm.append('email', formData.email);
+    }
+    if (formData.phone) {
+      dataForm.append('phone', formData.phone);
+    }
+
+    if (formData.uploadPhoto) {
+      dataForm.append('avatar', formData.uploadPhoto);
+    } else if (formData.photoUrl) {
+      dataForm.append('photoUrl', formData.photoUrl);
+    }
 
    setAuthHeader(token);
 
   const response = await axios.patch('users/current/edit', dataForm);
-  console.log(response.data);
   return response.data;
 };
 
@@ -98,7 +104,6 @@ export const getRefreshToken = async(refreshToken: string): Promise<{ token: str
   try {
     const response = await axios.post('users/refresh-tokens', { refreshToken });
     const data = response.data?.data ?? response.data;
-    console.log('Raw response from server:', data);
     return {
       token: data.token || data.accessToken,
       refreshToken: data.refreshToken,

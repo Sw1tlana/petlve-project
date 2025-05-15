@@ -1,28 +1,49 @@
 import * as Yup from "yup";
-import { emailRegex, isValidLatinInput, isValidPhoneNumber } from "../helpers/contacts";
+import { 
+        emailRegex, 
+        isValidLatinInput, 
+        isValidPhoneNumber 
+  } from "../helpers/contacts";
 
 export const editInformationSchema = Yup.object({
   name: Yup.string()
-    .matches(isValidLatinInput, "A name can only contain Latin characters")
+    .nullable()
+    .notRequired()
+    .test('is-latin', 'A name can only contain Latin characters', value => {
+      if (!value) return true; 
+      return isValidLatinInput.test(value);
+    })
     .min(2, "Name must be at least 2 characters")
-    .max(50, "Name cannot exceed 50 characters")
-    .optional()
-    .nullable(),
+    .max(50, "Name cannot exceed 50 characters"),
 
   email: Yup.string()
-    .matches(emailRegex, "Invalid email format")
-    .optional()
-    .nullable(),
+    .nullable()
+    .notRequired()
+    .test('is-email', 'Invalid email format', value => {
+      if (!value) return true;
+      return emailRegex.test(value);
+    }),
 
   phone: Yup.string()
-    .matches(isValidPhoneNumber, "Invalid phone number")
-    .optional()
-    .nullable(),
+    .nullable()
+    .notRequired()
+    .test('is-phone', 'Invalid phone number', value => {
+      if (!value) return true;
+      return isValidPhoneNumber.test(value);
+    }),
 
   photoUrl: Yup.string()
-    .url("Invalid URL format") 
-    .optional()
-    .nullable(),
+    .nullable()
+    .notRequired()
+    .test('is-url', 'Invalid URL format', value => {
+      if (!value) return true;
+      try {
+        new URL(value);
+        return true;
+      } catch {
+        return false;
+      }
+    }),
 
   uploadPhoto: Yup.mixed<File>()
     .nullable()

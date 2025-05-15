@@ -7,11 +7,11 @@ interface AuthState {
   isLoggedIn: boolean;
   isRefreshing: boolean;
   error: string | null;
-  }
+  };
   
   interface RootState {
     auth: AuthState;
-  }
+  };
 
   export const selectUser = (state: RootState): User | null => state.auth.user;
 
