@@ -21,7 +21,7 @@ import {
   const authConfig = {
     key: "auth",
     storage,
-    whitelist: ["token", "refreshToken", "user"],
+    whitelist: ["token", "refreshToken", "user", "isLoggedIn", "avatar"],
     stateReconciler: autoMergeLevel2,
   };
 

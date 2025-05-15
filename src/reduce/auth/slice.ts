@@ -14,9 +14,9 @@ export interface User {
   _id?: string;
   name: string | null;
   email: string | null;
-  phone?: string;
-  photoUrl?: string | null;
+  phone?: string | null;
   avatar?: string | null; 
+  photoUrl?: string | null;
 }
 
 const INITIAL_STATE: State = {
@@ -42,6 +42,11 @@ export interface State {
   avatar: string | null;
   isRefreshing: boolean;
   loading: boolean;
+};
+
+const normalizeAvatar = (avatar: string | null | undefined): string | null => {
+  if (!avatar || avatar === "null") return null;
+  return avatar;
 };
 
 export const authSlice = createSlice({
@@ -80,17 +85,21 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signInUser.fulfilled, (state, action) => {
-         console.log('signInUser.fulfilled', action.payload);
-        const user = action.payload.user as User;
-        state.user = user;
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
-        state.avatar = user?.avatar || null;
-        state.isLoggedIn = true;
-        state.loading = false;
-        state.error = null;
-        toast.success('Login successful');
-      })
+          const user = action.payload.user as User;
+          const avatar = normalizeAvatar(user.avatar);
+
+          state.user = {
+            ...user,
+            avatar: avatar,
+          };
+          state.avatar = avatar;
+          state.token = action.payload.token;
+          state.refreshToken = action.payload.refreshToken;
+          state.isLoggedIn = true;
+          state.loading = false;
+          state.error = null;
+          toast.success('Login successful');
+        })
       .addCase(signInUser.rejected, (state) => {
         state.loading = false;  
         state.error = true; 
@@ -119,16 +128,19 @@ export const authSlice = createSlice({
       })
       .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
          const userData = action.payload.data?.user;
+
+        const avatar = normalizeAvatar(userData.avatar);
+
         if (userData) {
           state.user = {
             _id: userData._id,
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
-            photoUrl: userData.avatar ?? null,
-            avatar: userData.avatar ?? null,
+            photoUrl: avatar,
+            avatar: avatar,
           };
-          state.avatar = userData.avatar || null;
+          state.avatar = avatar;
         }
         toast.success('Current successful');
       })
