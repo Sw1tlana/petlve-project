@@ -8,10 +8,12 @@ import { requestSignUp,
          SignupFormData,
          SignInFormData,
          updateCurrentEdit,
-         CurrentFormData
+         CurrentFormData,
+         AddPetFormData,
+         requestAddPet
          
  } from '../services/authServices';
-import { setToken, User } from './slice';
+import { Pet, setToken, User } from './slice';
 import { RootState } from '../store';
 
 export interface SignUpResponse {
@@ -43,6 +45,10 @@ export interface SignInResponse {
     message: string;
     user: User;
   };
+  };
+
+  export interface AddPetResponse {
+   data: Pet;
   };
 
 export interface RefreshTokenResponse {
@@ -153,6 +159,28 @@ try {
     return thunkAPI.rejectWithValue('Token refresh failed');
 }
  });
+
+ export const fetchAddPet = createAsyncThunk<
+ AddPetResponse,
+ AddPetFormData,
+ {
+  state: RootState,
+  rejectValue: string
+ }
+ >('auth/fetchAddPet',
+  async(formData, thunkAPI) => {
+    try {
+        const response = await requestAddPet(formData);
+        return response;
+    } catch(err){
+      if (err instanceof Error) {
+        return thunkAPI.rejectWithValue(err.message);  
+      }
+    return thunkAPI.rejectWithValue('Login failed');
+  }
+  }
+);
+
 
  export const logoutUser = createAsyncThunk(
   'auth/logoutUser',

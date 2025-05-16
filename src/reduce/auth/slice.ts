@@ -7,7 +7,8 @@ import { signUpUser,
           SignUpResponse,
           RefreshTokenResponse,
           userCurrentEdit,
-          EditUserResponse
+          EditUserResponse,
+          fetchAddPet
       } from './operations';
 
 export interface User {
@@ -19,10 +20,35 @@ export interface User {
   photoUrl?: string | null;
 };
 
+export interface Pet {
+  _id: string;
+  name: string;
+  species?: string;
+  birthday?: string;
+  photoUrl?: string;
+  avatar?: string;
+};
+
+export interface State {
+  user: User;
+  token: string | null;
+  refreshToken: string | null;
+  isLoggedIn: boolean;
+  error: boolean | null;
+  avatar: string | null;
+  isRefreshing: boolean;
+  loading: boolean;
+  pets: Pet[];
+};
+
 const INITIAL_STATE: State = {
   user: {
+    _id: '',
     name: null,
     email: null,
+    phone: null,
+    avatar: null,
+    photoUrl: null,
   },
   token: null,
   refreshToken: null,
@@ -31,17 +57,7 @@ const INITIAL_STATE: State = {
   error: null,  
   isRefreshing: false,
   loading: false,
-};
-
-export interface State {
-  user: User | null;
-  token: string | null;
-  refreshToken: string | null;
-  isLoggedIn: boolean;
-  error: boolean | null;
-  avatar: string | null;
-  isRefreshing: boolean;
-  loading: boolean;
+  pets: [],
 };
 
 const normalizeAvatar = (avatar: string | null | undefined): string | null => {
@@ -60,6 +76,7 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    // --- signUpUser ---
     .addCase(signUpUser.pending, (state) => {
         state.loading = true;  
         state.error = null; 
@@ -79,6 +96,7 @@ export const authSlice = createSlice({
         state.error = true; 
         toast.error('Registration failed');
       })
+      // --- signInUser ---
       .addCase(signInUser.pending, (state) => {
         state.loading = true;  
         state.error = null; 
@@ -104,6 +122,7 @@ export const authSlice = createSlice({
         state.error = true; 
         toast.error('Login failed');
       })
+      // --- refreshTokenUser ---
       .addCase(refreshTokenUser.pending, (state) => {
         state.isRefreshing = true;
         state.error = false; 
@@ -129,6 +148,7 @@ export const authSlice = createSlice({
         state.refreshToken = null;
         state.isLoggedIn = false;
       })
+       // --- userCurrentEdit ---
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;
@@ -155,6 +175,7 @@ export const authSlice = createSlice({
         state.error = true;
         toast.error('User information could not be updated');
       })
+        // --- logoutUser ---
       .addCase(logoutUser.pending, (state) => {
         state.error = false;
         state.isRefreshing = false; 
@@ -170,6 +191,24 @@ export const authSlice = createSlice({
         state.error = true;
         toast.error('Incorrect email or password');
       })
+            // --- fetchAddPet ---
+      .addCase(fetchAddPet.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAddPet.fulfilled, (state, action) => {
+        state.loading = false;
+        const newPet = action.payload.data;
+        if (newPet) {
+          state.pets.push(newPet); 
+        }
+        toast.success('Питомця додано');
+      })
+      .addCase(fetchAddPet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        toast.error(`Не вдалося додати тваринку: ${action.payload}`);
+      });
   },
 });
 

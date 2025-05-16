@@ -3,7 +3,7 @@ import { Store } from "redux";
 import { RootState } from "../store";
 import { setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
-import { EditUserResponse } from "../auth/operations";
+import { AddPetResponse, EditUserResponse } from "../auth/operations";
 
 export const setAuthHeader = (token: string) => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -54,6 +54,15 @@ export interface SignInFormData {
     email?: string;
     name?: string;
     phone?: string;
+    photoUrl?: string;
+    uploadPhoto?: File;
+  };
+
+  export interface AddPetFormData {
+    species: string; 
+    title: string; 
+    name: string; 
+    birthday: string; 
     photoUrl?: string;
     uploadPhoto?: File;
   };
@@ -120,6 +129,36 @@ export const requestLogout = async() => {
   } catch {
     throw new Error('Logout failed');
   }
+};
+
+// addPet
+
+export const requestAddPet = async (
+  formData: AddPetFormData
+): Promise<AddPetResponse> => {
+      const dataForm = new FormData();
+
+    if (formData.name) {
+      dataForm.append('name', formData.name);
+    }
+    if (formData.species) {
+      dataForm.append('species', formData.species);
+    }
+    if (formData.title) {
+      dataForm.append('title', formData.title);
+    }
+      if (formData.birthday) {
+      dataForm.append('birthday', formData.birthday);
+    }
+
+    if (formData.uploadPhoto) {
+      dataForm.append('avatar', formData.uploadPhoto);
+    } else if (formData.photoUrl) {
+      dataForm.append('photoUrl', formData.photoUrl);
+    } 
+
+    const response = await axios.post('users/current/pets/add', formData);
+    return response.data;
 };
 
 // friends
