@@ -10,6 +10,7 @@ import ModalBurgerMenu from '../Modals/ModalBurgerMenu';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../reduce/auth/selectors';
+import { useMemo } from 'react';
 
 interface ModalContextType {
   openModal: (content: React.ReactNode) => void;
@@ -36,14 +37,18 @@ const burgerClass = isHome ? style.burgerHome : "";
        navigate('/current');
   };
 
-  const avatarUrl = user?.avatar ? user.avatar.startsWith('http')
-  ? `${user.avatar}?t=${Date.now()}`
-    : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
-    : null;
-  
+  const avatarUrl = useMemo(() => {
+      if (!user?.avatar) return null;
+      const isAbsoluteUrl = /^https?:\/\//.test(user.avatar);
+      return isAbsoluteUrl
+        ? `${user.avatar}?t=${Date.now()}`
+        : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`;
+    }, [user?.avatar]);
+    
 const getInitial = (name: string | undefined | null): string => {
   return name ?? '';
-};
+}
+
 
   return (
       <Container>

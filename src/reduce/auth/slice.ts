@@ -109,10 +109,19 @@ export const authSlice = createSlice({
         state.error = false; 
       })
       .addCase(refreshTokenUser.fulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
-        const { token, refreshToken } = action.payload;
+        const { token, refreshToken, user } = action.payload;
         state.token = token;
         state.refreshToken = refreshToken;
         state.isRefreshing = false;
+
+          if (user) {
+    const avatar = normalizeAvatar(user.avatar);
+    state.user = {
+      ...user,
+      avatar,
+    };
+    state.avatar = avatar;
+  }
         toast.success('RefreshToken successful');
       })
       .addCase(refreshTokenUser.rejected, (state) => {

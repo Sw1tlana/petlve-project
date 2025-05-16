@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useRef } from 'react';
+import { useId, useMemo, useRef } from 'react';
 import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
@@ -26,12 +26,13 @@ function ModalEditInformation() {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const getUserAvatarUrl = (avatar: string) => {
-  const isAbsoluteUrl = /^https?:\/\//.test(avatar);
+const avatarUrl = useMemo(() => {
+  if (!user?.avatar) return null;
+  const isAbsoluteUrl = /^https?:\/\//.test(user.avatar);
   return isAbsoluteUrl
-    ? `${avatar}?t=${Date.now()}`
-    : `https://petlve-api.onrender.com${avatar}?t=${Date.now()}`;
-};
+    ? `${user.avatar}?t=${Date.now()}`
+    : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`;
+}, [user?.avatar]);
 
   const nameId = useId();
   const emailId = useId();
@@ -85,7 +86,7 @@ const onSubmit: SubmitHandler<formData> = async (data) =>{
     reset();
     } catch (err) {
     if (err instanceof Error) {
-      toast.error('The data could not be updated. Check the link or try again.');  
+      toast.error('The data could not be updated.Check the link or try again.');  
   } else {
       toast.error('Unknown error occurred.');
   }
@@ -101,10 +102,10 @@ const onSubmit: SubmitHandler<formData> = async (data) =>{
   return (
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
-        {user?.avatar ? (
+        {avatarUrl ? (
           <img
             className={style.userPhoto}
-            src={getUserAvatarUrl(user.avatar)}
+            src={avatarUrl}
             alt="User avatar"
           />
         ) : (

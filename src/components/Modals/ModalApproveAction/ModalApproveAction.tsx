@@ -7,6 +7,7 @@ import { logoutUser } from '../../../reduce/auth/operations';
 import { selectIsLoggedIn, selectUser } from '../../../reduce/auth/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from '../../../context/useModalContext';
+import { useMemo } from 'react';
 
 function ModalApproveAction() {
 
@@ -20,6 +21,7 @@ function ModalApproveAction() {
         const onLogout = () => {
             if(isLoggedIn) {
             dispatch(logoutUser());
+            closeModal();
         }
         };
 
@@ -28,11 +30,13 @@ function ModalApproveAction() {
           closeModal();  
         };
 
-    const avatarUrl = user?.avatar
-    ? user.avatar.startsWith('http')
-      ? `${user.avatar}?t=${Date.now()}`
-      : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`
-    : null;
+    const avatarUrl = useMemo(() => {
+      if (!user?.avatar) return null;
+      const isAbsoluteUrl = /^https?:\/\//.test(user.avatar);
+      return isAbsoluteUrl
+        ? `${user.avatar}?t=${Date.now()}`
+        : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`;
+    }, [user?.avatar]);
 
   return (
     <section className={style.containerModal}>

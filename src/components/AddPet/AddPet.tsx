@@ -5,6 +5,7 @@ import Select from "react-select";
 import style from "../../scss/components/_addPet.module.scss";
 import addPetImg from "../../shared/images/Personal/personal@2x.png";
 import icons from "../../shared/icons/sprite.svg";
+import { motion } from 'framer-motion';
 
 interface OptionType {
   value: string;
@@ -65,7 +66,13 @@ function AddPet() {
       <Container>
         <div className={style.wrapper}>
           <div className={style.containerImg}>
-            <img className={style.addImg} src={addPetImg} alt="Add pet" />
+            <motion.img
+              src={addPetImg}
+              alt="Add pet"
+              initial={{ x: -100, opacity: 0 }}  
+              animate={{ x: 0, opacity: 1 }}      
+              transition={{ duration: 2, ease: "easeOut" }}
+            />
           </div>
           <div className={style.addPetContainer}>
             <h3 className={style.addPetTitle}>
@@ -136,7 +143,7 @@ function AddPet() {
           <div>
             <input
               type="text"
-              className="input input--secondary"
+              className={`input input--secondary ${style.inputText}`}
               placeholder="Golden Retriever Puppies"
               {...register("breed")}
               autoComplete="off"
@@ -149,7 +156,7 @@ function AddPet() {
           <div>
             <input
               type="text"
-              className="input input--secondary"
+              className={`input input--secondary ${style.inputText}`}
               placeholder="Daisy"
               {...register("name")}
               autoComplete="off"
@@ -163,7 +170,7 @@ function AddPet() {
             <div className={style.inputData}>
               <input
                 type="date"
-                className="input input--secondary"
+                className={`input input--secondary ${style.inputData}`}
                 placeholder="2022-10-01"
                 {...register("birthdate")}
                 autoComplete="bday"

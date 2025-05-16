@@ -48,6 +48,7 @@ export interface SignInResponse {
 export interface RefreshTokenResponse {
     token: string;
     refreshToken: string;
+    user?: User;
   };
 
   export const signUpUser = createAsyncThunk<

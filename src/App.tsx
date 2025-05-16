@@ -17,6 +17,7 @@ const FriendsPage = lazy(() => import('../src/pages/FriendsPage/FriendsPage'));
 const RegistrationPage = lazy(() => import('../src/pages/RegistrationPage/RegistrationPage'));
 const LoginPage = lazy(() => import('../src/pages/LoginPage/LoginPage'));
 const ProfilePage = lazy(() => import('../src/pages/ProfilePage/ProfilePage'));
+const AddPetPage = lazy(() => import('../src/pages/AddPetPage/AddPetPage'));
 
 function App() {
 const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,11 @@ useEffect(() => {
         <Route path='/current' element={
           <PrivateRoute>
             <ProfilePage/>
+          </PrivateRoute>
+          }/>
+        <Route path='/add-pet' element={
+          <PrivateRoute>
+            <AddPetPage/>
           </PrivateRoute>
           }/>
         <Route path='/signup' element={

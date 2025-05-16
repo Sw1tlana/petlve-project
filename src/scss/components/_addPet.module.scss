@@ -131,9 +131,30 @@
 
 .inputUrl {
     width: 170px; 
+    border: 1px solid fn.get-color('dark-light');
+}
+
+.inputText {
+    width: 100%;
+    border: 1px solid fn.get-color('dark-light');
+    border-radius: 30px; 
+}
+
+.inputData {
+    width: 144px;
+    border: 1px solid fn.get-color('dark-light');
+    border-radius: 30px;
+}
+
+.inputUrl:focus,
+.inputText:focus,
+.inputData:focus {
+  border-color: fn.get-color('accent-primary');
+  box-shadow: none;
 }
 
 .uploadInput {
+    outline: none;
     position: relative;
     width: 128px;
 }
@@ -154,10 +175,6 @@
 .containerData {
     display: flex;
     gap: 8px;
-}
-
-.inputData {
-    width: 144px;
 }
 
 .containerBtn {
@@ -279,8 +296,9 @@
     }
     
     .inputData {
-        width: 210px;
-    }
+    width: 210px;
+}
+
 
     .btnSubmit {
         width: 170px;
@@ -335,10 +353,6 @@
         display: flex;  
     }
     
-    .inputData {
-        width: 210px;
-    }
-
     .btnSubmit {
         width: 170px;
     }
