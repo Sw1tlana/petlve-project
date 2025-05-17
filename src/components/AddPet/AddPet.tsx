@@ -1,24 +1,28 @@
-import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useId, useRef } from "react";
+import { useForm, Resolver } from "react-hook-form";
 import Container from "../../shared/components/Container/Container";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import style from "../../scss/components/_addPet.module.scss";
 import addPetImg from "../../shared/images/Personal/personal@2x.png";
 import icons from "../../shared/icons/sprite.svg";
 import { motion } from 'framer-motion';
+import { addPetSchema } from "../../shemas/addPetShema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface OptionType {
   value: string;
   label: string;
 }
 
-interface FormValues {
+type FormData = {
+  name: string;
+  birthday: string;
   photoUrl: string;
   uploadPhoto: File;
-  breed: string;
-  name: string;
-  birthdate: string;
-}
+  title: string;
+  species: string;
+  sex: "male" | "female" | "health" | "";
+};
 
 const categoryOption = [
   { value: "Dog", label: "Dog" },
@@ -36,13 +40,33 @@ const categoryOption = [
 ];
 
 function AddPet() {
-  const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormValues>();
+  const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<FormData>({
+    resolver: yupResolver(addPetSchema) as Resolver<FormData>,
+    defaultValues: { 
+      sex: "",
+      species: ""
+     }
+  }
+  );
 
-  const handleCategoryChange = (selected: OptionType | null) => {
-    setSelectedOption(selected);
+  const selectedGender = watch("sex");
+  const selectSpecies = watch("species");
+
+  const handleGenderSelect = (gender: "male" | "female" | "health") => {
+  setValue("sex", gender, { shouldValidate: true });
+};
+
+  const photoUrlId = useId();
+  const uploadPhotoId = useId();
+  const titleId = useId();
+  const nameId = useId();
+  const dateId = useId();
+
+
+  const findSelectedOption = (value: string): OptionType | null => {
+    return categoryOption.find((option) => option.value === value) || null;
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +76,17 @@ function AddPet() {
     }
   };
 
+    const handleSelectChange = (
+    newValue: SingleValue<OptionType>,
+  ) => {
+    setValue("species", newValue?.value || "", { shouldValidate: true });
+  };
+
   const handleFileUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: FormData) => {
     console.log("Form Data:", data);
     reset();
   };
@@ -80,17 +110,26 @@ function AddPet() {
             </h3>
 
             <div className={style.iconsContainer}>
-              <div className={style.female}>
+              <div 
+              className={`${style.female} ${selectedGender === "female" ? style.active : ""}`}
+              onClick={() => handleGenderSelect("female")}
+              >
                 <svg className={style.iconFemale} width={20} height={20}>
                   <use xlinkHref={`${icons}#icon-female`} />
                 </svg>
               </div>
-              <div className={style.male}>
+              <div 
+              className={`${style.male} ${selectedGender === "male" ? style.active : ""}`}
+              onClick={() => handleGenderSelect("male")}
+              >
                 <svg className={style.iconMale} width={20} height={20}>
                   <use xlinkHref={`${icons}#icon-male`} />
                 </svg>
               </div>
-              <div className={style.health}>
+              <div 
+              className={`${style.health} ${selectedGender === "health" ? style.active : ""}`}
+              onClick={() => handleGenderSelect("health")}
+              >
                 <svg  className={style.iconHealth} width={22} height={22}>
                   <use xlinkHref={`${icons}#icon-health`}/>
                 </svg>
@@ -107,6 +146,7 @@ function AddPet() {
           <div className={style.containerUpload}>
           <div>
             <input
+              id={photoUrlId}
               type="url"
               className={`input input--secondary ${style.inputUrl}`}
               placeholder="https://ftp.goit.study/img/pets/5.webp"
@@ -120,6 +160,7 @@ function AddPet() {
 
           <div className={style.uploadInput}>
             <input
+              id={uploadPhotoId}
               type="file"
               {...register("uploadPhoto")}
               ref={fileInputRef}
@@ -142,19 +183,21 @@ function AddPet() {
 
           <div>
             <input
+              id={titleId}
               type="text"
               className={`input input--secondary ${style.inputText}`}
               placeholder="Golden Retriever Puppies"
-              {...register("breed")}
+              {...register("title")}
               autoComplete="off"
               aria-required="true"
             />
-            {errors.breed?.message && 
-            (<p className={style.errorMsg}>{String(errors.breed.message)}</p>)}
+            {errors.title?.message && 
+            (<p className={style.errorMsg}>{String(errors.title.message)}</p>)}
           </div>
 
           <div>
             <input
+              id={nameId}
               type="text"
               className={`input input--secondary ${style.inputText}`}
               placeholder="Daisy"
@@ -169,23 +212,24 @@ function AddPet() {
           <div className={style.containerData}>
             <div className={style.inputData}>
               <input
+                id={dateId}
                 type="date"
                 className={`input input--secondary ${style.inputData}`}
                 placeholder="2022-10-01"
-                {...register("birthdate")}
+                {...register("birthday")}
                 autoComplete="bday"
                 aria-required="true"
               />
-              {errors.birthdate?.message && 
-              (<p className={style.errorMsg}>{String(errors.birthdate.message)}</p>)}
+              {errors.birthday?.message && 
+              (<p className={style.errorMsg}>{String(errors.birthday.message)}</p>)}
             </div>
 
             <div>
               <Select
                 id="categoryFilter"
-                value={selectedOption}
-                onChange={handleCategoryChange}
-                options={categoryOption}
+                  value={findSelectedOption(selectSpecies)}
+                  onChange={handleSelectChange}
+                  options={categoryOption}
                 styles={{
                   control: (base) => ({
                     ...base,
@@ -216,7 +260,7 @@ function AddPet() {
           <div className={style.containerBtn}>
             <button type="button" className={style.btnBack}>Back</button>
           <div className={style.btnSubmit}>
-              <button type="submit" className="btn btn--primary">Submit</button>
+            <button type="submit" className="btn btn--primary">Submit</button>
           </div>
         </div>
         </form>
