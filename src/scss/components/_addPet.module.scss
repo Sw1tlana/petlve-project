@@ -61,6 +61,7 @@
 
     background-color: fn.get-color('light-red');
     position: relative;
+    cursor: pointer;
 }
 
 .iconFemale {
@@ -76,6 +77,7 @@
 
     background-color: fn.get-color('light-blue');
     position: relative;
+    cursor: pointer;
 }
 
 .iconMale {
@@ -91,6 +93,7 @@
 
     background-color: fn.get-color('accent-secondary');
     position: relative;
+    cursor: pointer;
 }
 
 .iconHealth {
@@ -99,6 +102,15 @@
     position: absolute;
     top: 6px;
     left: 6px;
+}
+
+.female:hover,
+.male:hover {
+    background-color: fn.get-color('accent-secondary');
+} 
+
+.health:hover {
+  background-color: fn.get-color('light-blue');  
 }
 
 .addPetAvatar {
@@ -149,7 +161,9 @@
 .inputUrl:focus,
 .inputText:focus,
 .inputData:focus {
+  outline: none;
   border-color: fn.get-color('accent-primary');
+  color: fn.get-color('accent-primary');
   box-shadow: none;
 }
 
@@ -205,6 +219,13 @@
 
 .spanBtn {
     color: fn.get-color('dark-primary');
+}
+
+.errorMsg {
+    @extend %text;
+
+    font-size: 12px;
+    color: fn.get-color('red-color');
 }
 
 @include mx.mq('md') { 

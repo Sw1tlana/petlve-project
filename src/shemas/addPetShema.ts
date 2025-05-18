@@ -51,37 +51,39 @@ species: Yup.string()
       "Bees",
       "Butterfly"
     ],
-    'Invalid species selected'
+    'Selected types'
   ),
 
 sex: Yup.string()
-    .required('Gender is required')
+  .required('Gender is required')
   .oneOf(
     [
     "male",
     "female",
     "health"
     ],
-    'Invalid gender selected'
+    "Select gender"
   ),
 
-photoUrl: Yup.string()
-    .nullable()
-    .notRequired()
-    .test('is-url', 'Invalid URL format', value => {
+  uploadPhoto: Yup
+    .mixed()
+    .test("fileSize", "Файл занадто великий", (value) => {
+      if (!value) return true; // Якщо файлу немає - валідно
+      return (value as File).size <= 5 * 1024 * 1024; // до 5 МБ
+    })
+    .test("fileType", "Невірний формат файлу", (value) => {
       if (!value) return true;
-      try {
-        new URL(value);
-        return true;
-      } catch {
-        return false;
-      }
+      return ["image/jpeg", "image/png", "image/jpg"].includes((value as File).type);
     }),
 
-uploadPhoto: Yup.mixed<File>()
-    .nullable()
-    .notRequired()
-    .test("fileSize", "File is too large", (value) => {
-      return !value || value.size <= 5 * 1024 * 1024; 
-    }),
+  photoUrl: Yup.string().url("Некоректний URL").nullable(),
+
+}).test("fileOrUrl", "Потрібно завантажити файл або вказати URL", function (value) {
+  // value — це об'єкт зі всіма полями форми
+  const { uploadPhoto, photoUrl } = value as { uploadPhoto?: File; photoUrl?: string };
+
+  if (!uploadPhoto && (!photoUrl || photoUrl.trim() === "")) {
+    return this.createError({ message: "Потрібно завантажити файл або вказати URL" });
+  }
+  return true;
 });

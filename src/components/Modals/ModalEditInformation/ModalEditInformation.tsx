@@ -55,7 +55,7 @@ const avatarUrl = useMemo(() => {
   const phoneValue = watch('phone');
   const nameValue = watch('name');
   const emailValue = watch('email');
-   const photoUrlValue = watch('photoUrl');
+  const photoUrlValue = watch('photoUrl');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

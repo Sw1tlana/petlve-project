@@ -1,5 +1,5 @@
-import { useId, useRef } from "react";
-import { useForm, Resolver } from "react-hook-form";
+import { useId, useMemo, useRef } from "react";
+import { useForm, Resolver, SubmitHandler } from "react-hook-form";
 import Container from "../../shared/components/Container/Container";
 import Select, { SingleValue } from "react-select";
 import style from "../../scss/components/_addPet.module.scss";
@@ -8,6 +8,12 @@ import icons from "../../shared/icons/sprite.svg";
 import { motion } from 'framer-motion';
 import { addPetSchema } from "../../shemas/addPetShema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
+import { AddPetFormData } from "../../reduce/services/authServices";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../reduce/store";
+import { fetchAddPet } from "../../reduce/auth/operations";
+import { selectPets } from "../../reduce/auth/selectors";
 
 interface OptionType {
   value: string;
@@ -17,8 +23,8 @@ interface OptionType {
 type FormData = {
   name: string;
   birthday: string;
-  photoUrl: string;
-  uploadPhoto: File;
+  photoUrl?: string;
+  uploadPhoto?: File;
   title: string;
   species: string;
   sex: "male" | "female" | "health" | "";
@@ -41,12 +47,20 @@ const categoryOption = [
 
 function AddPet() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const pets = useSelector(selectPets);
+
+  const dispatch: AppDispatch = useDispatch();
 
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<FormData>({
     resolver: yupResolver(addPetSchema) as Resolver<FormData>,
-    defaultValues: { 
+    defaultValues: {
+      name: "",
+      birthday: "",
+      photoUrl: undefined,
+      uploadPhoto: undefined,
+      title: "",
+      species: "" ,
       sex: "",
-      species: ""
      }
   }
   );
@@ -59,11 +73,10 @@ function AddPet() {
 };
 
   const photoUrlId = useId();
-  const uploadPhotoId = useId();
+  const uploadPhoto = useId();
   const titleId = useId();
   const nameId = useId();
   const dateId = useId();
-
 
   const findSelectedOption = (value: string): OptionType | null => {
     return categoryOption.find((option) => option.value === value) || null;
@@ -86,10 +99,62 @@ function AddPet() {
     fileInputRef.current?.click();
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form Data:", data);
+  const titleValue = watch('title');
+  const nameValue = watch('name');
+  const birthdayValue = watch('birthday');
+  const photoUrlValue = watch('photoUrl')
+
+const avatarUrl = useMemo(() => {
+  const firstPet = pets?.[0]; 
+
+  if (!firstPet?.photo) return null;
+
+  const isAbsoluteUrl = /^https?:\/\//.test(firstPet.photo);
+  return isAbsoluteUrl
+    ? `${firstPet.photo}?t=${Date.now()}`
+    : `https://petlve-api.onrender.com${firstPet.photo}?t=${Date.now()}`;
+}, [pets]);
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+     if (!data.name && 
+      !data.birthday && 
+      !data.sex && 
+      !data.photoUrl && 
+      !data.uploadPhoto && 
+      !data.species && 
+      !data.title) {
+    return;
+  }
+
+    try {
+      const formDataForSubmit: Partial<AddPetFormData> = {};
+
+      if (data.name) formDataForSubmit.name = data.name;
+      if (data.title) formDataForSubmit.title = data.title;
+      if (data.birthday) formDataForSubmit.birthday = data.birthday;
+      if (data.sex) formDataForSubmit.sex = data.sex;
+      if(data.species) formDataForSubmit.species = data.species;
+
+      if (data.uploadPhoto) {
+        formDataForSubmit.uploadPhoto = data.uploadPhoto;
+        formDataForSubmit.photoUrl = ''; 
+      } else if (data.photoUrl?.trim()) {
+        formDataForSubmit.photoUrl = data.photoUrl.trim();
+      }
+    await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
+  console.log(formDataForSubmit);
+    reset();
+    } catch (err) {
+    if (err instanceof Error) {
+      toast.error('Data could not be added. Please check or try again.');  
+  } else {
+      toast.error('Unknown error occurred.');
+  }
+  }
     reset();
   };
+
+  const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
 
   return (
     <section>
@@ -109,6 +174,7 @@ function AddPet() {
               Add my pet / <span className={style.subtitleMini}>Personal details</span>
             </h3>
 
+        <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={style.iconsContainer}>
               <div 
               className={`${style.female} ${selectedGender === "female" ? style.active : ""}`}
@@ -136,34 +202,60 @@ function AddPet() {
               </div>
             </div>
 
-        <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
-          <div className={style.addPetAvatar}>
-            <svg width={26} height={26} className={style.iconPaw}>
-              <use xlinkHref={`${icons}#icon-paw`} />
-            </svg>
-          </div>
+              {errors.sex && (
+                <p style={{ color: "red", fontSize: "12px" }}>
+                  {errors.sex.message}
+                </p>
+              )}
 
-          <div className={style.containerUpload}>
-          <div>
-            <input
-              id={photoUrlId}
-              type="url"
-              className={`input input--secondary ${style.inputUrl}`}
-              placeholder="https://ftp.goit.study/img/pets/5.webp"
-              {...register("photoUrl")}
-              autoComplete="off"
-              aria-required="true"
-            />
-            {errors.photoUrl?.message && 
-            (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
-          </div>
+               {avatarUrl ? (
+                  <img
+                      className={style.userPhoto}
+                      src={avatarUrl}
+                      alt="User avatar"
+                  />
+                      ) : (
+                  <div className={style.addPetAvatar}>
+                      <svg width={26} height={26} className={style.iconPaw}>
+                        <use xlinkHref={`${icons}#icon-paw`} />
+                      </svg>
+                    </div>
+                  )}
+
+            <div className={style.containerUpload}>
+            <div>
+              <input
+                id={photoUrlId}
+                type="url"
+                className={`input input--secondary ${style.inputUrl}`}
+                placeholder="Enter URL"
+                {...register("photoUrl")}
+                autoComplete="off"
+                aria-required="true"
+              />
+              {errors.photoUrl?.message && 
+              (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
+
+              {photoUrlValue && (
+                <img
+                  src={`${photoUrlValue}?t=${Date.now()}`}
+                  alt="Preview"
+                  className={style.previewImage}
+                  onError={(e) => (e.currentTarget.style.display = "none")}
+                />
+              )}
+            </div>
 
           <div className={style.uploadInput}>
             <input
-              id={uploadPhotoId}
+              id={uploadPhoto}
               type="file"
               {...register("uploadPhoto")}
-              ref={fileInputRef}
+              {...uploadPhotoRest}
+                ref={(e) => {
+                uploadPhotoRef(e);
+                fileInputRef.current = e;
+              }}
               onChange={handleFileChange}
               aria-required="true"
               style={{ display: "none" }} 
@@ -185,8 +277,9 @@ function AddPet() {
             <input
               id={titleId}
               type="text"
-              className={`input input--secondary ${style.inputText}`}
-              placeholder="Golden Retriever Puppies"
+              className={`input input--secondary 
+              ${!errors.name && titleValue ? "validTitle" : ''} ${style.inputText}`}
+              placeholder="Title"
               {...register("title")}
               autoComplete="off"
               aria-required="true"
@@ -199,8 +292,9 @@ function AddPet() {
             <input
               id={nameId}
               type="text"
-              className={`input input--secondary ${style.inputText}`}
-              placeholder="Daisy"
+              className={`input input--secondary 
+                ${!errors.name && nameValue ? "validName" : ''} ${style.inputText}`}
+              placeholder="Pets name"
               {...register("name")}
               autoComplete="off"
               aria-required="true"
@@ -210,11 +304,12 @@ function AddPet() {
           </div>
 
           <div className={style.containerData}>
-            <div className={style.inputData}>
+            <div>
               <input
                 id={dateId}
                 type="date"
-                className={`input input--secondary ${style.inputData}`}
+                className={`input input--secondary 
+                  ${style.inputData} ${!errors.name && birthdayValue ? "validBirthday" : ''}`}
                 placeholder="2022-10-01"
                 {...register("birthday")}
                 autoComplete="bday"
@@ -255,7 +350,12 @@ function AddPet() {
                 menuPosition="fixed"
                 placeholder="Dog"
               />
-            </div>
+                {errors.species && (
+                <p style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {errors.species.message}
+                </p>
+              )}
+          </div>
           </div>
           <div className={style.containerBtn}>
             <button type="button" className={style.btnBack}>Back</button>

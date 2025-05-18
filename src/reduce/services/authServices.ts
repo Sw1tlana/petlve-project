@@ -59,7 +59,8 @@ export interface SignInFormData {
   };
 
   export interface AddPetFormData {
-    species: string; 
+    species: string;
+    sex: string; 
     title: string; 
     name: string; 
     birthday: string; 
@@ -105,7 +106,7 @@ export const updateCurrentEdit = async (
 
    setAuthHeader(token);
 
-  const response = await axios.patch('users/current/edit', dataForm);
+  const response = await axios.patch('users/current/edit', formData);
   return response.data;
 };
 
@@ -134,9 +135,11 @@ export const requestLogout = async() => {
 // addPet
 
 export const requestAddPet = async (
-  formData: AddPetFormData
+  formData: AddPetFormData,
+  token: string
 ): Promise<AddPetResponse> => {
       const dataForm = new FormData();
+      console.log(dataForm);
 
     if (formData.name) {
       dataForm.append('name', formData.name);
@@ -147,17 +150,21 @@ export const requestAddPet = async (
     if (formData.title) {
       dataForm.append('title', formData.title);
     }
-      if (formData.birthday) {
-      dataForm.append('birthday', formData.birthday);
-    }
+    if (formData.birthday) {
+    const isoDate = new Date(formData.birthday).toISOString().split('T')[0]; 
+    dataForm.append('birthday', isoDate);
+  }
 
     if (formData.uploadPhoto) {
-      dataForm.append('avatar', formData.uploadPhoto);
+      dataForm.append('photo', formData.uploadPhoto);
     } else if (formData.photoUrl) {
       dataForm.append('photoUrl', formData.photoUrl);
     } 
 
-    const response = await axios.post('users/current/pets/add', formData);
+    setAuthHeader(token);
+
+    const response = await axios.post('users/current/pets/add', dataForm);
+     console.log('Response from server:', response.data);
     return response.data;
 };
 

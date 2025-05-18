@@ -1,4 +1,4 @@
-import { User } from "./slice";
+import { Pet, User } from "./slice";
 
 interface AuthState {
   user: User | null;      
@@ -7,6 +7,7 @@ interface AuthState {
   isLoggedIn: boolean;
   isRefreshing: boolean;
   error: string | null;
+  pets: Pet[];
   };
   
   interface RootState {
@@ -18,6 +19,8 @@ interface AuthState {
   export const selectEmail = (state: RootState) => state.auth.email;
 
   export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
+
+  export const selectPets = (state: RootState): Pet[] => state.auth.pets;
 
   export const selectIsRefreshing = (state: RootState) => state.auth.isRefreshing;
 

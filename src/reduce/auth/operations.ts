@@ -125,6 +125,7 @@ export const userCurrentEdit = createAsyncThunk<
       return response;
     } catch(err){
       if (err instanceof Error) {
+         console.error("Add pet error:", err);
         return thunkAPI.rejectWithValue(err.message);  
       }
     return thunkAPI.rejectWithValue('Login failed');
@@ -169,8 +170,15 @@ try {
  }
  >('auth/fetchAddPet',
   async(formData, thunkAPI) => {
+
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue('No token provided');
+    }
     try {
-        const response = await requestAddPet(formData);
+        const response = await requestAddPet(formData, token);
         return response;
     } catch(err){
       if (err instanceof Error) {
@@ -180,7 +188,6 @@ try {
   }
   }
 );
-
 
  export const logoutUser = createAsyncThunk(
   'auth/logoutUser',

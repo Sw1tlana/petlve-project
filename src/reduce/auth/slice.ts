@@ -26,7 +26,7 @@ export interface Pet {
   species?: string;
   birthday?: string;
   photoUrl?: string;
-  avatar?: string;
+  photo?: string;
 };
 
 export interface State {
@@ -199,15 +199,17 @@ export const authSlice = createSlice({
       .addCase(fetchAddPet.fulfilled, (state, action) => {
         state.loading = false;
         const newPet = action.payload.data;
+        console.log(newPet);
         if (newPet) {
           state.pets.push(newPet); 
+          console.log(newPet);
         }
-        toast.success('Питомця додано');
+        toast.success('Pet added');
       })
       .addCase(fetchAddPet.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
-        toast.error(`Не вдалося додати тваринку: ${action.payload}`);
+        toast.error(`Could not add an animal: ${action.payload}`);
       });
   },
 });
