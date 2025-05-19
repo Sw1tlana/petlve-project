@@ -24,7 +24,9 @@ export interface Pet {
   _id: string;
   name: string;
   species?: string;
+  title?: string;
   birthday?: string;
+  sex?: string;
   photoUrl?: string;
   photo?: string;
 };

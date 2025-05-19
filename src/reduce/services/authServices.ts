@@ -184,6 +184,7 @@ for (const pair of dataForm.entries()) {
       sex: formData.sex,
       species: formData.species,
       photoUrl: formData.photoUrl,
+      photo: formData.uploadPhoto
   },);
      console.log('Response from server:', response.data);
     return response.data;

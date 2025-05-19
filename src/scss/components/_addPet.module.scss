@@ -296,6 +296,11 @@
     .addPetAvatar {
         @include mx.frame(86px, 86px, true);
     }
+
+    .userPhoto {
+        width: 86px; 
+        height: 86px;
+    }
     
     .iconPaw {
         top: 28px;

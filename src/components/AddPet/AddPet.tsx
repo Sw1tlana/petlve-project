@@ -1,4 +1,4 @@
-import { useId, useMemo, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useForm, Resolver, SubmitHandler } from "react-hook-form";
 import Container from "../../shared/components/Container/Container";
 import Select, { SingleValue } from "react-select";
@@ -10,10 +10,9 @@ import { addPetSchema } from "../../shemas/addPetShema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { AddPetFormData } from "../../reduce/services/authServices";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../reduce/store";
 import { fetchAddPet } from "../../reduce/auth/operations";
-import { selectPets } from "../../reduce/auth/selectors";
 
 interface OptionType {
   value: string;
@@ -47,7 +46,7 @@ const categoryOption = [
 
 function AddPet() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const pets = useSelector(selectPets);
+  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -78,6 +77,11 @@ function AddPet() {
   const nameId = useId();
   const dateId = useId();
 
+  const titleValue = watch('title');
+  const nameValue = watch('name');
+  const birthdayValue = watch('birthday');
+  const photoUrlValue = watch('photoUrl');
+
   const findSelectedOption = (value: string): OptionType | null => {
     return categoryOption.find((option) => option.value === value) || null;
   };
@@ -88,11 +92,20 @@ function AddPet() {
       setValue("uploadPhoto", file, { shouldValidate: true });
       setValue("photoUrl", "", { shouldValidate: false }); 
 
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewPhoto(previewUrl);
+
         if (fileInputRef.current) {
        fileInputRef.current.value = '';
   }
     }
   };
+
+  useEffect(() => {
+  if (photoUrlValue?.trim()) {
+    setPreviewPhoto(`${photoUrlValue}?t=${Date.now()}`);
+  }
+}, [photoUrlValue]);
 
     const handleSelectChange = (
     newValue: SingleValue<OptionType>,
@@ -103,22 +116,6 @@ function AddPet() {
   const handleFileUploadClick = () => {
     fileInputRef.current?.click();
   };
-
-  const titleValue = watch('title');
-  const nameValue = watch('name');
-  const birthdayValue = watch('birthday');
-  const photoUrlValue = watch('photoUrl')
-
-const avatarUrl = useMemo(() => {
-  const firstPet = pets?.[0]; 
-  const photo = firstPet?.photoUrl || firstPet?.photo;
-  if (!photo) return null;
-
-  const isAbsoluteUrl = /^https?:\/\//.test(photo);
-  return isAbsoluteUrl
-    ? `${photo}?t=${Date.now()}`
-    : `https://petlve-api.onrender.com${photo}?t=${Date.now()}`;
-}, [pets]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
      if (
@@ -148,7 +145,7 @@ const avatarUrl = useMemo(() => {
         formDataForSubmit.photoUrl = data.photoUrl.trim();
       }
 
-    await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
+  await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
   console.log(formDataForSubmit);
     reset();
     } catch (err) {
@@ -163,6 +160,8 @@ const avatarUrl = useMemo(() => {
   };
 
   const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
+
+  const avatarSrc = previewPhoto || (photoUrlValue ? `${photoUrlValue}?t=${Date.now()}` : null);
 
   return (
     <section>
@@ -216,19 +215,24 @@ const avatarUrl = useMemo(() => {
                 </p>
               )}
 
-               {avatarUrl ? (
-                  <img
-                      className={style.userPhoto}
-                      src={avatarUrl}
-                      alt="User avatar"
-                  />
-                      ) : (
-                  <div className={style.addPetAvatar}>
-                      <svg width={26} height={26} className={style.iconPaw}>
-                        <use xlinkHref={`${icons}#icon-paw`} />
-                      </svg>
-                    </div>
-                  )}
+                
+          {avatarSrc ? (
+            <img
+              key={avatarSrc} 
+              className={style.userPhoto}
+              src={avatarSrc}
+              alt="User avatar"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <div className={style.addPetAvatar}>
+              <svg width={26} height={26} className={style.iconPaw}>
+                <use xlinkHref={`${icons}#icon-paw`} />
+              </svg>
+            </div>
+          )}
 
             <div className={style.containerUpload}>
             <div>
@@ -252,15 +256,6 @@ const avatarUrl = useMemo(() => {
               />
               {errors.photoUrl?.message && 
               (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
-
-              {photoUrlValue && (
-                <img
-                  src={`${photoUrlValue}?t=${Date.now()}`}
-                  alt="Preview"
-                  className={style.previewImage}
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
-              )}
             </div>
 
           <div className={style.uploadInput}>
