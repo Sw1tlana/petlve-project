@@ -138,6 +138,7 @@ export const requestAddPet = async (
   formData: AddPetFormData,
   token: string
 ): Promise<AddPetResponse> => {
+    console.log('>>> requestAddPet called');
       const dataForm = new FormData();
       console.log(dataForm);
 
@@ -155,15 +156,35 @@ export const requestAddPet = async (
     dataForm.append('birthday', isoDate);
   }
 
-    if (formData.uploadPhoto) {
-      dataForm.append('photo', formData.uploadPhoto);
-    } else if (formData.photoUrl) {
-      dataForm.append('photoUrl', formData.photoUrl);
-    } 
+if (
+  formData.uploadPhoto &&
+  formData.uploadPhoto instanceof File &&
+  formData.uploadPhoto.size > 0
+) {
+  dataForm.append('photo', formData.uploadPhoto);
+  console.log('✅ Додано файл:', formData.uploadPhoto.name);
+} else if (formData.photoUrl) {
+  dataForm.append('photoUrl', formData.photoUrl);
+  console.log('✅ Додано URL:', formData.photoUrl);
+} else {
+  console.log('⚠️ Фото не додано — ні файл, ні URL не передано');
+}
 
     setAuthHeader(token);
 
-    const response = await axios.post('users/current/pets/add', dataForm);
+    console.log('📦 FormData до відправки:');
+for (const pair of dataForm.entries()) {
+  console.log(pair[0] + ':', pair[1]);
+}
+
+    const response = await axios.post('users/current/pets/add',  {
+      name: formData.name,
+      title: formData.title,
+      birthday: formData.birthday,
+      sex: formData.sex,
+      species: formData.species,
+      photoUrl: formData.photoUrl,
+  },);
      console.log('Response from server:', response.data);
     return response.data;
 };

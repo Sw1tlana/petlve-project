@@ -228,6 +228,15 @@
     color: fn.get-color('red-color');
 }
 
+.userPhoto {
+  width: 68px; 
+  height: 68px;
+  border-radius: 50%;  
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 16px auto;
+}
+
 @include mx.mq('md') { 
     .wrapper {
         gap: 16px;

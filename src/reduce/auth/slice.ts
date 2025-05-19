@@ -197,6 +197,10 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAddPet.fulfilled, (state, action) => {
+
+  console.log('Payload:', action.payload);
+  console.log('Full action:', action);
+
         state.loading = false;
         const newPet = action.payload.data;
         console.log(newPet);
@@ -210,7 +214,7 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = true;
         toast.error(`Could not add an animal: ${action.payload}`);
-      });
+      })
   },
 });
 

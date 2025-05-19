@@ -86,6 +86,11 @@ function AddPet() {
     const file = event.target.files?.[0];
     if (file) {
       setValue("uploadPhoto", file, { shouldValidate: true });
+      setValue("photoUrl", "", { shouldValidate: false }); 
+
+        if (fileInputRef.current) {
+       fileInputRef.current.value = '';
+  }
     }
   };
 
@@ -106,17 +111,18 @@ function AddPet() {
 
 const avatarUrl = useMemo(() => {
   const firstPet = pets?.[0]; 
+  const photo = firstPet?.photoUrl || firstPet?.photo;
+  if (!photo) return null;
 
-  if (!firstPet?.photo) return null;
-
-  const isAbsoluteUrl = /^https?:\/\//.test(firstPet.photo);
+  const isAbsoluteUrl = /^https?:\/\//.test(photo);
   return isAbsoluteUrl
-    ? `${firstPet.photo}?t=${Date.now()}`
-    : `https://petlve-api.onrender.com${firstPet.photo}?t=${Date.now()}`;
+    ? `${photo}?t=${Date.now()}`
+    : `https://petlve-api.onrender.com${photo}?t=${Date.now()}`;
 }, [pets]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-     if (!data.name && 
+     if (
+      !data.name && 
       !data.birthday && 
       !data.sex && 
       !data.photoUrl && 
@@ -135,12 +141,13 @@ const avatarUrl = useMemo(() => {
       if (data.sex) formDataForSubmit.sex = data.sex;
       if(data.species) formDataForSubmit.species = data.species;
 
-      if (data.uploadPhoto) {
+      if (data.uploadPhoto instanceof File) {
         formDataForSubmit.uploadPhoto = data.uploadPhoto;
         formDataForSubmit.photoUrl = ''; 
       } else if (data.photoUrl?.trim()) {
         formDataForSubmit.photoUrl = data.photoUrl.trim();
       }
+
     await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
   console.log(formDataForSubmit);
     reset();
@@ -151,6 +158,7 @@ const avatarUrl = useMemo(() => {
       toast.error('Unknown error occurred.');
   }
   }
+
     reset();
   };
 
@@ -229,9 +237,18 @@ const avatarUrl = useMemo(() => {
                 type="url"
                 className={`input input--secondary ${style.inputUrl}`}
                 placeholder="Enter URL"
-                {...register("photoUrl")}
                 autoComplete="off"
                 aria-required="true"
+                {...register("photoUrl", {
+                  onChange: (e) => {
+                    setValue("photoUrl", e.target.value, { shouldValidate: true });
+                    setValue("uploadPhoto", undefined, { shouldValidate: false });
+
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
+                  },
+                })}
               />
               {errors.photoUrl?.message && 
               (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
@@ -250,7 +267,6 @@ const avatarUrl = useMemo(() => {
             <input
               id={uploadPhoto}
               type="file"
-              {...register("uploadPhoto")}
               {...uploadPhotoRest}
                 ref={(e) => {
                 uploadPhotoRef(e);
