@@ -4,6 +4,7 @@ import icons from '../../shared/icons/sprite.svg';
 import EditUserBtn from '../EditUserBtn/EditUserBtn';
 import MyFavorite from '../MyFavorite/MyFavorite';
 import PetsBlock from '../PetsBlock/PetsBlock';
+import PetsList from '../PetsList/PetsList';
 import UserBlock from '../UserBlock/UserBlock';
 import UserNav from '../UserNav/UserNav';
 
@@ -28,6 +29,7 @@ function Profile() {
             </div>
             <div className={style.containerPetBlock}>
               <PetsBlock/>
+              <PetsList/>
             </div>
           <UserNav/> 
           </div>

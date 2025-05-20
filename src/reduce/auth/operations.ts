@@ -13,7 +13,7 @@ import { requestSignUp,
          requestAddPet
          
  } from '../services/authServices';
-import { Pet, setToken, User } from './slice';
+import { Pets, setToken, User } from './slice';
 import { RootState } from '../store';
 
 export interface SignUpResponse {
@@ -48,7 +48,11 @@ export interface SignInResponse {
   };
 
   export interface AddPetResponse {
-   data: Pet;
+     success: boolean;
+     data: {
+     message?: string;
+     data: Pets;
+     }
   };
 
 export interface RefreshTokenResponse {

@@ -20,7 +20,7 @@ export interface User {
   photoUrl?: string | null;
 };
 
-export interface Pet {
+export interface Pets {
   _id: string;
   name: string;
   species?: string;
@@ -40,7 +40,7 @@ export interface State {
   avatar: string | null;
   isRefreshing: boolean;
   loading: boolean;
-  pets: Pet[];
+  pets: Pets[];
 };
 
 const INITIAL_STATE: State = {
@@ -204,12 +204,8 @@ export const authSlice = createSlice({
   console.log('Full action:', action);
 
         state.loading = false;
-        const newPet = action.payload.data;
-        console.log(newPet);
-        if (newPet) {
-          state.pets.push(newPet); 
-          console.log(newPet);
-        }
+        const newPet = action.payload.data.data;
+        state.pets.push(newPet);
         toast.success('Pet added');
       })
       .addCase(fetchAddPet.rejected, (state, action) => {

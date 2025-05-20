@@ -147,7 +147,8 @@ function AddPet() {
 
   await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
   console.log(formDataForSubmit);
-    reset();
+    reset(); 
+    
     } catch (err) {
     if (err instanceof Error) {
       toast.error('Data could not be added. Please check or try again.');  

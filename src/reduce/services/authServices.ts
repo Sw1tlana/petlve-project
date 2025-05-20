@@ -172,21 +172,9 @@ if (
 
     setAuthHeader(token);
 
-    console.log('📦 FormData до відправки:');
-for (const pair of dataForm.entries()) {
-  console.log(pair[0] + ':', pair[1]);
-}
+    const response = await axios.post('users/current/pets/add', formData);
 
-    const response = await axios.post('users/current/pets/add',  {
-      name: formData.name,
-      title: formData.title,
-      birthday: formData.birthday,
-      sex: formData.sex,
-      species: formData.species,
-      photoUrl: formData.photoUrl,
-      photo: formData.uploadPhoto
-  },);
-     console.log('Response from server:', response.data);
+    console.log('Response from server:', response.data);
     return response.data;
 };
 
