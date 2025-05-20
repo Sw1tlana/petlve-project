@@ -103,7 +103,9 @@ function AddPet() {
 
   useEffect(() => {
   if (photoUrlValue?.trim()) {
-    setPreviewPhoto(`${photoUrlValue}?t=${Date.now()}`);
+    setPreviewPhoto(`${photoUrlValue.trim()}?t=${Date.now()}`);
+  } else {
+    setPreviewPhoto(null);
   }
 }, [photoUrlValue]);
 
@@ -140,14 +142,13 @@ function AddPet() {
 
       if (data.uploadPhoto instanceof File) {
         formDataForSubmit.uploadPhoto = data.uploadPhoto;
-        formDataForSubmit.photoUrl = ''; 
       } else if (data.photoUrl?.trim()) {
         formDataForSubmit.photoUrl = data.photoUrl.trim();
       }
 
-  await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
-  console.log(formDataForSubmit);
-    reset(); 
+      await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
+      console.log(formDataForSubmit);
+        reset(); 
     
     } catch (err) {
     if (err instanceof Error) {
@@ -156,13 +157,11 @@ function AddPet() {
       toast.error('Unknown error occurred.');
   }
   }
-
-    reset();
   };
 
   const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
 
-  const avatarSrc = previewPhoto || (photoUrlValue ? `${photoUrlValue}?t=${Date.now()}` : null);
+ const avatarSrc = previewPhoto || null;
 
   return (
     <section>
@@ -274,7 +273,7 @@ function AddPet() {
             />
               <button type="button" onClick={handleFileUploadClick} 
               className={`input input--secondary ${style.uploadButton}`}>
-                <span className={style.spanBtn}>Uploat photo</span>
+                <span className={style.spanBtn}>Upload photo</span>
               </button>
             {errors.uploadPhoto?.message && (
               <p className={style.errorMsg}>{String(errors.uploadPhoto.message)}</p>

@@ -19,7 +19,8 @@ useEffect(() => {
       birthday: "2000-01-01",
       sex: "male",
       species: "Dog",
-      photo: "",
+      photoUrl: "",
+      uploadPhoto: undefined as unknown as File
     };
     dispatch(fetchAddPet(petToAdd));
   }

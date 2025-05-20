@@ -135,40 +135,23 @@ export const requestLogout = async() => {
 // addPet
 
 export const requestAddPet = async (
-  formData: AddPetFormData,
+  data: AddPetFormData,
   token: string
 ): Promise<AddPetResponse> => {
     console.log('>>> requestAddPet called');
-      const dataForm = new FormData();
-      console.log(dataForm);
+  const formData = new FormData();
 
-    if (formData.name) {
-      dataForm.append('name', formData.name);
-    }
-    if (formData.species) {
-      dataForm.append('species', formData.species);
-    }
-    if (formData.title) {
-      dataForm.append('title', formData.title);
-    }
-    if (formData.birthday) {
-    const isoDate = new Date(formData.birthday).toISOString().split('T')[0]; 
-    dataForm.append('birthday', isoDate);
+  formData.append("name", data.name);
+  formData.append("birthday", data.birthday);
+  formData.append("title", data.title);
+  formData.append("species", data.species);
+  formData.append("sex", data.sex);
+
+  if (data.uploadPhoto instanceof File) {
+    formData.append("photo", data.uploadPhoto); 
+  } else if (data.photoUrl?.trim()) {
+    formData.append("photoUrl", data.photoUrl.trim());
   }
-
-if (
-  formData.uploadPhoto &&
-  formData.uploadPhoto instanceof File &&
-  formData.uploadPhoto.size > 0
-) {
-  dataForm.append('photo', formData.uploadPhoto);
-  console.log('✅ Додано файл:', formData.uploadPhoto.name);
-} else if (formData.photoUrl) {
-  dataForm.append('photoUrl', formData.photoUrl);
-  console.log('✅ Додано URL:', formData.photoUrl);
-} else {
-  console.log('⚠️ Фото не додано — ні файл, ні URL не передано');
-}
 
     setAuthHeader(token);
 
