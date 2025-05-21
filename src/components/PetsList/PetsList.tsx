@@ -63,10 +63,11 @@ useEffect(() => {
                 </p>
              </div>
             </div>
-
-              <svg width={40} height={40} className={style.iconUser}>
+            <button className={style.buttonHeart } type='button'>
+              <svg width={10} height={10} className={style.iconHeart}>
                 <use xlinkHref={`${icons}#icon-trash`} />
               </svg>
+            </button>
             </li>
           ))}
       </ul>

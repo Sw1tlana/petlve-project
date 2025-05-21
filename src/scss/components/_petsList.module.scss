@@ -13,6 +13,7 @@
 
 .itemPets {
     display: flex;
+    padding: 16px;
     width: 295px;
     border: 1px solid fn.get-color('dark-secondary');
     border-radius: 20px;
@@ -36,3 +37,30 @@
     display: flex;
     flex-direction: column;
 }
+
+.buttonHeart {
+    @include mx.frame(46px, 46px, true);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: fn.get-color('accent-secondary');
+  
+    @include mx.transition(all, 300ms, ease-in-out);
+  
+    &:hover,
+    &:active {
+      background-color: fn.get-color('accent-primary');
+  
+      .iconHeart {
+        stroke: fn.get-color('light');
+      }
+    }
+  
+    .iconHeart {
+      fill: transparent;
+      stroke: fn.get-color('accent-primary');
+      @include mx.transition(all, 300ms, ease-in-out);
+    }
+  }
+
