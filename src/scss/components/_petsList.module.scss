@@ -2,3 +2,37 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as mx;
 @use '../utils/placeholders';
+
+.listPets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0;
+}
+
+.itemPets {
+    display: flex;
+    width: 295px;
+    border: 1px solid fn.get-color('dark-secondary');
+    border-radius: 20px;
+    margin: 20px 0;
+}
+
+.noticesImage {
+    width: 66px;
+}
+
+.wrapperInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerInfo {
+    display: flex;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+}

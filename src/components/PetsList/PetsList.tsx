@@ -5,6 +5,8 @@ import { selectIsLoggedIn, selectPets } from "../../reduce/auth/selectors";
 import { useEffect } from "react";
 import { fetchAddPet } from "../../reduce/auth/operations";
 import { AppDispatch } from "../../reduce/store";
+import { Container } from '@mui/material';
+import icons from '../../shared/icons/sprite.svg';
 
 function PetsList() {
     const dispatch = useDispatch<AppDispatch>();
@@ -27,20 +29,21 @@ useEffect(() => {
 }, [dispatch, pets, isLoggedIn]);
 
   return (
-    <div>
+    <Container>
      {isLoggedIn && Array.isArray(pets) && pets.length > 0 && (
         <ul className={style.listPets}>
           {pets.map((pet, index) => (
             <li className={style.itemPets} key={pet._id || index}>
+
               <img
                 src={pet.photoUrl || "https://ftp.goit.study/img/pets/1.webp"}
                 alt={pet.title}
                 className={style.noticesImage}
-                width={300}
+                width={90}
               />
-              <div className={style.containerTitle}>
+              <div className={style.wrapperInfo}>
                 <p className={style.noticesTitle}>{pet.title}</p>
-              </div>
+            
               <div className={style.containerInfo}>
                 <p className={style.description}>
                   <span className={style.spanDescription}>Name</span>
@@ -48,7 +51,7 @@ useEffect(() => {
                 </p>
                 <p className={style.description}>
                   <span className={style.spanDescription}>Birthday</span>
-                  {pet.birthday}
+                  {pet.birthday?.split('T')[0]}
                 </p>
                 <p className={style.description}>
                   <span className={style.spanDescription}>Sex</span>
@@ -59,11 +62,16 @@ useEffect(() => {
                   {pet.species}
                 </p>
              </div>
+            </div>
+
+              <svg width={40} height={40} className={style.iconUser}>
+                <use xlinkHref={`${icons}#icon-trash`} />
+              </svg>
             </li>
           ))}
       </ul>
      )}
-    </div>
+    </Container>
   )
 };
 
