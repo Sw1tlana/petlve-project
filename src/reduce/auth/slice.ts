@@ -8,7 +8,8 @@ import { signUpUser,
           RefreshTokenResponse,
           userCurrentEdit,
           EditUserResponse,
-          fetchAddPet
+          fetchAddPet,
+          AddPetResponse
       } from './operations';
 
 export interface User {
@@ -198,20 +199,17 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchAddPet.fulfilled, (state, action) => {
+    .addCase(fetchAddPet.fulfilled, (state, action) => {
 
   console.log('Payload:', action.payload);
   console.log('Full action:', action);
-
-        state.loading = false;
-        const newPet = action.payload.data.data;
-        state.pets.push(newPet);
-        toast.success('Pet added');
+      if (action.payload && action.payload.data) {
+        state.pets.push(action.payload.data);
+      }
       })
-      .addCase(fetchAddPet.rejected, (state, action) => {
+      .addCase(fetchAddPet.rejected, (state) => {
         state.loading = false;
         state.error = true;
-        toast.error(`Could not add an animal: ${action.payload}`);
       })
   },
 });

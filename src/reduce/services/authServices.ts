@@ -147,29 +147,18 @@ export const requestAddPet = async (
   formData.append("species", data.species);
   formData.append("sex", data.sex);
 
-  if (data.uploadPhoto instanceof File) {
-    formData.append("photo", data.uploadPhoto); 
-    console.log('uploadPhoto:', data.uploadPhoto);
-  } else if (data.photoUrl?.trim()) {
-    formData.append("photoUrl", data.photoUrl.trim());
-    console.log('photoUrl:', data.photoUrl);
+
+  if (data.uploadPhoto) {
+    formData.append("photo", data.uploadPhoto);
+  } else if (data.photoUrl) {
+    formData.append("photoUrl", data.photoUrl);
   }
 
     setAuthHeader(token);
 
-  try {
     const response = await axios.post('users/current/pets/add', formData);
     console.log('Response from server:', response.data);
     return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error('requestAddPet error:', error.response?.data || error.message);
-      throw error.response?.data || error;
-    } else {
-      console.error('Unknown error:', error);
-      throw error;
-    }
-  }
 };
 
 // friends

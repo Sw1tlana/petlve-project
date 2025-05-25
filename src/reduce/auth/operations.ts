@@ -49,10 +49,7 @@ export interface SignInResponse {
 
   export interface AddPetResponse {
      success: boolean;
-     data: {
-     message?: string;
      data: Pets;
-     }
   };
 
 export interface RefreshTokenResponse {
