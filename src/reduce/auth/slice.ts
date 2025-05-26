@@ -9,7 +9,7 @@ import { signUpUser,
           userCurrentEdit,
           EditUserResponse,
           fetchAddPet,
-          AddPetResponse
+          AddPetResponse,
       } from './operations';
 
 export interface User {
@@ -199,13 +199,18 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-    .addCase(fetchAddPet.fulfilled, (state, action) => {
+    .addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
 
   console.log('Payload:', action.payload);
   console.log('Full action:', action);
-      if (action.payload && action.payload.data) {
-        state.pets.push(action.payload.data);
-      }
+
+  const petData = action.payload?.data;
+
+        if (petData) {
+          state.pets.push(petData);
+        }
+
+  toast.success('Pet added successfully!');
       })
       .addCase(fetchAddPet.rejected, (state) => {
         state.loading = false;

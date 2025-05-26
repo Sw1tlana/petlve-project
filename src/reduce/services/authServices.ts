@@ -150,8 +150,10 @@ export const requestAddPet = async (
 
   if (data.uploadPhoto) {
     formData.append("photo", data.uploadPhoto);
+    console.log(data);
   } else if (data.photoUrl) {
     formData.append("photoUrl", data.photoUrl);
+     console.log(data);
   }
 
     setAuthHeader(token);

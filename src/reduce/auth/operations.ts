@@ -180,6 +180,7 @@ try {
     }
     try {
         const response = await requestAddPet(formData, token);
+         console.log('response from API:', response);
         return response;
     } catch(err){
       if (err instanceof Error) {
