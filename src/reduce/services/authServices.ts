@@ -148,13 +148,12 @@ export const requestAddPet = async (
   formData.append("sex", data.sex);
 
 
-  if (data.uploadPhoto) {
-    formData.append("photo", data.uploadPhoto);
-    console.log(data);
-  } else if (data.photoUrl) {
-    formData.append("photoUrl", data.photoUrl);
-     console.log(data);
+
+  if (!data.uploadPhoto) {
+    throw new Error("Photo is required");
   }
+
+  formData.append("photo", data.uploadPhoto);
 
     setAuthHeader(token);
 

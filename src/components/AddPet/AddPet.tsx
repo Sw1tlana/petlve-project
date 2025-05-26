@@ -147,7 +147,7 @@ function AddPet() {
       }
 
       await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
-      console.log(formDataForSubmit);
+      console.log("Form: ", formDataForSubmit);
         reset(); 
     
     } catch (err) {
