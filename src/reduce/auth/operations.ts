@@ -47,10 +47,13 @@ export interface SignInResponse {
   };
   };
 
-  export interface AddPetResponse {
-     success: boolean;
-     data: Pets;
+export type AddPetResponse = {
+  data: {
+    data: Pets;
+    message: string;
+    success: boolean;
   };
+};
 
 export interface RefreshTokenResponse {
     token: string;

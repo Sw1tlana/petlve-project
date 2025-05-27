@@ -137,12 +137,12 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
 
           if (user) {
-    const avatar = normalizeAvatar(user.avatar);
-    state.user = {
-      ...user,
-      avatar,
-    };
-    state.avatar = avatar;
+            const avatar = normalizeAvatar(user.avatar);
+            state.user = {
+              ...user,
+              avatar,
+            };
+     state.avatar = avatar;
   }
         toast.success('RefreshToken successful');
       })
@@ -194,24 +194,22 @@ export const authSlice = createSlice({
         state.error = true;
         toast.error('Incorrect email or password');
       })
-            // --- fetchAddPet ---
+      // --- fetchAddPet ---
       .addCase(fetchAddPet.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-    .addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
+.addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
+  const petData = action.payload?.data?.data;
 
-  console.log('Payload:', action.payload);
-  console.log('Full action:', action);
-
-  const petData = action.payload?.data;
-
-        if (petData) {
-          state.pets.push(petData);
-        }
-
+  if (petData) {
+    state.pets.push({
+      ...petData,
+      photoUrl: petData.photo,  // додали поле photoUrl для компонента
+    });
+  }
   toast.success('Pet added successfully!');
-      })
+})
       .addCase(fetchAddPet.rejected, (state) => {
         state.loading = false;
         state.error = true;
