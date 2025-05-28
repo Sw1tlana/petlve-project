@@ -18,7 +18,7 @@ type SomeType = {
   photoUrl?: string;
 };
 
-function PetsList({ data, name }: { data: SomeType; name: string }) {
+function PetsList({ data = {}, name = '' }: { data?: SomeType; name?: string }) {
   const dispatch = useDispatch<AppDispatch>();
   const pets = useSelector(selectPets);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -33,16 +33,26 @@ useEffect(() => {
       species: data.species || 'Unknown',
     };
 
-    if (data.uploadPhoto instanceof File) {
-      formDataForSubmit.uploadPhoto = data.uploadPhoto;
-    } else if (data.photoUrl?.trim()) {
-      formDataForSubmit.photoUrl = data.photoUrl.trim();
-    }
+      if (data.uploadPhoto instanceof File) {
+        formDataForSubmit.uploadPhoto = data.uploadPhoto;
+      } else if (data.photoUrl?.trim()) {
+        formDataForSubmit.photoUrl = data.photoUrl.trim();
+      }
 
     console.log("formDataForSubmit", formDataForSubmit);
     dispatch(fetchAddPet(formDataForSubmit));
   }
+
 }, [dispatch, pets, isLoggedIn, name, data]);
+
+type PetType = SomeType & { _id?: string; name?: string };
+
+const getPhotoUrl = (pet: PetType) => {
+  if (pet.uploadPhoto instanceof File) {
+    return URL.createObjectURL(pet.uploadPhoto);
+  }
+  return pet.photoUrl || "https://ftp.goit.study/img/pets/1.webp";
+};
 
   return (
     <Container>
@@ -51,7 +61,7 @@ useEffect(() => {
           {pets.map((pet, index) => (
             <li className={style.itemPets} key={pet._id || index}>
               <img
-                src={pet.photoUrl || "https://ftp.goit.study/img/pets/1.webp"}
+                src={getPhotoUrl(pet)}
                 alt={pet.title}
                 className={style.noticesImage}
                 width={30}
