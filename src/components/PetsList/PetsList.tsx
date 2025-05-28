@@ -7,52 +7,26 @@ import { fetchAddPet } from "../../reduce/auth/operations";
 import { AppDispatch } from "../../reduce/store";
 import { Container } from '@mui/material';
 import icons from '../../shared/icons/sprite.svg';
-import { AddPetFormData } from '../../reduce/services/authServices';
 
-type SomeType = {
-  title?: string;
-  birthday?: string;
-  sex?: string;
-  species?: string;
-  uploadPhoto?: File | undefined;
-  photoUrl?: string;
-};
-
-function PetsList({ data = {}, name = '' }: { data?: SomeType; name?: string }) {
+function PetsList() {
   const dispatch = useDispatch<AppDispatch>();
   const pets = useSelector(selectPets);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-useEffect(() => {
-  if (pets.length === 0 && isLoggedIn && data) {
-    const formDataForSubmit: AddPetFormData = {
-      name: name || 'Unnamed',
-      title: data.title || 'No title',
-      birthday: data.birthday || '2000-01-01',
-      sex: data.sex || 'male',
-      species: data.species || 'Unknown',
-    };
+  useEffect(() => {
+   
+    if (pets.length === 0 && isLoggedIn) {
+      const samplePet = {
+        title: 'My Pet',
+        name: 'Buddy',
+        birthday: '2020-01-01T00:00:00.000Z',
+        sex: 'male',
+        species: 'dog',
+      };
 
-      if (data.uploadPhoto instanceof File) {
-        formDataForSubmit.uploadPhoto = data.uploadPhoto;
-      } else if (data.photoUrl?.trim()) {
-        formDataForSubmit.photoUrl = data.photoUrl.trim();
-      }
-
-    console.log("formDataForSubmit", formDataForSubmit);
-    dispatch(fetchAddPet(formDataForSubmit));
-  }
-
-}, [dispatch, pets, isLoggedIn, name, data]);
-
-type PetType = SomeType & { _id?: string; name?: string };
-
-const getPhotoUrl = (pet: PetType) => {
-  if (pet.uploadPhoto instanceof File) {
-    return URL.createObjectURL(pet.uploadPhoto);
-  }
-  return pet.photoUrl || "https://ftp.goit.study/img/pets/1.webp";
-};
+      dispatch(fetchAddPet(samplePet));
+    }
+  }, [dispatch, pets, isLoggedIn]);
 
   return (
     <Container>
@@ -61,7 +35,7 @@ const getPhotoUrl = (pet: PetType) => {
           {pets.map((pet, index) => (
             <li className={style.itemPets} key={pet._id || index}>
               <img
-                src={getPhotoUrl(pet)}
+                src={pet.photo}
                 alt={pet.title}
                 className={style.noticesImage}
                 width={30}
