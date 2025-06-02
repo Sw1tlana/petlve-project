@@ -205,7 +205,7 @@ export const authSlice = createSlice({
   if (petData) {
     state.pets.push({
       ...petData,
-      photoUrl: petData.photo,  // додали поле photoUrl для компонента
+      photoUrl: petData.photo, 
     });
   }
   toast.success('Pet added successfully!');

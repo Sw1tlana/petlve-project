@@ -28,18 +28,22 @@ function PetsList() {
     }
   }, [dispatch, pets, isLoggedIn]);
 
+  const API_ROOT = "https://petlve-api.onrender.com";
+
   return (
     <Container>
       {isLoggedIn && Array.isArray(pets) && pets.length > 0 && (
         <ul className={style.listPets}>
           {pets.map((pet, index) => (
             <li className={style.itemPets} key={pet._id || index}>
-              <img
-                src={pet.photo}
-                alt={pet.title}
-                className={style.noticesImage}
-                width={30}
-              />
+              {pet.photo && (
+                <img
+                  src={pet.photo.startsWith("http") ? pet.photo : `${API_ROOT}${pet.photo}`}
+                  alt={pet.title}
+                  className={style.noticesImage}
+                  width={30}
+                />
+              )}
               <div className={style.containerTitle}>
                 <div className={style.wrapperInfo}>
                   <p className={style.noticesTitle}>{pet.title}</p>

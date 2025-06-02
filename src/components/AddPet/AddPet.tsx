@@ -109,7 +109,7 @@ function AddPet() {
   }
 }, [photoUrlValue]);
 
-    const handleSelectChange = (
+  const handleSelectChange = (
     newValue: SingleValue<OptionType>,
   ) => {
     setValue("species", newValue?.value || "", { shouldValidate: true });
