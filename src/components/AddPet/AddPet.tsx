@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useMemo, useRef } from "react";
 import { useForm, Resolver, SubmitHandler } from "react-hook-form";
 import Container from "../../shared/components/Container/Container";
 import Select, { SingleValue } from "react-select";
@@ -10,9 +10,10 @@ import { addPetSchema } from "../../shemas/addPetShema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { AddPetFormData } from "../../reduce/services/authServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../reduce/store";
 import { fetchAddPet } from "../../reduce/auth/operations";
+import { selectPets } from "../../reduce/auth/selectors";
 
 interface OptionType {
   value: string;
@@ -20,11 +21,11 @@ interface OptionType {
 }
 
 type FormData = {
-  name: string;
-  birthday: string;
-  photoUrl?: string;
-  uploadPhoto?: File;
-  title: string;
+  name: string | null | undefined;
+  birthday: string | null | undefined;
+  photoUrl?: string | null | undefined;
+  uploadPhoto?: File | null | undefined;
+  title: string | null | undefined;
   species: string;
   sex: "male" | "female" | "health" | "";
 };
@@ -46,9 +47,9 @@ const categoryOption = [
 
 function AddPet() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
+  const pets = useSelector(selectPets);
 
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<FormData>({
     resolver: yupResolver(addPetSchema) as Resolver<FormData>,
@@ -92,22 +93,21 @@ function AddPet() {
       setValue("uploadPhoto", file, { shouldValidate: true });
       setValue("photoUrl", "", { shouldValidate: false }); 
 
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewPhoto(previewUrl);
-
         if (fileInputRef.current) {
        fileInputRef.current.value = '';
   }
     }
   };
 
-  useEffect(() => {
-  if (photoUrlValue?.trim()) {
-    setPreviewPhoto(`${photoUrlValue.trim()}?t=${Date.now()}`);
-  } else {
-    setPreviewPhoto(null);
-  }
-}, [photoUrlValue]);
+const photoUrl = useMemo(() => {
+  return pets.map(pet => {
+    if (!pet.photoUrl) return null;
+    const isAbsoluteUrl = /^https?:\/\//.test(pet.photoUrl);
+    return isAbsoluteUrl
+      ? `${pet.photoUrl}?t=${Date.now()}`
+      : `https://petlve-api.onrender.com${pet.photoUrl}?t=${Date.now()}`;
+  }).filter(Boolean); 
+}, [pets]);
 
   const handleSelectChange = (
     newValue: SingleValue<OptionType>,
@@ -161,8 +161,6 @@ function AddPet() {
 
   const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
 
- const avatarSrc = previewPhoto || null;
-
   return (
     <section>
       <Container>
@@ -214,18 +212,13 @@ function AddPet() {
                   {errors.sex.message}
                 </p>
               )}
-
-                
-          {avatarSrc ? (
-            <img
-              key={avatarSrc} 
-              className={style.userPhoto}
-              src={avatarSrc}
-              alt="User avatar"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
+               
+        {photoUrl.length > 0 ? (
+          <img
+            className={style.userPhoto}
+            src={photoUrl[0] as string}
+            alt="User avatar"
+          />
           ) : (
             <div className={style.addPetAvatar}>
               <svg width={26} height={26} className={style.iconPaw}>
@@ -256,6 +249,15 @@ function AddPet() {
               />
               {errors.photoUrl?.message && 
               (<p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>)}
+
+                {photoUrlValue && (
+                  <img
+                    src={`${photoUrlValue}?t=${Date.now()}`}
+                    alt="Preview"
+                    className={style.previewImage}
+                    onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
+              )}
             </div>
 
           <div className={style.uploadInput}>

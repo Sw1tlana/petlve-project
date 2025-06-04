@@ -148,7 +148,6 @@ export const requestAddPet = async (
   formData.append("sex", data.sex);
 
 
-
   if (!data.uploadPhoto) {
     throw new Error("Photo is required");
   }
