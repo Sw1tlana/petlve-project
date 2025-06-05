@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer, State } from "./auth/slice";
 import { friendsReducer } from "./friends/slice";
 import { newsReducer } from "./news/slice";
-import { noticesReducer } from "./notices/slice";
+import { noticesReducer, NoticesState } from "./notices/slice";
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import {
@@ -21,18 +21,32 @@ import {
   const authConfig = {
     key: "auth",
     storage,
-    whitelist: ["token", "refreshToken", "user", "isLoggedIn"],
+    whitelist: [
+            "token", 
+            "refreshToken", 
+            "user", 
+            "isLoggedIn", 
+            "pets"
+    ],
     stateReconciler: autoMergeLevel2,
   };
 
+    const noticesConfig = {
+      key: "notices", 
+      storage,
+      whitelist: ["favoritePets", "viewedItems"],
+      stateReconciler: autoMergeLevel2,
+    };
+
   const persistedAuthReducer = persistReducer<State>(authConfig, authReducer);
+  const persistedNoticesReducer = persistReducer<NoticesState>(noticesConfig, noticesReducer);
 
   export const store = configureStore({
     reducer: {
       auth:  persistedAuthReducer,
       friends: friendsReducer,
       news: newsReducer,
-      notices: noticesReducer
+      notices: persistedNoticesReducer
     },
     
      middleware: (getDefaultMiddleware) =>

@@ -112,6 +112,7 @@ export const authSlice = createSlice({
             ...user,
             avatar: avatar,
           };
+          
           state.avatar = avatar;
           state.token = action.payload.token;
           state.refreshToken = action.payload.refreshToken;

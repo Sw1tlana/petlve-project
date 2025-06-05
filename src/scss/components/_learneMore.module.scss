@@ -14,27 +14,27 @@
 }
 
 .buttonHeart {
-    @include mx.frame(46px, 46px, true);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: fn.get-color('accent-secondary');
-  
+  @include mx.frame(30px, 30px, true);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: fn.get-color('accent-secondary');
+
+  @include mx.transition(all, 300ms, ease-in-out);
+
+  .iconHeart {
+    fill: transparent;
+    stroke: fn.get-color('accent-primary');
     @include mx.transition(all, 300ms, ease-in-out);
-  
-    &:hover,
-    &:active {
-      background-color: fn.get-color('accent-primary');
-  
-      .iconHeart {
-        stroke: fn.get-color('light');
-      }
-    }
-  
+  }
+
+  &:hover,
+  &:active {
+    background-color: fn.get-color('accent-primary');
+
     .iconHeart {
-      fill: transparent;
-      stroke: fn.get-color('accent-primary');
-      @include mx.transition(all, 300ms, ease-in-out);
+      stroke: fn.get-color('light'); 
     }
   }
+}

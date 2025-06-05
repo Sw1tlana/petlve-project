@@ -41,7 +41,10 @@ function PetsList() {
                   src={pet.photo.startsWith("http") ? pet.photo : `${API_ROOT}${pet.photo}`}
                   alt={pet.title}
                   className={style.noticesImage}
-                  width={30}
+                  width={60}
+                  onError={(e) => {
+                  e.currentTarget.src = "https://via.placeholder.com/60x60?text=No+Image";
+                }}
                 />
               )}
               <div className={style.containerTitle}>
@@ -67,9 +70,11 @@ function PetsList() {
                   </p>
                 </div>
               </div>
-              <svg width={40} height={40} className={style.iconUser}>
-                <use xlinkHref={`${icons}#icon-trash`} />
-              </svg>
+              <button className={style.buttonTrash}>
+                  <svg width={16} height={16} className={style.iconTrash}>
+                    <use xlinkHref={`${icons}#icon-trash`} />
+                  </svg>
+              </button>
             </li>
           ))}
         </ul>
