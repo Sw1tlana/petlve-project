@@ -47,8 +47,5 @@ export const editInformationSchema = Yup.object({
 
   uploadPhoto: Yup.mixed<File>()
     .nullable()
-    .notRequired()
-    .test("fileSize", "File is too large", (value) => {
-      return !value || value.size <= 5 * 1024 * 1024; 
-    }),
-});
+    .notRequired(),
+  });
