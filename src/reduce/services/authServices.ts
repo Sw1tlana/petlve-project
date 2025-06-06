@@ -101,7 +101,7 @@ export const updateCurrentEdit = async (
     if (formData.uploadPhoto) {
       dataForm.append('avatar', formData.uploadPhoto);
     } else if (formData.photoUrl) {
-      dataForm.append('photoUrl', formData.photoUrl);
+      dataForm.append('avatar', formData.photoUrl);
     }
 
    setAuthHeader(token);

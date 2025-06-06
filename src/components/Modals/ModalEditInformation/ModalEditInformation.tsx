@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useMemo, useRef } from 'react';
+import { useId, useRef } from 'react';
 import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
@@ -26,13 +26,11 @@ function ModalEditInformation() {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-const avatarUrl = useMemo(() => {
-  if (!user?.avatar) return null;
-  const isAbsoluteUrl = /^https?:\/\//.test(user.avatar);
-  return isAbsoluteUrl
-    ? `${user.avatar}?t=${Date.now()}`
-    : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`;
-}, [user?.avatar]);
+const avatarUrl = user?.avatar
+  ? (/^https?:\/\//.test(user.avatar)
+      ? `${user.avatar}?t=${Date.now()}`
+      : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`)
+  : null;
 
   const nameId = useId();
   const emailId = useId();
@@ -64,34 +62,35 @@ const avatarUrl = useMemo(() => {
     }
   };
 
-const onSubmit: SubmitHandler<formData> = async (data) =>{
-  if (!data.name && !data.email && !data.phone && !data.photoUrl && !data.uploadPhoto) {
-    return;
-  }
+const onSubmit: SubmitHandler<formData> = async (data) => {
+  if (!data.name && !data.email && !data.phone && !data.photoUrl && !data.uploadPhoto) return;
 
   try {
-      const formDataForSubmit: Partial<CurrentFormData> = {};
+    const formDataForSubmit: Partial<CurrentFormData> = {};
 
-      if (data.name) formDataForSubmit.name = data.name;
-      if (data.email) formDataForSubmit.email = data.email;
-      if (data.phone) formDataForSubmit.phone = data.phone;
+    if (data.name) formDataForSubmit.name = data.name;
+    if (data.email) formDataForSubmit.email = data.email;
+    if (data.phone) formDataForSubmit.phone = data.phone;
 
-      if (data.uploadPhoto) {
-        formDataForSubmit.uploadPhoto = data.uploadPhoto;
-        formDataForSubmit.photoUrl = ''; 
-      } else if (data.photoUrl?.trim()) {
-        formDataForSubmit.photoUrl = data.photoUrl.trim();
-      }
+    if (data.uploadPhoto) {
+      formDataForSubmit.uploadPhoto = data.uploadPhoto;
+      formDataForSubmit.photoUrl = '';
+    } else if (data.photoUrl?.trim()) {
+      formDataForSubmit.photoUrl = data.photoUrl.trim();
+    }
+
     await dispatch(userCurrentEdit(formDataForSubmit as CurrentFormData)).unwrap();
+
     reset();
     } catch (err) {
     if (err instanceof Error) {
       toast.error('The data could not be updated.Check the link or try again.');  
   } else {
       toast.error('Unknown error occurred.');
+    }
   }
-  }
-  };
+};
+
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();

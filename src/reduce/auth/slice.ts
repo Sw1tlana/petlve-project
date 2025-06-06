@@ -158,9 +158,9 @@ export const authSlice = createSlice({
         state.isRefreshing = false;
       })
       .addCase(userCurrentEdit.fulfilled, (state, action: PayloadAction<EditUserResponse>) => {
+        console.log('Updated user from API:', action.payload.data.user);
          const userData = action.payload.data?.user;
-
-        const avatar = normalizeAvatar(userData.avatar);
+         console.log('Updated user from API:', action.payload.data.user);
 
         if (userData) {
           state.user = {
@@ -168,10 +168,9 @@ export const authSlice = createSlice({
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
-            photoUrl: avatar,
-            avatar: avatar,
+            photoUrl: userData.photoUrl,
+            avatar: userData.avatar,
           };
-          state.avatar = avatar;
         }
         toast.success('Current successful');
       })
