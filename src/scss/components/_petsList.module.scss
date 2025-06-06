@@ -6,9 +6,11 @@
 .listPets {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     justify-content: center;
     padding-left: 0;
+    padding: 20px 0;
 }
 
 .itemPets {
@@ -19,13 +21,21 @@
     height: 134px;
     border: 1px solid fn.get-color('dark-secondary');
     border-radius: 20px;
-    margin: 20px 0;
+    margin: 14px 0;
+
+    @include mx.transition(all, 300ms, ease-in-out);
+}
+
+.itemPets:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .noticesImage {
     width: 46px;
     height: 46px;
     border-radius: 100px;
+    margin-right: 8px;
 }
 
 .wrapperInfo {
@@ -89,9 +99,20 @@
 }
 
   @include mx.mq('md') {  
-    .buttonTrash {
-    @include mx.frame(46px, 46px, true);
 
+    .listPets { 
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 14px;
+      width: 624px;
     }
+
+    .itemPets {
+      margin: 0;
+      width: 305px;
+      height: 150px;
+    }
+
   }
 
