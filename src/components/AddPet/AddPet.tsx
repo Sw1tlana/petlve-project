@@ -10,9 +10,12 @@ import { addPetSchema } from "../../shemas/addPetShema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { AddPetFormData } from "../../reduce/services/authServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../reduce/store";
 import { fetchAddPet } from "../../reduce/auth/operations";
+import { useModalContext } from "../../context/useModalContext";
+import ModalCongrats from "../Modals/ModalCongrats/ModalCongrats";
+import { selectPets } from "../../reduce/auth/selectors";
 
 interface OptionType {
   value: string;
@@ -48,6 +51,11 @@ function AddPet() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
+
+  const pets = useSelector(selectPets);
+  const hasShownModalRef = useRef(false);
+
+  const { openModal } = useModalContext();
 
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<FormData>({
     resolver: yupResolver(addPetSchema) as Resolver<FormData>,
@@ -140,8 +148,13 @@ function AddPet() {
 
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
-}
+      }
     
+    if (pets.length === 0 && !hasShownModalRef.current) {
+      openModal(ModalCongrats(), false);
+      hasShownModalRef.current = true;
+    }
+
     } catch (err) {
     if (err instanceof Error) {
       toast.error('Data could not be added. Please check or try again.');  

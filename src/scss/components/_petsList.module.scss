@@ -8,7 +8,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    justify-content: center;
     padding-left: 0;
     padding: 20px 0;
 }
@@ -99,7 +98,6 @@
 }
 
   @include mx.mq('md') {  
-
     .listPets { 
       display: flex;
       flex-direction: row;
@@ -114,5 +112,22 @@
       height: 150px;
     }
 
+  }
+
+  @include mx.mq('lg') { 
+    .containerPets {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}  
+    .listPets { 
+      flex-direction: column;
+      width: 520px;
+    }
+
+    .itemPets {
+      width: 440px;
+      height: 130px;
+    }
   }
 

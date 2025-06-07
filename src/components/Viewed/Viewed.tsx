@@ -20,10 +20,10 @@ const Viewed: React.FC<ViewedProps> = ({ viewedItems, onViewed  }) => {
         page and add them to your favorites. <span className={style.notifySpan}>🐾</span>
       </p>
 ) : (
-  <ul className={favoriteStyle.noticesList}>
+  <ul className={favoriteStyle.favoriteList}>
     {viewedItems.map((noticeItem: Pet) => (
       <li key={noticeItem._id} 
-          className={favoriteStyle.noticesItem} 
+          className={favoriteStyle.favoriteItem} 
           onClick={() => onViewed(noticeItem)}>
                <img
                src={noticeItem.imgURL}

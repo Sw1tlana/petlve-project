@@ -35,7 +35,7 @@ useEffect(() => {
   }
 
   return (
-    <>
+    <div className={style.containerPets}>
       {isLoggedIn && Array.isArray(pets) && pets.length > 0 && (
         <ul className={style.listPets}>
           {pets.map((pet, index) => (
@@ -82,7 +82,7 @@ useEffect(() => {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

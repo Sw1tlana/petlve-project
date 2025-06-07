@@ -44,9 +44,9 @@ function MyFavorite() {
     <Viewed viewedItems={viewedItems} onViewed={handleViewedItemClick}/>
   ) : (
     Array.isArray(favoritePets) && favoritePets.length > 0 ? (
-      <ul className={favoriteStyle.noticesList}>
+      <ul className={favoriteStyle.favoriteList}>
         {favoritePets.map((noticeItem: Pet, index: number) => (
-          <li className={favoriteStyle.noticesItem} key={`${noticeItem._id}-${index}`}>
+          <li className={favoriteStyle.favoriteItem} key={`${noticeItem._id}-${index}`}>
             <img
               src={noticeItem.imgURL}
               alt={noticeItem.title}
