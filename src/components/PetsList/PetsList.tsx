@@ -3,7 +3,7 @@ import style from '../../scss/components/_petsList.module.scss';
 import {useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn, selectPets } from "../../reduce/auth/selectors";
 import { useEffect, useRef } from "react";
-import { fetchAddPet } from "../../reduce/auth/operations";
+import { fetchAddPet, removePet } from "../../reduce/auth/operations";
 import { AppDispatch } from "../../reduce/store";
 import icons from '../../shared/icons/sprite.svg';
 
@@ -29,6 +29,10 @@ useEffect(() => {
 }, [isLoggedIn, dispatch, pets.length]);
 
   const API_ROOT = "https://petlve-api.onrender.com";
+
+  const handleDeletePet = (id: string) => {
+    dispatch(removePet(id));
+  }
 
   return (
     <>
@@ -67,7 +71,9 @@ useEffect(() => {
                   </p>
                 </div>
               </div>
-              <button className={style.buttonTrash}>
+              <button
+                onClick={() => handleDeletePet(pet._id)} 
+                className={style.buttonTrash}>
                   <svg width={16} height={16} className={style.iconTrash}>
                     <use xlinkHref={`${icons}#icon-trash`} />
                   </svg>

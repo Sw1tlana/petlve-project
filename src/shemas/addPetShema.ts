@@ -27,12 +27,8 @@ birthday: Yup.string()
 
 title: Yup.string()
     .required('Text is required')
-    .test('is-title', 'A text can only contain Latin characters', value => {
-      if (!value) return true;
-      return isValidLatinInput.test(value);
-    })
     .min(2, "Name must be at least 2 characters")
-    .max(50, "Name cannot exceed 50 characters"),
+    .max(15, "Name cannot exceed 50 characters"),
 
 species: Yup.string()
     .required('Species is required')
@@ -67,23 +63,22 @@ sex: Yup.string()
 
   uploadPhoto: Yup
     .mixed()
-    .test("fileSize", "Файл занадто великий", (value) => {
-      if (!value) return true; // Якщо файлу немає - валідно
-      return (value as File).size <= 5 * 1024 * 1024; // до 5 МБ
+    .test("fileSize", "The file is too large", (value) => {
+      if (!value) return true;
+      return (value as File).size <= 5 * 1024 * 1024; 
     })
-    .test("fileType", "Невірний формат файлу", (value) => {
+    .test("fileType", "Invalid file format", (value) => {
       if (!value) return true;
       return ["image/jpeg", "image/png", "image/jpg"].includes((value as File).type);
     }),
 
-  photoUrl: Yup.string().url("Некоректний URL").nullable(),
+  photoUrl: Yup.string().url("Invalid file format").nullable(),
 
-}).test("fileOrUrl", "Потрібно завантажити файл або вказати URL", function (value) {
-  // value — це об'єкт зі всіма полями форми
+}).test("fileOrUrl", "Upload a file or provide a URL", function (value) {
   const { uploadPhoto, photoUrl } = value as { uploadPhoto?: File; photoUrl?: string };
 
   if (!uploadPhoto && (!photoUrl || photoUrl.trim() === "")) {
-    return this.createError({ message: "Потрібно завантажити файл або вказати URL" });
+    return this.createError({ message: "Upload a file or provide a URL" });
   }
   return true;
 });

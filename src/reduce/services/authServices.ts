@@ -106,7 +106,7 @@ export const updateCurrentEdit = async (
 
    setAuthHeader(token);
 
-  const response = await axios.patch('users/current/edit', formData);
+  const response = await axios.patch('users/current/edit', dataForm);
   return response.data;
 };
 
@@ -162,6 +162,11 @@ export const requestAddPet = async (
     console.log('Response from server:', response.data);
     return response.data;
 };
+
+  export const deletePet = async(_id: string): Promise<{ _id: string }> => {
+    const response = await axios.delete(`users/current/pets/remove/${_id}`);
+    return response.data;
+  }
 
 // friends
 

@@ -10,6 +10,7 @@ import { signUpUser,
           EditUserResponse,
           fetchAddPet,
           AddPetResponse,
+          removePet,
       } from './operations';
 
 export interface User {
@@ -199,18 +200,32 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-.addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
-  const petData = action.payload?.data?.data;
+      .addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
+        const petData = action.payload?.data?.data;
 
-  if (petData) {
-    state.pets.push({
-      ...petData,
-      photoUrl: petData.photo, 
-    });
-  }
-  toast.success('Pet added successfully!');
-})
+      if (petData) {
+        state.pets.push({
+          ...petData,
+          photoUrl: petData.photo, 
+        });
+      }
+      toast.success('Pet added successfully!');
+    })
       .addCase(fetchAddPet.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      })
+      // --- deletePet ---
+      .addCase(removePet.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removePet.fulfilled, (state, action: PayloadAction<string>) => {
+        const removedId = action.payload;
+
+        state.pets = state.pets.filter(pet => pet._id !== removedId);
+      })
+      .addCase(removePet.rejected, (state) => {
         state.loading = false;
         state.error = true;
       })

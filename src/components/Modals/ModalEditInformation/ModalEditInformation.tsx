@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch } from '../../../reduce/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useRef } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { editInformationSchema } from '../../../shemas/editInformationShema';
 import { userCurrentEdit } from '../../../reduce/auth/operations';
 import { selectUser } from '../../../reduce/auth/selectors';
@@ -23,14 +23,18 @@ type formData = {
 function ModalEditInformation() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectUser) as User | null;
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-const avatarUrl = user?.avatar
-  ? (/^https?:\/\//.test(user.avatar)
-      ? `${user.avatar}?t=${Date.now()}`
-      : `https://petlve-api.onrender.com${user.avatar}?t=${Date.now()}`)
-  : null;
+const avatarUrl = useMemo(() => {
+  if (!user?.avatar) return null;
+
+  const isFullUrl = /^https?:\/\//.test(user.avatar);
+  const baseUrl = isFullUrl ? user.avatar : `https://petlve-api.onrender.com${user.avatar}`;
+  
+  return `${baseUrl}?v=${user._id}_${user.avatar}`;
+}, [user?.avatar, user?._id])
 
   const nameId = useId();
   const emailId = useId();
@@ -54,11 +58,13 @@ const avatarUrl = user?.avatar
   const nameValue = watch('name');
   const emailValue = watch('email');
   const photoUrlValue = watch('photoUrl');
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setValue("uploadPhoto", file, { shouldValidate: true });
+      setValue('uploadPhoto', file, { shouldValidate: true });
+      const fileUrl = URL.createObjectURL(file);
+      setPhotoPreview(fileUrl);
     }
   };
 
@@ -82,6 +88,8 @@ const onSubmit: SubmitHandler<formData> = async (data) => {
     await dispatch(userCurrentEdit(formDataForSubmit as CurrentFormData)).unwrap();
 
     reset();
+    setPhotoPreview(null);
+
     } catch (err) {
     if (err instanceof Error) {
       toast.error('The data could not be updated.Check the link or try again.');  
@@ -91,29 +99,34 @@ const onSubmit: SubmitHandler<formData> = async (data) => {
   }
 };
 
-
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
 
   const { ref: uploadPhotoRef, ...uploadPhotoRest } = register("uploadPhoto");
 
+    useEffect(() => {
+    return () => {
+      if (photoPreview) {
+        URL.revokeObjectURL(photoPreview);
+      }
+    };
+  }, [photoPreview]);
+
   return (
     <section className={style.sectionInformation}>
       <h2 className={style.titleInformation}>Edit information</h2>
-        {avatarUrl ? (
-          <img
-            className={style.userPhoto}
-            src={avatarUrl}
-            alt="User avatar"
-          />
-        ) : (
-          <div className={style.avatar}>
+          {photoPreview ? (
+            <img className={style.userPhoto} src={photoPreview} alt="Preview avatar" />
+          ) : photoUrlValue ? (
+            <img className={style.userPhoto} src={photoUrlValue} alt="Preview avatar" />
+          ) : avatarUrl ? (
+            <img className={style.userPhoto} src={avatarUrl} alt="User avatar" />
+          ) : (
             <svg width={44} height={44} className={style.iconAvatar}>
               <use xlinkHref={`${icons}#icon-avatar`} />
             </svg>
-          </div>
-        )}
+          )}
       <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={style.containerUpload}>
           <div>
@@ -128,15 +141,6 @@ const onSubmit: SubmitHandler<formData> = async (data) => {
             />
             {errors.photoUrl?.message && (
               <p className={style.errorMsg}>{String(errors.photoUrl.message)}</p>
-            )}
-
-            {photoUrlValue && (
-                <img
-                  src={`${photoUrlValue}?t=${Date.now()}`}
-                  alt="Preview"
-                  className={style.previewImage}
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
             )}
           </div>
 

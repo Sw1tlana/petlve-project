@@ -10,7 +10,8 @@ import { requestSignUp,
          updateCurrentEdit,
          CurrentFormData,
          AddPetFormData,
-         requestAddPet
+         requestAddPet,
+         deletePet
          
  } from '../services/authServices';
 import { Pets, setToken, User } from './slice';
@@ -193,6 +194,21 @@ try {
   }
   }
 );
+
+export const removePet = createAsyncThunk(
+  'auth/removePets',
+  async (_id: string, thunkAPI) => {
+    try {
+      await deletePet(_id);
+      return _id;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err instanceof Error ? err.message : 'Remove Pets Error'
+      );
+    }
+  }
+);
+
 
  export const logoutUser = createAsyncThunk(
   'auth/logoutUser',

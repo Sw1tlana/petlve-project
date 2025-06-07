@@ -48,4 +48,17 @@ export const editInformationSchema = Yup.object({
   uploadPhoto: Yup.mixed<File>()
     .nullable()
     .notRequired(),
-  });
+  })
+  .test(
+    'at-least-one-field',
+    'Please provide at least one field to update.',
+    value => {
+      return !!(
+        value?.name ||
+        value?.email ||
+        value?.phone ||
+        value?.photoUrl ||
+        value?.uploadPhoto
+      );
+    }
+  );
