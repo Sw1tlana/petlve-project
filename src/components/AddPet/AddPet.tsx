@@ -151,7 +151,7 @@ function AddPet() {
       }
     
     if (pets.length === 0 && !hasShownModalRef.current) {
-      openModal(ModalCongrats(), false);
+      openModal(<ModalCongrats/>, false);
       hasShownModalRef.current = true;
     }
 
