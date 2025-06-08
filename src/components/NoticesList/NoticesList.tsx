@@ -3,29 +3,42 @@ import style from '../../scss/components/_noticesList.module.scss';
 import LearnMore from '../LearnMore/LearnMore';
 import { fetchNotices } from '../../reduce/notices/operations';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsLoggedINotices, selectItemsNotices } from '../../reduce/notices/selectors';
+import { selectIsLoggedINotices, 
+          selectItemsNotices, 
+          selectLimit, 
+          selectPage, 
+          selectTotalPages} from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
-import { addViewedItems, Pet } from '../../reduce/notices/slice';
+import { addViewedItems, Pet, setPage } from '../../reduce/notices/slice';
+import Pagination from '../../shared/components/Pagination/Pagination';
 
 function NoticesList ( ) {
     const loading = useSelector(selectIsLoggedINotices);
     const notices = useSelector(selectItemsNotices);
-    console.log(typeof notices);
+
+      const page = useSelector(selectPage);
+      const limit = useSelector(selectLimit);
+      const totalPages = useSelector(selectTotalPages)?? 1;
 
     const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
-  dispatch(fetchNotices());
-}, [dispatch]);
+  dispatch(fetchNotices({ page: page.toString(), limit: limit.toString() }));
+}, [dispatch, page, limit]);
 
 const handleAddViewedItem = (pet: Pet) => {
   dispatch(addViewedItems(pet)); 
 };
 
+const handlePageChange = (newPage: number) => {
+  dispatch(setPage(newPage));
+};
+
   return (
     <section> 
       {!loading && Array.isArray(notices) && notices.length > 0 && (
+      <>
         <ul className={style.noticesList}>   
           {notices.map((noticeItem: Pet, index: number) => (
             <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
@@ -76,6 +89,11 @@ const handleAddViewedItem = (pet: Pet) => {
             </li>
           ))}
         </ul>
+         <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}/>
+        </>
       )}
     </section>
   )

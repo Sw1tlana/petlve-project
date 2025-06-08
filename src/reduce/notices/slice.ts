@@ -26,7 +26,10 @@ export interface NoticesState {
     favoritePets: Pet[];
     viewedItems: Pet[];
     error: boolean | null;
-    loading: boolean;  
+    loading: boolean; 
+    page: number;
+    limit: number;
+    totalPages: number; 
   };
 
   const INITIAL_STATE: NoticesState = {
@@ -35,6 +38,9 @@ export interface NoticesState {
     loading: false,
     favoritePets: [],
     viewedItems: [],
+    page: 1,
+    limit: 6,
+    totalPages: 0,
   };
 
     export const noticesSlice = createSlice({
@@ -64,7 +70,16 @@ export interface NoticesState {
         removeViewedItem(state, action: PayloadAction<string>) {
           state.viewedItems = state.viewedItems.filter(pet => pet._id !== action.payload);
           toast.error('Pet removed from viewed items ❌');
-        }
+        },
+          setPage: (state, action) => {
+              state.page = action.payload;
+          },
+          setLimit: (state, action) => {
+              state.limit = action.payload;
+          },
+          setTotalPages: (state, action) => {
+              state.totalPages = action.payload;
+          },
       },
       extraReducers: (builder) => {
         builder
@@ -88,7 +103,10 @@ export interface NoticesState {
                 addFavorite, 
                 removeFavorite,
                 addViewedItems,
-                removeViewedItem
+                removeViewedItem,
+                setPage,
+                setLimit,
+                setTotalPages,
     } = noticesSlice.actions;
 
     export const noticesReducer = noticesSlice.reducer;

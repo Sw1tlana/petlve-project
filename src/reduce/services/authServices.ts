@@ -221,12 +221,19 @@ export const getNews = async (): Promise<News[]> => {
   return data.data;
 };
 
-
 // notices
 
-interface GetNoticesResponse {
+export interface GetNoticesResponse {
   success: boolean;
-  data: Pet[]; 
+  data: {
+    data: Pet[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
+    };
+  };
 };
 
 export interface FavoriteRequest {
@@ -234,10 +241,10 @@ export interface FavoriteRequest {
   data: { favorites: Pet[] };
 }
 
-export const getNotices = async (): Promise<Pet[]> => {
-  const { data } : {data: GetNoticesResponse} = await axios.get('/notices');
+export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {
+  const { data } = await axios.get(`/notices${queryParams}`);
   console.log("Received response from API:", data); 
-  return data.data;
+  return data;
 };
 
 
