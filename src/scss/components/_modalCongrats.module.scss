@@ -5,7 +5,49 @@
 
 .modalCongrats {
     width: 335px;
-    height: 322px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 25px;
     border-radius: 30px;
     background-color:  fn.get-color('light');
+    position: relative;
+}
+
+.avatarCongrats {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.titleCongrats {
+    @extend %subtitle;
+
+    font-size: 20px;
+    color: fn.get-color('accent-primary');
+}
+
+.textCongrats {
+   @extend %text;
+   
+   font-size: 14px;
+   text-align: center;
+}
+
+.btnAttention {
+  text-transform: capitalize;
+}
+
+@include mx.mq('md') {
+.modalCongrats {
+    width: 460px;
+    padding: 40px;
+}
+
+.titleCongrats {
+    font-size: 24px;
+}
+
 }

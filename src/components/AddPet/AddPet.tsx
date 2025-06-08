@@ -16,6 +16,7 @@ import { fetchAddPet } from "../../reduce/auth/operations";
 import { useModalContext } from "../../context/useModalContext";
 import ModalCongrats from "../Modals/ModalCongrats/ModalCongrats";
 import { selectPets } from "../../reduce/auth/selectors";
+import { useNavigate } from "react-router-dom";
 
 interface OptionType {
   value: string;
@@ -51,6 +52,7 @@ function AddPet() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const pets = useSelector(selectPets);
   const hasShownModalRef = useRef(false);
@@ -136,22 +138,27 @@ function AddPet() {
       if (data.sex) formDataForSubmit.sex = data.sex;
       if(data.species) formDataForSubmit.species = data.species;
 
-      if (data.uploadPhoto instanceof File) {
-        formDataForSubmit.uploadPhoto = data.uploadPhoto;
-      } else if (data.photoUrl?.trim()) {
-        formDataForSubmit.photoUrl = data.photoUrl.trim();
-      }
+    let avatarUrl = "";
+
+    if (data.uploadPhoto instanceof File) {
+      formDataForSubmit.uploadPhoto = data.uploadPhoto;
+      avatarUrl = URL.createObjectURL(data.uploadPhoto); 
+    } else if (data.photoUrl?.trim()) {
+      formDataForSubmit.photoUrl = data.photoUrl.trim();
+      avatarUrl = data.photoUrl.trim();
+    }
 
       await dispatch(fetchAddPet(formDataForSubmit as AddPetFormData)).unwrap();
-      console.log("Form: ", formDataForSubmit);
         reset(); 
+
+        navigate('/current');
 
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
       }
     
     if (pets.length === 0 && !hasShownModalRef.current) {
-      openModal(<ModalCongrats/>, false);
+      openModal(<ModalCongrats photoUrl={avatarUrl}/>, false);
       hasShownModalRef.current = true;
     }
 

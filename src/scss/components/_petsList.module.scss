@@ -17,7 +17,6 @@
     justify-content: space-between;
     padding: 16px;
     width: 295px;
-    height: 134px;
     border: 1px solid fn.get-color('dark-secondary');
     border-radius: 20px;
     margin: 14px 0;
@@ -109,25 +108,33 @@
     .itemPets {
       margin: 0;
       width: 305px;
-      height: 150px;
     }
 
   }
 
   @include mx.mq('lg') { 
-    .containerPets {
+  .containerPets {
       display: flex;
       justify-content: center;
       align-items: center;
 }  
-    .listPets { 
+  .listPets { 
       flex-direction: column;
       width: 520px;
     }
 
-    .itemPets {
+  .itemPets {
       width: 440px;
-      height: 130px;
     }
-  }
+
+  .noticesImage {
+    width: 80px;
+    height: 80px;
+}
+
+.containerInfo {
+  width: 100%;
+}
+
+}
 

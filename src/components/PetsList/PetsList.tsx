@@ -32,7 +32,7 @@ useEffect(() => {
 
   const handleDeletePet = (id: string) => {
     dispatch(removePet(id));
-  }
+  };
 
   return (
     <div className={style.containerPets}>

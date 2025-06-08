@@ -1,29 +1,43 @@
+import { useNavigate } from 'react-router-dom';
 import style from '../../../scss/components/_modalCongrats.module.scss';
-import icons from '../../../shared/icons/sprite.svg';
+import { useModalContext } from "../../../context/useModalContext";
 
-function ModalCongrats() {
+interface ModalCongratsProps {
+  photoUrl?: string;
+};
+
+function ModalCongrats({ photoUrl }: ModalCongratsProps) {
+  const navigate = useNavigate();
+
+ const { closeModal } = useModalContext();
+
+  const handleClick = () => {
+      navigate('/current');
+      closeModal();
+  };
+
   return (
     <div className={style.modalCongrats}>
-            {watch("uploadPhoto") instanceof File ? (
-              <img
-                className={style.userPhoto}
-                src={URL.createObjectURL(watch("uploadPhoto")!)}
-                alt="Selected preview"
-              />
-            ) : photoUrlValue ? (
-              <img
-                className={style.userPhoto}
-                src={`${photoUrlValue}?t=${Date.now()}`}
-                alt="URL preview"
-                onError={(e) => (e.currentTarget.style.display = "none")}
-              />
-            ) : (
-              <div className={style.addPetAvatar}>
-                <svg width={26} height={26} className={style.iconPaw}>
-                  <use xlinkHref={`${icons}#icon-paw`} />
-                </svg>
-              </div>
-            )}
+      {photoUrl && (
+      <img 
+        src={photoUrl} 
+        alt="avatar pet" 
+        className={style.avatarCongrats} 
+        width={80}
+        height={80}
+        />
+      )}
+      <h2 className={style.titleCongrats}>Congrats</h2>
+      <p className={style.textCongrats}>
+        The first fluff in the favorites! 
+        May your friendship be the happiest and filled with fun.
+      </p>
+      <button 
+        type='button'
+        onClick={handleClick}
+        className={`btn btn--primary ${style.btnAttention}`}>
+         Go to profile
+      </button>
     </div>
   )
 };
