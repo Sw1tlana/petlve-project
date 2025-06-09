@@ -201,7 +201,7 @@ export const getFriends = async (): Promise<Place[]> => {
 
 // news
 
-interface News {
+export interface News {
   _id: string;
   imgUrl: string;
   title: string;
@@ -211,14 +211,22 @@ interface News {
   id: string;
 };
 
-interface GetNewsResponse {
+export interface GetNewsResponse {
   success: boolean;
-  data: News[];
-};
+  data: {
+    data: News[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
+    };
+  };
+}
 
-export const getNews = async (): Promise<News[]> => {
-  const { data } : {data: GetNewsResponse} = await axios.get('/news');
-  return data.data;
+export const getNews = async (queryParams = ''): Promise<GetNewsResponse> => {
+  const { data } = await axios.get(`/news/${queryParams}`);
+  return data;
 };
 
 // notices

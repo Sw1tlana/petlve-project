@@ -1,23 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getNews } from '../services/authServices';
+import { getNews, GetNewsResponse, News } from '../services/authServices';
+import { setLimit, setPage, setTotalPages } from '../notices/slice';
 
-interface News {
-    _id: string;
-    imgUrl: string;
-    title: string;
-    text: string;
-    date: string;
-    url: string;
-    id: string;
-  };
-
-  export const fetchNews = createAsyncThunk<News[], void>(
+  export const fetchNews = createAsyncThunk<News[], {page: string; limit: string; }>(
     'news/fetchNews',
-    async(_, thunkAPI) => {
+    async({ page, limit }, thunkAPI) => {
        try {
-         const response: News[] = await getNews();
-         return response;
+        const queryParams = new URLSearchParams({page, limit}).toString();
+         const response: GetNewsResponse = await getNews(`?${queryParams}`);
+        
+                     const pagination = response.data.pagination;
+         
+                     thunkAPI.dispatch(setPage(pagination.page));
+                     thunkAPI.dispatch(setLimit(pagination.limit));
+                     thunkAPI.dispatch(setTotalPages(pagination.pages));
+         
+               return response.data.data;
        }catch(err) {
         if (err instanceof Error) {
             return thunkAPI.rejectWithValue(err.message);

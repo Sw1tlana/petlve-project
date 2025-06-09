@@ -12,6 +12,7 @@ import { AppDispatch } from '../../reduce/store';
 import icons from '../../shared/icons/sprite.svg';
 import { addViewedItems, Pet, setPage } from '../../reduce/notices/slice';
 import Pagination from '../../shared/components/Pagination/Pagination';
+import Loader from '../../shared/components/Loader.tsx/Loader';
 
 function NoticesList ( ) {
     const loading = useSelector(selectIsLoggedINotices);
@@ -24,6 +25,10 @@ function NoticesList ( ) {
     const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
+    window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
   dispatch(fetchNotices({ page: page.toString(), limit: limit.toString() }));
 }, [dispatch, page, limit]);
 
@@ -37,6 +42,7 @@ const handlePageChange = (newPage: number) => {
 
   return (
     <section> 
+      {loading && <Loader/>}
       {!loading && Array.isArray(notices) && notices.length > 0 && (
       <>
         <ul className={style.noticesList}>   

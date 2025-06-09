@@ -1,18 +1,5 @@
-interface NewsResponse {
-    _id: string;
-    imgUrl: string;
-    title: string;
-    text: string;
-    date: string;
-    url: string;
-    id: string;
-  };
+import { NewsState } from "./slice";
 
-interface NewsState {
-    items: NewsResponse[];
-    isLoggedIn: boolean;
-    error: string | null;
-  };
 
   interface RootState {
     news: NewsState;
@@ -20,6 +7,12 @@ interface NewsState {
 
   export const selectItemsNews = (state: RootState) => state.news.items;
   
-  export const selectIsLoggedInNews = (state: RootState) => state.news.isLoggedIn;
+  export const selectIsLoggedInNews = (state: RootState) => state.news.loading;
   
   export const selectErrorNews = (state: RootState) => state.news.error;
+
+  export const selectTotalPages = (state: RootState) => state.news.totalPages;
+  
+  export const selectPage = (state: RootState) => state.news.page || 1;
+  
+  export const selectLimit = (state: RootState) => state.news.limit || 6;

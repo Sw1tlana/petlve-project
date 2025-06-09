@@ -12,23 +12,39 @@ interface NewsResponse {
     id: string;
   };
 
-  interface State {
+  export interface NewsState {
     items: NewsResponse[];
     loading: boolean;
     error: boolean | null;
+    page: number;
+    limit: number;
+    totalPages: number; 
   };
 
-  const INITIAL_STATE: State = {
+  const INITIAL_STATE: NewsState = {
     items: [],
     error: null,
     loading: false,
+    page: 1,
+    limit: 6,
+    totalPages: 0,
   };
 
     export const newsSlice = createSlice({
       name: "friends",
       initialState: INITIAL_STATE,
   
-      reducers: {},
+      reducers: {
+          setPage: (state, action) => {
+              state.page = action.payload;
+          },
+          setLimit: (state, action) => {
+              state.limit = action.payload;
+          },
+          setTotalPages: (state, action) => {
+              state.totalPages = action.payload;
+          },
+      },
       extraReducers: (builder) => {
           builder
                 .addCase(fetchNews.pending, (state) => {

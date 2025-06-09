@@ -1,2 +1,55 @@
 @use '../utils/functions' as fn;
 @use '../utils/variables' as var;
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0 80px;
+}
+
+.pageButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.active {
+  background-color: fn.get-color('accent-primary'); 
+  border: 2px solid fn.get-color('accent-primary');
+  color: fn.get-color('light');
+  font-weight: bold;
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  padding-bottom: 4px;
+  color: #333;
+  line-height: 1;
+}
+
+.arrow:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+  color: #aaa;
+  border-color: #ddd;
+}
