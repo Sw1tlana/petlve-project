@@ -1,24 +1,20 @@
-import { useDispatch, 
+import { 
          useSelector } from 'react-redux';
 import style from '../../scss/components/_news.module.scss';
 import Container from '../../shared/components/Container/Container';
 import SearchFild from '../SearchField/SearchFild';
 import { selectIsLoggedInNews, 
          selectItemsNews } from '../../reduce/news/selectors';
-import { useEffect } from 'react';
-import { AppDispatch } from '../../reduce/store';
-import { fetchNews } from '../../reduce/news/operations';
+// import { useEffect } from 'react';
+// import { AppDispatch } from '../../reduce/store';
+// import { fetchNews } from '../../reduce/news/operations';
 import Loader from '../../shared/components/Loader.tsx/Loader';
 import { Link } from 'react-router-dom';
 
 function News() {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const lisLoadingNews = useSelector(selectIsLoggedInNews);
   const news = useSelector(selectItemsNews);
-
-  useEffect(() => {
-    dispatch(fetchNews());
-  },[dispatch]);
 
   return (
         <Container>
