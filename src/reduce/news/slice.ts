@@ -62,4 +62,10 @@ interface NewsResponse {
 
       }});
 
+          export const {
+                      setPage,
+                      setLimit,
+                      setTotalPages,
+          } = newsSlice.actions;
+
       export const newsReducer = newsSlice.reducer;

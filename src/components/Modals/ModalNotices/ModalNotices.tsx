@@ -7,7 +7,7 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduce/store';
-import { addFavorite } from '../../../reduce/notices/slice';
+import { fetchAddFavorites } from '../../../reduce/notices/operations';
 
 interface NoticeType {
     _id: string;
@@ -42,7 +42,7 @@ function ModalNotices({ notice }: NoticeCardProps) {
   }, [notice.popularity]);
 
   const handleClick = () => {
-    dispatch(addFavorite(notice));
+    dispatch(fetchAddFavorites(notice._id));
   }
 
   return (

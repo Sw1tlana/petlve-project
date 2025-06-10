@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchNotices } from "./operations";
+import { fetchAddFavorites, fetchNotices } from "./operations";
 import { toast } from 'react-hot-toast';
 
 export interface Pet {
@@ -48,13 +48,6 @@ export interface NoticesState {
       initialState: INITIAL_STATE,
 
       reducers: {
-        addFavorite(state, action: PayloadAction<Pet>) {
-          const newPet = action.payload;
-          if (!state.favoritePets.some((pet) => pet._id === newPet._id)) {
-            state.favoritePets.push(newPet);
-            toast.success('Pet added to favorites ❤️'); 
-          }
-        },
         removeFavorite(state, action: PayloadAction<string>) {  
           const petId = action.payload;  
           state.favoritePets = state.favoritePets.filter((pet) => pet._id !== petId);
@@ -95,12 +88,26 @@ export interface NoticesState {
             .addCase(fetchNotices.rejected, (state) => {
             state.error = true;
           })
+          .addCase(fetchAddFavorites.pending, (state) => {
+            state.loading = true;  
+            state.error = null; 
+          })
+            .addCase(fetchAddFavorites.fulfilled, (state, action: PayloadAction<Pet>) => {
+              state.loading = false;
+              state.favoritePets.push(action.payload);
+              state.error = null;
+              toast.success('Pet added to favorites ⭐');
+            })
+            .addCase(fetchAddFavorites.rejected, (state) => {
+              state.loading = false;
+              state.error = true;
+              toast.error('Failed to add pet to favorites ❌');
+          })
       }
   
     });
 
     export const {
-                addFavorite, 
                 removeFavorite,
                 addViewedItems,
                 removeViewedItem,

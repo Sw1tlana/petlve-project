@@ -255,5 +255,10 @@ export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> 
   return data;
 };
 
+export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
+  const { data } = await axios.post(`/notices/favorites/add/${_id}`);
+  return data;
+};
+
 
 

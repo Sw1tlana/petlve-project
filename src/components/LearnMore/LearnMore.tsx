@@ -7,10 +7,11 @@ import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../reduce/auth/selectors';
-import { addFavorite, Pet, removeFavorite } from '../../reduce/notices/slice';
+import { Pet, removeFavorite } from '../../reduce/notices/slice';
 import { selectFavoritePets } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
+import { fetchAddFavorites } from '../../reduce/notices/operations';
 
 
 interface IModalContextType {
@@ -55,7 +56,7 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
     if (isFavorite) {
       dispatch(removeFavorite(petId)); 
     } else {
-      dispatch(addFavorite(notice));     
+      dispatch(fetchAddFavorites(notice._id));     
     }
 };
 
