@@ -260,5 +260,9 @@ export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
   return data;
 };
 
+export const removeFavoritesNotices = async (_id: string): Promise<Pet> => {
+  const { data } = await axios.delete(`/notices/favorites/remove/${_id}`);
+  return data;
+};
 
 

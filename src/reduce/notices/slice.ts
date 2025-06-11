@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchAddFavorites, fetchNotices } from "./operations";
+import { fetchAddFavorites, fetchNotices, fetchRemoveFavorites } from "./operations";
 import { toast } from 'react-hot-toast';
 
 export interface Pet {
@@ -48,11 +48,6 @@ export interface NoticesState {
       initialState: INITIAL_STATE,
 
       reducers: {
-        removeFavorite(state, action: PayloadAction<string>) {  
-          const petId = action.payload;  
-          state.favoritePets = state.favoritePets.filter((pet) => pet._id !== petId);
-          toast.error('Animal removed from favorites 🗑️'); 
-        },
         addViewedItems(state, action: PayloadAction<Pet>) {
           const newPet = action.payload;
           if (!state.viewedItems.some((pet) => pet._id === newPet._id)) {
@@ -92,23 +87,37 @@ export interface NoticesState {
             state.loading = true;  
             state.error = null; 
           })
-            .addCase(fetchAddFavorites.fulfilled, (state, action: PayloadAction<Pet>) => {
-              state.loading = false;
-              state.favoritePets.push(action.payload);
-              state.error = null;
-              toast.success('Pet added to favorites ⭐');
-            })
+          .addCase(fetchAddFavorites.fulfilled, (state, action) => {
+            state.loading = false;
+            state.favoritePets.push(action.payload);
+            toast.success('Pet added to favorites ⭐'); 
+          })
             .addCase(fetchAddFavorites.rejected, (state) => {
               state.loading = false;
               state.error = true;
               toast.error('Failed to add pet to favorites ❌');
+          })
+            .addCase(fetchRemoveFavorites.pending, (state) => {
+            state.loading = true;  
+            state.error = null; 
+          })
+          .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
+            const index = state.favoritePets.findIndex(pet => pet._id === action.payload._id);
+            if (index !== -1) {
+              state.favoritePets.splice(index, 1);
+              toast.error('Animal removed from favorites 🗑️');
+            }
+          })
+            .addCase(fetchRemoveFavorites.rejected, (state) => {
+              state.loading = false;
+              state.error = true;
+              toast.error('Failed to removed pet to favorites ❌');
           })
       }
   
     });
 
     export const {
-                removeFavorite,
                 addViewedItems,
                 removeViewedItem,
                 setPage,
