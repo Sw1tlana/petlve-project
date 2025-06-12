@@ -88,7 +88,8 @@ function MyFavorite() {
               <LearnMore 
                   key={String(noticeItem._id)} 
                   notice={noticeItem} 
-                  isBurgerMenu={false} 
+                  isBurgerMenu={false}
+                  onViewed={() => {}} 
               />
             </div>
           </li>

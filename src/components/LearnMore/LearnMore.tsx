@@ -54,11 +54,15 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
       return;
     }  
 
+   try {
     if (isFavorite) {
-      dispatch(fetchRemoveFavorites(petId)).unwrap();
+      await dispatch(fetchRemoveFavorites(petId)).unwrap();
     } else {
-      dispatch(fetchAddFavorites(notice._id)).unwrap();    
+      await dispatch(fetchAddFavorites(notice._id)).unwrap();
     }
+  } catch (error) {
+    console.error('Failed to update favorites:', error);
+  }
 };
 
 const handleClick = () => {

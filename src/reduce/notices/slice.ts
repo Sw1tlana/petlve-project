@@ -88,9 +88,9 @@ export interface NoticesState {
             state.error = null; 
           })
           .addCase(fetchAddFavorites.fulfilled, (state, action) => {
-            state.loading = false;
-            state.favoritePets.push(action.payload);
-            toast.success('Pet added to favorites ⭐'); 
+          state.loading = false;
+          state.favoritePets = [...state.favoritePets, action.payload];
+          toast.success('Pet added to favorites ⭐'); 
           })
             .addCase(fetchAddFavorites.rejected, (state) => {
               state.loading = false;
