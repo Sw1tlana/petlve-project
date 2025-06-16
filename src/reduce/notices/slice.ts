@@ -26,7 +26,8 @@ export interface NoticesState {
     favoritePets: Pet[];
     viewedItems: Pet[];
     error: boolean | null;
-    loading: boolean; 
+    loading: boolean;
+    favoriteLoading: boolean;
     page: number;
     limit: number;
     totalPages: number; 
@@ -36,6 +37,7 @@ export interface NoticesState {
     items: [],
     error: null,
     loading: false,
+    favoriteLoading: false, 
     favoritePets: [],
     viewedItems: [],
     page: 1,
@@ -75,30 +77,42 @@ export interface NoticesState {
             state.loading = true;  
             state.error = null; 
           })
-            .addCase(fetchNotices.fulfilled, (state, action: PayloadAction<Pet[]>) => {
-            state.loading = false;
-            state.items = action.payload;
-            state.error = null;
+            .addCase(fetchNotices.fulfilled, (state, action: PayloadAction<(Pet & { id?: string })[]>) => {
+            const itemsWithValidId = action.payload.filter(
+              (item) =>
+                (typeof item._id === 'string' && item._id.trim() !== '') ||
+                (typeof item.id === 'string' && item.id.trim() !== '')
+            );
+
+            const itemsWithId = itemsWithValidId.map(item => ({
+              ...item,
+              _id: item._id || item.id!,
+            })).filter(item => item._id); 
+              state.loading = false;
+              state.items = itemsWithId;
+              state.error = null;
           })
             .addCase(fetchNotices.rejected, (state) => {
             state.error = true;
           })
           .addCase(fetchAddFavorites.pending, (state) => {
-            state.loading = true;  
+            state.favoriteLoading = true;  
             state.error = null; 
           })
           .addCase(fetchAddFavorites.fulfilled, (state, action) => {
-          state.loading = false;
+            console.log("action.payload", action.payload);
+          state.favoriteLoading = false;
           state.favoritePets = [...state.favoritePets, action.payload];
+                console.log("action.payload", action.payload);
           toast.success('Pet added to favorites ⭐'); 
           })
             .addCase(fetchAddFavorites.rejected, (state) => {
-              state.loading = false;
+              state.favoriteLoading = false;
               state.error = true;
               toast.error('Failed to add pet to favorites ❌');
           })
             .addCase(fetchRemoveFavorites.pending, (state) => {
-            state.loading = true;  
+            state.favoriteLoading = true; 
             state.error = null; 
           })
           .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
@@ -109,7 +123,7 @@ export interface NoticesState {
             }
           })
             .addCase(fetchRemoveFavorites.rejected, (state) => {
-              state.loading = false;
+              state.favoriteLoading = false;
               state.error = true;
               toast.error('Failed to removed pet to favorites ❌');
           })

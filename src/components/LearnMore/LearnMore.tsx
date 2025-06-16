@@ -35,7 +35,8 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
 
   const favoritePets = useSelector(selectFavoritePets) || [];
 
-  const petId = notice._id && notice._id.toString ? notice._id.toString() : String(notice._id);
+  const petId = String(notice._id);
+  console.log("petId", petId)
 
   const isFavorite = favoritePets.some((pet: Pet) => String(pet._id) === petId);
   
@@ -58,7 +59,7 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
     if (isFavorite) {
       await dispatch(fetchRemoveFavorites(petId)).unwrap();
     } else {
-      await dispatch(fetchAddFavorites(notice._id)).unwrap();
+      await dispatch(fetchAddFavorites(petId)).unwrap();
     }
   } catch (error) {
     console.error('Failed to update favorites:', error);

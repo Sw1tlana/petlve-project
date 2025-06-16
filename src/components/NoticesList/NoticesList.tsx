@@ -46,7 +46,13 @@ const handlePageChange = (newPage: number) => {
       {!loading && Array.isArray(notices) && notices.length > 0 && (
       <>
         <ul className={style.noticesList}>   
-          {notices.map((noticeItem: Pet, index: number) => (
+        {notices.map((noticeItem: Pet, index: number) => {
+          if (!noticeItem._id) {
+            console.warn("Пропущено елемент без _id:", noticeItem);
+            return null;
+          }
+
+          return (
             <li className={style.noticesItem} key={`${noticeItem._id}-${index}`}>
               <img
                 src={noticeItem.imgURL}
@@ -88,12 +94,14 @@ const handlePageChange = (newPage: number) => {
 
               <div>
                 <LearnMore 
-                    notice={noticeItem} 
-                    isBurgerMenu={false} 
-                    onViewed={handleAddViewedItem}/>
+                  notice={noticeItem} 
+                  isBurgerMenu={false} 
+                  onViewed={handleAddViewedItem} 
+                />
               </div>
             </li>
-          ))}
+          );
+        })}
         </ul>
          <Pagination
             currentPage={page}
