@@ -258,7 +258,7 @@ export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> 
 export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
   const { data } = await axios.post(`/notices/favorites/add/${_id}`);
   console.log(data);
-  return data;
+  return data.favorite;
 };
 
 export const removeFavoritesNotices = async (_id: string): Promise<Pet> => {

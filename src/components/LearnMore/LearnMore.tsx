@@ -26,6 +26,7 @@ interface IModalContextType {
   };
 
 function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
+  console.log("LearnMore.tsx:29", notice);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -38,7 +39,9 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
   const petId = String(notice._id);
   console.log("petId", petId)
 
-  const isFavorite = favoritePets.some((pet: Pet) => String(pet._id) === petId);
+  const isFavorite = favoritePets
+  .filter((pet): pet is Pet => pet !== null && pet !== undefined && '_id' in pet)
+  .some((pet) => String(pet._id) === petId);
   
   const handleFavoriteClick = async(event: React.MouseEvent<HTMLButtonElement>) => {
      event.preventDefault();

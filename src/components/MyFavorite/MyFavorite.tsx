@@ -45,7 +45,9 @@ function MyFavorite() {
   ) : (
     Array.isArray(favoritePets) && favoritePets.length > 0 ? (
       <ul className={favoriteStyle.favoriteList}>
-        {favoritePets.map((noticeItem: Pet, index: number) => (
+        {favoritePets
+        .filter((noticeItem): noticeItem is Pet => !!noticeItem && !!noticeItem._id && !!noticeItem.imgURL)
+        .map((noticeItem: Pet, index: number) => (
           <li className={favoriteStyle.favoriteItem} key={`${noticeItem._id}-${index}`}>
             <img
               src={noticeItem.imgURL}

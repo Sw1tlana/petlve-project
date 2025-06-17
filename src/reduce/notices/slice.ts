@@ -78,22 +78,20 @@ export interface NoticesState {
             state.error = null; 
           })
             .addCase(fetchNotices.fulfilled, (state, action: PayloadAction<(Pet & { id?: string })[]>) => {
-            const itemsWithValidId = action.payload.filter(
-              (item) =>
-                (typeof item._id === 'string' && item._id.trim() !== '') ||
-                (typeof item.id === 'string' && item.id.trim() !== '')
-            );
+              const itemsWithValidId = action.payload.filter(
+                (item) =>
+                  (typeof item._id === 'string' && item._id.trim() !== '') ||
+                  (typeof item.id === 'string' && item.id.trim() !== '')
+              );
 
-            const itemsWithId = itemsWithValidId.map(item => ({
-              ...item,
-              _id: item._id || item.id!,
-            })).filter(item => item._id); 
+              const itemsWithId = itemsWithValidId.map(item => ({
+                ...item,
+                _id: item._id || item.id!,
+              })).filter(item => item._id);
+
               state.loading = false;
               state.items = itemsWithId;
               state.error = null;
-          })
-            .addCase(fetchNotices.rejected, (state) => {
-            state.error = true;
           })
           .addCase(fetchAddFavorites.pending, (state) => {
             state.favoriteLoading = true;  
@@ -101,10 +99,11 @@ export interface NoticesState {
           })
           .addCase(fetchAddFavorites.fulfilled, (state, action) => {
             console.log("action.payload", action.payload);
-          state.favoriteLoading = false;
-          state.favoritePets = [...state.favoritePets, action.payload];
-                console.log("action.payload", action.payload);
-          toast.success('Pet added to favorites ⭐'); 
+              console.log("payload in fetchAddFavorites:", action.payload);
+              console.log("payload in fetchAddFavorites:", action.payload);
+            state.favoritePets.push(action.payload);
+            state.favoriteLoading = false;
+            toast.success('Pet added to favorites ⭐'); 
           })
             .addCase(fetchAddFavorites.rejected, (state) => {
               state.favoriteLoading = false;
