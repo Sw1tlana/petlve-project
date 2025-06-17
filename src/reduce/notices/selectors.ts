@@ -7,6 +7,7 @@ import { NoticesState } from "./slice";
 export const selectItemsNotices = (state: RootState) => state.notices.items;
 
 export const selectFavoritePets = (state: RootState) => state.notices.favoritePets;
+console.log("🔥 Favorite pets:", selectFavoritePets);
 
 export const selectViewedItems = (state: RootState) => state.notices.viewedItems;
 

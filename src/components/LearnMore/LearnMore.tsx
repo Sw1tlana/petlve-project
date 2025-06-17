@@ -58,15 +58,14 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
       return;
     }  
 
-   try {
-    if (isFavorite) {
-      await dispatch(fetchRemoveFavorites(petId)).unwrap();
-    } else {
-      await dispatch(fetchAddFavorites(petId)).unwrap();
-    }
-  } catch (error) {
-    console.error('Failed to update favorites:', error);
-  }
+      if (isFavorite) {
+        await dispatch(fetchRemoveFavorites(petId)).unwrap();
+      } else {
+        const alreadyExists = favoritePets.some(pet => pet._id === petId);
+        if (!alreadyExists) {
+          await dispatch(fetchAddFavorites(petId)).unwrap();
+        }
+      }
 };
 
 const handleClick = () => {
