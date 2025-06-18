@@ -11,6 +11,8 @@ import { signUpUser,
           fetchAddPet,
           AddPetResponse,
           removePet,
+          fetchAddFavorites,
+          fetchRemoveFavorites,
       } from './operations';
 
 export interface User {
@@ -33,6 +35,16 @@ export interface Pets {
   photo?: string;
 };
 
+export interface Favorites {
+      _id: string,
+      name: string,
+      species?: string,
+      title?: string,
+      birthday?: string,
+      sex?: string,
+      imgURL: string;
+}
+
 export interface State {
   user: User;
   token: string | null;
@@ -43,6 +55,7 @@ export interface State {
   isRefreshing: boolean;
   loading: boolean;
   pets: Pets[];
+  favoritePets: Favorites[];
 };
 
 const INITIAL_STATE: State = {
@@ -62,6 +75,7 @@ const INITIAL_STATE: State = {
   isRefreshing: false,
   loading: false,
   pets: [],
+  favoritePets: [],
 };
 
 const normalizeAvatar = (avatar: string | null | undefined): string | null => {
@@ -229,6 +243,55 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = true;
       })
+
+      // addPet
+    .addCase(fetchAddFavorites.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchAddFavorites.fulfilled, (state, action) => {
+  const petData = action.payload;
+
+  if (petData) {
+    const exists = state.favoritePets.some(pet => pet._id === petData._id);
+    if (!exists) {
+      state.favoritePets.push({
+        _id: petData._id,
+        name: petData.name,
+        species: petData.species,
+        title: petData.title,
+        birthday: petData.birthday,
+        sex: petData.sex,
+        imgURL: petData.imgURL,
+      });
+    }
+  }
+      state.loading = false;
+      toast.success('Питомця додано в улюблені ⭐');
+    })
+    .addCase(fetchAddFavorites.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+      toast.error('Не вдалося додати улюбленого питомця ❌');
+    })
+
+    .addCase(fetchRemoveFavorites.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
+      const removedPetId = action.payload._id;
+      if (state.user) {
+        state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
+      }
+      state.loading = false;
+      toast.success('Питомця видалено з улюблених 🗑️');
+    })
+    .addCase(fetchRemoveFavorites.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+      toast.error('Не вдалося видалити улюбленого питомця ❌');
+    })
   },
 });
 

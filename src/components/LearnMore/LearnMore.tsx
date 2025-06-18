@@ -6,13 +6,11 @@ import ModalWindow from '../../shared/components/ModalWindow/ModalWindow';
 import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../reduce/auth/selectors';
+import { selectFavorites, selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { Pet } from '../../reduce/notices/slice';
-import { selectFavoritePets } from '../../reduce/notices/selectors';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
-import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/notices/operations';
-
+import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/auth/operations';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
@@ -34,15 +32,15 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const favoritePets = useSelector(selectFavoritePets) || [];
+  const favoritePets = useSelector(selectFavorites) || [];
 
   const petId = String(notice._id);
   console.log("petId", petId)
 
-  const isFavorite = favoritePets
-  .filter((pet): pet is Pet => pet !== null && pet !== undefined && '_id' in pet)
-  .some((pet) => String(pet._id) === petId);
-  
+const isFavorite = favoritePets
+  .filter(fav => fav != null)
+  .some(fav => fav._id === notice._id);
+
   const handleFavoriteClick = async(event: React.MouseEvent<HTMLButtonElement>) => {
      event.preventDefault();
     if (!isLoggedIn) {
@@ -58,15 +56,23 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
       return;
     }  
 
-      if (isFavorite) {
-        await dispatch(fetchRemoveFavorites(petId)).unwrap();
-      } else {
-        const alreadyExists = favoritePets.some(pet => pet._id === petId);
-        if (!alreadyExists) {
-          await dispatch(fetchAddFavorites(petId)).unwrap();
-        }
+  if (!notice?._id) return;
+
+  try {
+    if (isFavorite) {
+      const result = await dispatch(fetchRemoveFavorites(petId)).unwrap();
+      console.log('Remove favorite result:', result);
+    } else {
+      const alreadyExists = favoritePets.some(pet => pet?._id === petId);
+      if (!alreadyExists) {
+        const result = await dispatch(fetchAddFavorites(petId)).unwrap();
+        console.log('Add favorite result:', result);
       }
-};
+    }
+  } catch (error) {
+    console.error('Error updating favorites:', error);
+  }
+}
 
 const handleClick = () => {
   if (onViewed) {

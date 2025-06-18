@@ -1,7 +1,7 @@
 import axios from "../../helpers/axiosConfig";
 import { Store } from "redux";
 import { RootState } from "../store";
-import { setToken } from "../auth/slice";
+import { Favorites, setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
 import { AddPetResponse, EditUserResponse } from "../auth/operations";
 
@@ -245,8 +245,7 @@ export interface GetNoticesResponse {
 };
 
 export interface FavoriteRequest {
-  id: string;
-  data: { favorites: Pet[] };
+    favorite: Pet;
 }
 
 export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {
@@ -255,10 +254,10 @@ export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> 
   return data;
 };
 
-export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
+export const addFavoritesNotices = async (_id: string): Promise<Favorites> => {
   const { data } = await axios.post(`/notices/favorites/add/${_id}`);
   console.log(data);
-  return data.favorite;
+  return data;
 };
 
 export const removeFavoritesNotices = async (_id: string): Promise<Pet> => {
