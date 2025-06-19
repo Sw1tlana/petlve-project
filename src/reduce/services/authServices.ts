@@ -1,7 +1,7 @@
 import axios from "../../helpers/axiosConfig";
 import { Store } from "redux";
 import { RootState } from "../store";
-import { Favorites, setToken } from "../auth/slice";
+import { setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
 import { AddPetResponse, EditUserResponse } from "../auth/operations";
 
@@ -244,23 +244,21 @@ export interface GetNoticesResponse {
   };
 };
 
-export interface FavoriteRequest {
-    favorite: Pet;
-}
-
 export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {
   const { data } = await axios.get(`/notices${queryParams}`);
   console.log("Received response from API:", data); 
   return data;
 };
 
-export const addFavoritesNotices = async (_id: string): Promise<Favorites> => {
+export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
+
   const { data } = await axios.post(`/notices/favorites/add/${_id}`);
   console.log(data);
   return data;
 };
 
 export const removeFavoritesNotices = async (_id: string): Promise<Pet> => {
+
   const { data } = await axios.delete(`/notices/favorites/remove/${_id}`);
   console.log("Remove", data);
   return data;

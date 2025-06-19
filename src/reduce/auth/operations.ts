@@ -12,11 +12,9 @@ import { requestSignUp,
          AddPetFormData,
          requestAddPet,
          deletePet,
-         removeFavoritesNotices,
-         addFavoritesNotices
          
  } from '../services/authServices';
-import { Favorites, Pets, setToken, User } from './slice';
+import { Pets, setToken, User } from './slice';
 import { RootState } from '../store';
 
 export interface SignUpResponse {
@@ -211,7 +209,6 @@ export const removePet = createAsyncThunk(
   }
 );
 
-
  export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async(_, thunkAPI) => {
@@ -226,35 +223,3 @@ export const removePet = createAsyncThunk(
   }
  );
 
-
-//  addFavorites
-
-export const fetchAddFavorites = createAsyncThunk<Favorites, string>(
-  'notices/fetchAddFavorites',
-  async (petId: string, thunkAPI) => {
-    try {
-      const response = await addFavoritesNotices(petId);
-
-      return response;
-    
-    } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err instanceof Error ? err.message : 'Add Favorites Error'
-      );
-    }
-  }
-);
-
-export const fetchRemoveFavorites = createAsyncThunk<Favorites, string>(
-  'notices/fetchRemoveFavorites',
-  async (petId: string, thunkAPI) => {
-    try {
-      const response = await removeFavoritesNotices(petId);
-      return response;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err instanceof Error ? err.message : 'Add Favorites Error'
-      );
-    }
-  }
-);

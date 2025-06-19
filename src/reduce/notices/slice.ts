@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchNotices } from "./operations";
+import { fetchAddFavorites, fetchNotices, fetchRemoveFavorites } from "./operations";
 import { toast } from 'react-hot-toast';
 
 export interface Pet {
@@ -24,6 +24,8 @@ export interface Pet {
 export interface NoticesState {
     items: Pet[];
     viewedItems: Pet[];
+    favoritePets: Pet[];
+    user?: string;
     error: boolean | null;
     loading: boolean;
     favoriteLoading: boolean;
@@ -38,6 +40,7 @@ export interface NoticesState {
     loading: false,
     favoriteLoading: false, 
     viewedItems: [],
+    favoritePets: [],
     page: 1,
     limit: 6,
     totalPages: 0,
@@ -91,6 +94,62 @@ export interface NoticesState {
               state.items = itemsWithId;
               state.error = null;
           })
+                // addPet
+              .addCase(fetchAddFavorites.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+              })
+              .addCase(fetchAddFavorites.fulfilled, (state, action) => {
+            const petData = action.payload;
+          
+                if (petData) {
+                  const exists = state.favoritePets.some(pet => pet?._id === petData._id);
+                  if (!exists) {
+                    state.favoritePets.push({
+                      _id: petData._id,
+                      name: petData.name,
+                      species: petData.species,
+                      category: petData.category || '',  
+                      price: petData.price || 0,
+                      title: petData.title,
+                      birthday: petData.birthday,
+                      comment: petData.comment || '',
+                      sex: petData.sex,
+                      location: petData.location || '',
+                      imgURL: petData.imgURL,
+                      createdAt: petData.createdAt || '',
+                      updatedAt: petData.updatedAt || '',
+                      user: petData.user || '',
+                      popularity: petData.popularity || 0,
+                    });
+                  }
+                }
+                state.loading = false;
+                toast.success('Питомця додано в улюблені ⭐');
+              })
+              .addCase(fetchAddFavorites.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
+                toast.error('Не вдалося додати улюбленого питомця ❌');
+              })
+          
+              .addCase(fetchRemoveFavorites.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+              })
+              .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
+                const removedPetId = action.payload._id;
+                if (state.user) {
+                  state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
+                }
+                state.loading = false;
+                toast.success('Питомця видалено з улюблених 🗑️');
+              })
+              .addCase(fetchRemoveFavorites.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
+                toast.error('Не вдалося видалити улюбленого питомця ❌');
+              })
       }
   
     });

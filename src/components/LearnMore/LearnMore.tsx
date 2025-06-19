@@ -10,7 +10,7 @@ import { selectFavorites, selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { Pet } from '../../reduce/notices/slice';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
-import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/auth/operations';
+import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/notices/operations';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;

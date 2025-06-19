@@ -7,7 +7,7 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduce/store';
-import { fetchAddFavorites } from '../../../reduce/auth/operations';
+import { fetchAddFavorites } from '../../../reduce/notices/operations';
 
 interface NoticeType {
     _id: string;
