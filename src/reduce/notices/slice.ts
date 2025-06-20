@@ -94,9 +94,10 @@ export interface NoticesState {
               state.items = itemsWithId;
               state.error = null;
           })
-                // addPet
+          
+          // addPet
               .addCase(fetchAddFavorites.pending, (state) => {
-                state.loading = true;
+                state.favoriteLoading = true;
                 state.error = null;
               })
               .addCase(fetchAddFavorites.fulfilled, (state, action) => {
@@ -124,11 +125,11 @@ export interface NoticesState {
                     });
                   }
                 }
-                state.loading = false;
+                state.favoriteLoading = false
                 toast.success('Питомця додано в улюблені ⭐');
               })
               .addCase(fetchAddFavorites.rejected, (state) => {
-                state.loading = false;
+                state.favoriteLoading = false;
                 state.error = true;
                 toast.error('Не вдалося додати улюбленого питомця ❌');
               })

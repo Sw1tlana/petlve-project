@@ -6,11 +6,12 @@ import ModalWindow from '../../shared/components/ModalWindow/ModalWindow';
 import ModalAttention from '../Modals/ModalAttention/ModalAttention';
 import { useDispatch, 
          useSelector } from 'react-redux';
-import { selectFavorites, selectIsLoggedIn } from '../../reduce/auth/selectors';
+import { selectIsLoggedIn } from '../../reduce/auth/selectors';
 import { Pet } from '../../reduce/notices/slice';
 import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
 import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/notices/operations';
+import { selectFavorites } from '../../reduce/notices/selectors';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;

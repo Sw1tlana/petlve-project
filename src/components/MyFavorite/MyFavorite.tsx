@@ -1,12 +1,11 @@
 import favoriteStyle from '../../scss/components/_myFavorite.module.scss';
-import { selectViewedItems } from '../../reduce/notices/selectors';
+import { selectFavorites, selectViewedItems } from '../../reduce/notices/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import LearnMore from '../LearnMore/LearnMore';
 import icons from '../../shared/icons/sprite.svg';
 import { useState } from 'react';
 import Viewed from '../Viewed/Viewed';
 import { removeViewedItem, Pet } from '../../reduce/notices/slice';
-import { selectFavorites } from '../../reduce/auth/selectors';
 
 function MyFavorite() {
   const favoritePets = useSelector(selectFavorites);

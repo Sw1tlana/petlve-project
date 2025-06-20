@@ -8,6 +8,8 @@ export const selectItemsNotices = (state: RootState) => state.notices.items;
 
 export const selectViewedItems = (state: RootState) => state.notices.viewedItems;
 
+ export const selectFavorites = (state: RootState) => state.notices?.favoritePets || [];
+
 export const selectIsLoggedINotices = (state: RootState) => state.notices.loading;
 
 export const selectErrorNotices = (state: RootState) => state.notices.error;
