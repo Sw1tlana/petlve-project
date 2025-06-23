@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { addFavoritesNotices, getNotices, GetNoticesResponse, removeFavoritesNotices } from '../services/authServices';
+import { addFavoritesNotices, getNotices, GetNoticesResponse, removeFavoritesNotices, RemoveFavoritesResponse } from '../services/authServices';
 import { Pet, setLimit, setPage, setTotalPages } from './slice';
 
 export const fetchNotices = createAsyncThunk<Pet[], { page: string; limit: string }>(
@@ -46,7 +46,11 @@ export const fetchAddFavorites = createAsyncThunk<Pet, string >(
   }
 );
 
-export const fetchRemoveFavorites = createAsyncThunk<{ _id: string }, string>(
+export const fetchRemoveFavorites = createAsyncThunk<
+  RemoveFavoritesResponse, 
+  string,                  
+  { rejectValue: string } 
+>(
   'notices/fetchRemoveFavorites',
   async (petId, thunkAPI) => {
     try {

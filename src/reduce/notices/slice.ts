@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { fetchAddFavorites, fetchNotices, fetchRemoveFavorites } from "./operations";
 import { toast } from 'react-hot-toast';
+import { RemoveFavoritesResponse } from "../services/authServices";
 
 export interface Pet {
   _id: string;
@@ -124,11 +125,13 @@ export interface NoticesState {
                 state.favoriteLoading = true;
                 state.error = null;
               })
-              .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
-                const removedPetId = action.payload._id;
+              .addCase(fetchRemoveFavorites.fulfilled, (state, action: PayloadAction<RemoveFavoritesResponse>) => {
+                const removedPetId = action.payload.data._id;
+
                 if (state.user) {
                   state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
                 }
+
                 state.favoriteLoading = false;
                 toast.success('Pet removed from favorites🗑️');
               })

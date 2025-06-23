@@ -252,6 +252,11 @@ interface AddFavoritesResponse {
     email: string;
     noticesFavorites: Pet[];
   };
+};
+
+export interface RemoveFavoritesResponse {
+  message: string;
+  data: Pet;
 }
 
 export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {
@@ -272,11 +277,11 @@ export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
   return addedPet;
 };
 
-export const removeFavoritesNotices = async (_id: string): Promise<{ _id: string }> => {
+export const removeFavoritesNotices = async (_id: string): Promise<RemoveFavoritesResponse> => {
 
-  const { data } = await axios.delete(`/notices/favorites/remove/${_id}`);
-  console.log("Remove", data);
-  return data;
+  const response = await axios.delete(`/notices/favorites/remove/${_id}`);
+  console.log("Remove", response.data);
+  return response.data;
 };
 
 
