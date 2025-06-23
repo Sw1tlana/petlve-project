@@ -95,47 +95,33 @@ export interface NoticesState {
               state.error = null;
           })
           
-          // addPet
+          // addFavorite
               .addCase(fetchAddFavorites.pending, (state) => {
                 state.favoriteLoading = true;
                 state.error = null;
               })
               .addCase(fetchAddFavorites.fulfilled, (state, action) => {
-            const petData = action.payload;
+               const petData = action.payload;
           
-                if (petData) {
-                  const exists = state.favoritePets.some(pet => pet?._id === petData._id);
-                  if (!exists) {
-                    state.favoritePets.push({
-                      _id: petData._id,
-                      name: petData.name,
-                      species: petData.species,
-                      category: petData.category || '',  
-                      price: petData.price || 0,
-                      title: petData.title,
-                      birthday: petData.birthday,
-                      comment: petData.comment || '',
-                      sex: petData.sex,
-                      location: petData.location || '',
-                      imgURL: petData.imgURL,
-                      createdAt: petData.createdAt || '',
-                      updatedAt: petData.updatedAt || '',
-                      user: petData.user || '',
-                      popularity: petData.popularity || 0,
-                    });
-                  }
+              if (petData) {
+                const exists = state.favoritePets.some(pet => pet?._id === petData._id);
+                if (!exists) {
+                  state.favoritePets.push(petData);
                 }
-                state.favoriteLoading = false
-                toast.success('Питомця додано в улюблені ⭐');
+              }
+
+              state.favoriteLoading = false;
+              toast.success('Pet added to favorites⭐');
               })
               .addCase(fetchAddFavorites.rejected, (state) => {
                 state.favoriteLoading = false;
                 state.error = true;
-                toast.error('Не вдалося додати улюбленого питомця ❌');
+                toast.error('Could not add a favorite pet❌');
               })
-          
+
+            // deleteFavorite
               .addCase(fetchRemoveFavorites.pending, (state) => {
-                state.loading = true;
+                state.favoriteLoading = true;
                 state.error = null;
               })
               .addCase(fetchRemoveFavorites.fulfilled, (state, action) => {
@@ -143,13 +129,13 @@ export interface NoticesState {
                 if (state.user) {
                   state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
                 }
-                state.loading = false;
-                toast.success('Питомця видалено з улюблених 🗑️');
+                state.favoriteLoading = false;
+                toast.success('Pet removed from favorites🗑️');
               })
               .addCase(fetchRemoveFavorites.rejected, (state) => {
-                state.loading = false;
+                state.favoriteLoading = false;
                 state.error = true;
-                toast.error('Не вдалося видалити улюбленого питомця ❌');
+                toast.error('Unable to delete a favorite pet ❌');
               })
       }
   

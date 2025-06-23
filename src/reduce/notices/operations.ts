@@ -32,7 +32,7 @@ export const fetchNotices = createAsyncThunk<Pet[], { page: string; limit: strin
 
 export const fetchAddFavorites = createAsyncThunk<Pet, string >(
   'notices/fetchAddFavorites',
-  async (petId , thunkAPI) => {
+  async (petId: string , thunkAPI) => {
     try {
       const response = await addFavoritesNotices(petId);
 
@@ -46,7 +46,7 @@ export const fetchAddFavorites = createAsyncThunk<Pet, string >(
   }
 );
 
-export const fetchRemoveFavorites = createAsyncThunk<Pet, string>(
+export const fetchRemoveFavorites = createAsyncThunk<{ _id: string }, string>(
   'notices/fetchRemoveFavorites',
   async (petId, thunkAPI) => {
     try {

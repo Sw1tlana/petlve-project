@@ -244,6 +244,16 @@ export interface GetNoticesResponse {
   };
 };
 
+interface AddFavoritesResponse {
+  success: boolean;
+  data: {
+    _id: string;
+    name: string;
+    email: string;
+    noticesFavorites: Pet[];
+  };
+}
+
 export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {
   const { data } = await axios.get(`/notices${queryParams}`);
   console.log("Received response from API:", data); 
@@ -252,12 +262,17 @@ export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> 
 
 export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
 
-  const { data } = await axios.post(`/notices/favorites/add/${_id}`);
-  console.log(data);
-  return data;
+  const { data }: { data: AddFavoritesResponse } = await axios.post(`/notices/favorites/add/${_id}`);
+  const addedPet = data.data.noticesFavorites.find(pet => pet._id === _id);
+
+  if (!addedPet) {
+    throw new Error('Pet not found in the list of favorites');
+  }
+
+  return addedPet;
 };
 
-export const removeFavoritesNotices = async (_id: string): Promise<Pet> => {
+export const removeFavoritesNotices = async (_id: string): Promise<{ _id: string }> => {
 
   const { data } = await axios.delete(`/notices/favorites/remove/${_id}`);
   console.log("Remove", data);
