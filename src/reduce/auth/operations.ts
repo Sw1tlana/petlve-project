@@ -12,6 +12,7 @@ import { requestSignUp,
          AddPetFormData,
          requestAddPet,
          deletePet,
+         requestCurrentUser,
          
  } from '../services/authServices';
 import { Pets, setToken, User } from './slice';
@@ -108,6 +109,26 @@ export const signInUser = createAsyncThunk<
   }
 );
 
+export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
+  'auth/fetchUser',
+  async (_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.token;
+        if (!token) {
+      return thunkAPI.rejectWithValue('No token');
+    }
+      try {
+      const user = await requestCurrentUser(token);
+      return user;
+    }  catch(err){
+      if (err instanceof Error) {
+         console.error("Current user pet error:", err);
+        return thunkAPI.rejectWithValue(err.message);  
+      }
+    return thunkAPI.rejectWithValue('User current failed');
+  }
+}
+);
+
 export const userCurrentEdit = createAsyncThunk<
   EditUserResponse,
   CurrentFormData,
@@ -185,6 +206,7 @@ try {
     try {
         const response = await requestAddPet(formData, token);
          console.log('response from API:', response);
+
         return response;
     } catch(err){
       if (err instanceof Error) {

@@ -12,6 +12,7 @@ import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
 import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/notices/operations';
 import { selectFavorites } from '../../reduce/notices/selectors';
+import { fetchUser } from '../../reduce/auth/operations';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
@@ -63,11 +64,13 @@ const isFavorite = favoritePets
     if (isFavorite) {
       const result = await dispatch(fetchRemoveFavorites(petId)).unwrap();
       console.log('Remove favorite result:', result);
+      await dispatch(fetchUser()); 
     } else {
       const alreadyExists = favoritePets.some(pet => pet?._id === petId);
       if (!alreadyExists) {
         const result = await dispatch(fetchAddFavorites(petId)).unwrap();
         console.log('Add favorite result:', result);
+        await dispatch(fetchUser()); 
       }
     }
   } catch (error) {

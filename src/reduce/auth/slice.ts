@@ -20,6 +20,7 @@ export interface User {
   phone?: string | null;
   avatar?: string | null; 
   photoUrl?: string | null;
+  pets?: Pets[];
 };
 
 export interface Pets {
@@ -120,6 +121,9 @@ export const authSlice = createSlice({
           state.isLoggedIn = true;
           state.loading = false;
           state.error = null;
+
+          state.pets = user.pets ? [...user.pets] : [];
+
           toast.success('Login successful');
         })
       .addCase(signInUser.rejected, (state) => {
@@ -145,6 +149,8 @@ export const authSlice = createSlice({
               avatar,
             };
      state.avatar = avatar;
+
+     state.pets = user.pets ? [...user.pets] : [];
   }
         toast.success('RefreshToken successful');
       })
@@ -201,14 +207,20 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAddPet.fulfilled, (state, action: PayloadAction<AddPetResponse>) => {
-        const petData = action.payload?.data?.data;
+      const petData = action.payload?.data?.data;
 
       if (petData) {
         state.pets.push({
           ...petData,
-          photoUrl: petData.photo, 
+          photoUrl: petData.photo,
         });
-      }
+
+          if (state.user.pets) {
+            state.user.pets.push(petData);
+          } else {
+            state.user.pets = [petData];
+          }
+        }
       toast.success('Pet added successfully!');
     })
       .addCase(fetchAddPet.rejected, (state) => {
@@ -221,9 +233,15 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(removePet.fulfilled, (state, action: PayloadAction<string>) => {
-        const removedId = action.payload;
+          const removedId = action.payload;
 
-        state.pets = state.pets.filter(pet => pet._id !== removedId);
+          state.pets = state.pets.filter(pet => pet._id !== removedId);
+
+          if (state.user.pets) {
+            state.user.pets = state.user.pets.filter(pet => pet._id !== removedId);
+          }
+
+          toast.success('Pet removed successfully!');
       })
       .addCase(removePet.rejected, (state) => {
         state.loading = false;

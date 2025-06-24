@@ -128,9 +128,7 @@ export interface NoticesState {
               .addCase(fetchRemoveFavorites.fulfilled, (state, action: PayloadAction<RemoveFavoritesResponse>) => {
                 const removedPetId = action.payload.data._id;
 
-                if (state.user) {
                   state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
-                }
 
                 state.favoriteLoading = false;
                 toast.success('Pet removed from favorites🗑️');
