@@ -117,6 +117,9 @@ export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
       return thunkAPI.rejectWithValue('No token');
     }
       try {
+
+        setAuthHeader(token);
+        
       const user = await requestCurrentUser(token);
       return user;
     }  catch(err){
