@@ -6,14 +6,15 @@ import '../../scss/components/btn/types/_primary.scss';
 import icons from '../../shared/icons/sprite.svg';
 import { signUpSchema } from '../../shemas/signUpShema';
 import { formValuesSignUp } from '../../helpers/contacts';
-import { signUpUser } from "../../reduce/auth/operations";
+import { signInUser, signUpUser } from "../../reduce/auth/operations";
 import type { AppDispatch } from '../../reduce/store';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useId, useState } from "react";
+import toast from "react-hot-toast";
 
 interface formData {
   name: string;
@@ -27,21 +28,35 @@ function Registration() {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+  const navigate = useNavigate();
+
   const nameId = useId();
   const emailId = useId();
   const passwordId = useId();
   const phoneId = useId();
 
-    const { register, watch, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, watch, handleSubmit, formState: { errors } } = useForm({
        defaultValues: formValuesSignUp,
        resolver: yupResolver(signUpSchema),
         mode: 'onTouched'
     });
 
-    const onSubmit = (data: formData) => {
-      dispatch(signUpUser(data));
-      reset();
-    }
+    const onSubmit = async (data: formData) => {
+
+      try {
+        await dispatch(signUpUser(data)).unwrap();
+
+        await dispatch(signInUser({ email: data.email, password: data.password })).unwrap();
+        navigate('/current');
+
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`Error: ${error.message}`);
+        } else {
+          toast.error('An unknown error occurred');
+        }
+      }
+    };
 
     const togglePasswordVisibility = () => {
       setIsPasswordVisible((prevState: boolean) => !prevState);
@@ -251,7 +266,7 @@ function Registration() {
                     <div className={style.btnAuth}>
                         <button className="btn btn--primary" type="submit">Registration</button>
                     </div>
-                    <Link className={style.linkForm} to="/register">Don’t have an account? 
+                    <Link className={style.linkForm} to="/signup">Don’t have an account? 
                     <span className={style.span}>Register</span></Link>
                 </form>
             </div>

@@ -3,12 +3,15 @@ import style from '../../../scss/components/_modalAttention.module.scss';
 import icons from '../../../shared/icons/sprite.svg';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../reduce/auth/selectors';
+import { useModalContext } from '../../../context/useModalContext';
 
 
 function ModalAttention() {
     const navigate = useNavigate();
 
     const user = useSelector(selectUser);
+
+    const { closeModal } = useModalContext();
 
   const getUserAvatarUrl = (avatar: string) => {
   const isAbsoluteUrl = /^https?:\/\//.test(avatar);
@@ -19,10 +22,12 @@ function ModalAttention() {
 
     const handleClickRegister = () => {
         navigate('/signup');
+        closeModal();
     };
 
     const handleClickLogin = () => {
         navigate('/signin');
+        closeModal();
     };
 
   return (

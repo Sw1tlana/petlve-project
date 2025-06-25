@@ -1,5 +1,5 @@
 import './App.scss';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 
 import Layout from './components/Layout/Layout';
@@ -55,6 +55,7 @@ useEffect(() => {
             <LoginPage/>
           </RestrictedRoute>
           }/>
+          <Route path="*" element={<Navigate to="/" replace />}/>
       </Routes>
       </Suspense>
     </Layout>

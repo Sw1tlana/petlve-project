@@ -11,6 +11,7 @@ import { User } from '../../../reduce/auth/slice';
 import { CurrentFormData } from '../../../reduce/services/authServices';
 import icons from '../../../shared/icons/sprite.svg';
 import toast from 'react-hot-toast';
+import { useModalContext } from '../../../context/useModalContext';
 
 type formData = {
   name?: string | null | undefined;
@@ -26,6 +27,8 @@ function ModalEditInformation() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { closeModal } = useModalContext();
 
 const avatarUrl = useMemo(() => {
   if (!user?.avatar) return null;
@@ -89,6 +92,8 @@ const onSubmit: SubmitHandler<formData> = async (data) => {
 
     reset();
     setPhotoPreview(null);
+
+    closeModal();
 
     } catch (err) {
     if (err instanceof Error) {

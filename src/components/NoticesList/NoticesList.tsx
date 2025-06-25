@@ -21,9 +21,6 @@ function NoticesList ( ) {
       const page = useSelector(selectPage);
       const limit = useSelector(selectLimit);
       const totalPages = useSelector(selectTotalPages)?? 1;
-      console.log("loading:", loading);
-      console.log("notices:", notices);
-      console.log("page:", page, "limit:", limit, "totalPages:", totalPages);
 
     const dispatch = useDispatch<AppDispatch>();
 

@@ -7,13 +7,13 @@ interface ModalContextType {
   closeModal: () => void;
   modalContent: ReactNode | null;
   isBurgerMenu: boolean;
-}
+};
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 interface ModalProviderProps {
   children: ReactNode;
-}
+};
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [modalContent, setModalContent] = useState<ReactNode | null>(null);
