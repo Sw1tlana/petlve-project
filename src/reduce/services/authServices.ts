@@ -172,7 +172,7 @@ export const requestAddPet = async (
   export const deletePet = async(_id: string): Promise<{ _id: string }> => {
     const response = await axios.delete(`users/current/pets/remove/${_id}`);
     return response.data;
-  }
+};
 
 // friends
 
@@ -250,7 +250,7 @@ export interface GetNoticesResponse {
   };
 };
 
-interface AddFavoritesResponse {
+export interface AddFavoritesResponse {
   success: boolean;
   data: {
     _id: string;
@@ -261,8 +261,11 @@ interface AddFavoritesResponse {
 };
 
 export interface RemoveFavoritesResponse {
+  success: boolean;
   message: string;
-  data: Pet;
+  data: {
+    data: Pet;
+  };
 }
 
 export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> => {

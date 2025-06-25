@@ -20,7 +20,7 @@ export interface Pet {
   updatedAt: string;
   user: string;
   popularity: number;
-}
+};
 
 export interface NoticesState {
     items: Pet[];
@@ -126,11 +126,12 @@ export interface NoticesState {
                 state.error = null;
               })
               .addCase(fetchRemoveFavorites.fulfilled, (state, action: PayloadAction<RemoveFavoritesResponse>) => {
-                const removedPetId = action.payload.data._id;
+                console.log('fetchRemoveFavorites fulfilled payload:', action.payload);
+                  const removedPetId = action.payload.data.data._id;
 
                   state.favoritePets = state.favoritePets.filter(pet => pet._id !== removedPetId);
 
-                state.favoriteLoading = false;
+                  state.favoriteLoading = false;
                 toast.success('Pet removed from favorites🗑️');
               })
               .addCase(fetchRemoveFavorites.rejected, (state) => {

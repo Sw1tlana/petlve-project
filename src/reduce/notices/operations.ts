@@ -55,7 +55,7 @@ export const fetchRemoveFavorites = createAsyncThunk<
   async (petId, thunkAPI) => {
     try {
       const response = await removeFavoritesNotices(petId);
-      return response;
+      return response as RemoveFavoritesResponse;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err instanceof Error ? err.message : 'Add Favorites Error'
