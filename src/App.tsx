@@ -23,7 +23,7 @@ function App() {
 const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
-    dispatch(fetchUser());  
+    dispatch(fetchUser()); 
 }, [dispatch]);
 
   return (

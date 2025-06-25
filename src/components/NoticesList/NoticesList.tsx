@@ -48,7 +48,6 @@ const handlePageChange = (newPage: number) => {
         <ul className={style.noticesList}>   
         {notices.map((noticeItem: Pet, index: number) => {
           if (!noticeItem._id) {
-            console.warn("Пропущено елемент без _id:", noticeItem);
             return null;
           }
 
@@ -74,7 +73,7 @@ const handlePageChange = (newPage: number) => {
                 </p>
                 <p className={style.description}>
                   <span className={style.spanDescription}>Birthday</span>
-                  {noticeItem.birthday}
+                  {new Date(noticeItem.birthday).toLocaleDateString('uk-UA')}
                 </p>
                 <p className={style.description}>
                   <span className={style.spanDescription}>Sex</span>

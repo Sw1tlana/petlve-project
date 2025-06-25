@@ -25,8 +25,7 @@ import {
             "token", 
             "refreshToken", 
             "user", 
-            "isLoggedIn", 
-            "pets"
+            "isLoggedIn"
     ],
     stateReconciler: autoMergeLevel2,
   };
@@ -34,7 +33,7 @@ import {
     const noticesConfig = {
       key: "notices", 
       storage,
-      whitelist: ["favoritePets", "viewedItems"],
+      whitelist: ["viewedItems"],
       stateReconciler: autoMergeLevel2,
     };
 
