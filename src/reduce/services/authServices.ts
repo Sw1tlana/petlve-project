@@ -274,7 +274,9 @@ export const getNotices = async (queryParams = ''): Promise<GetNoticesResponse> 
   return data;
 };
 
-export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
+export const addFavoritesNotices = async (_id: string, token: string): Promise<Pet> => {
+
+ setAuthHeader(token);
 
   const { data }: { data: AddFavoritesResponse } = await axios.post(`/notices/favorites/add/${_id}`);
   const addedPet = data.data.noticesFavorites.find(pet => pet._id === _id);
@@ -282,7 +284,6 @@ export const addFavoritesNotices = async (_id: string): Promise<Pet> => {
   if (!addedPet) {
     throw new Error('Pet not found in the list of favorites');
   }
-
   return addedPet;
 };
 
