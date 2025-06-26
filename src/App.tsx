@@ -6,9 +6,10 @@ import Layout from './components/Layout/Layout';
 import Loader from './shared/components/Loader.tsx/Loader';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './reduce/store';
-import {refreshTokenUser } from './reduce/auth/operations';
+import {fetchUser, refreshTokenUser } from './reduce/auth/operations';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import toast from 'react-hot-toast';
 
 const HomePage = lazy(() => import('../src/pages/HomePage/HomePage'));
 const NewsPage = lazy(() => import('../src/pages/NewsPage/NewsPage'));
@@ -23,7 +24,15 @@ function App() {
 const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
-    dispatch(refreshTokenUser()); 
+  async function refreshAndFetch() {
+    try {
+      await dispatch(refreshTokenUser()).unwrap();
+      await dispatch(fetchUser()).unwrap();  
+    } catch (error) {
+      toast.error(`Error refreshing token or fetching user: ${error}`);
+    }
+  }
+  refreshAndFetch();
 }, [dispatch]);
 
   return (

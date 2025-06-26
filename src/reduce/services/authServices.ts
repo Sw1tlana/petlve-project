@@ -278,20 +278,22 @@ export const addFavoritesNotices = async (_id: string, token: string): Promise<P
 
   setAuthHeader(token);
 
-  const { data }: { data: { _id: string; name: string; email: string; noticesFavorites: Pet[] } } =
-    await axios.post(`/notices/favorites/add/${_id}`);
+      const response = await axios.post(`/notices/favorites/add/${_id}`);
+      console.log('Response data:', response.data);
 
-    if (!data.noticesFavorites || !Array.isArray(data.noticesFavorites)) {
-  throw new Error('Favorites list is missing or invalid');
-}
+      const data = response.data.data;  
 
-  const addedPet = data.noticesFavorites.find(pet => pet._id === _id);
+      if (!data.noticesFavorites || !Array.isArray(data.noticesFavorites)) {
+        throw new Error('Favorites list is missing or invalid');
+      }
 
-  if (!addedPet) {
-    throw new Error('Pet not found in favorites');
-  }
+      const addedPet = data.noticesFavorites.find((pet: Pet) => pet._id === _id);
 
-  return addedPet;
+      if (!addedPet) {
+        throw new Error('Pet not found in favorites');
+      }
+
+      return addedPet;
 
 };
 

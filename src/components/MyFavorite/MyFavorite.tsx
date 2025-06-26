@@ -82,7 +82,7 @@ function MyFavorite() {
                   </p>
                   <p className={favoriteStyle.description}>
                     <span className={favoriteStyle.spanDescription}>Birthday: </span>
-                    {noticeItem.birthday}
+                    {new Date(noticeItem.birthday).toLocaleDateString('uk-UA')}
                   </p>
                   <p className={favoriteStyle.description}>
                     <span className={favoriteStyle.spanDescription}>Sex: </span>
