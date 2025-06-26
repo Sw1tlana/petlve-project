@@ -121,6 +121,7 @@ export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
         setAuthHeader(token);
         
       const user = await requestCurrentUser(token);
+        console.log('Fetched user with favorites and pets:', user);
       return user;
     }  catch(err){
       if (err instanceof Error) {

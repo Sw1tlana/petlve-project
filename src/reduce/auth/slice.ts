@@ -12,6 +12,7 @@ import { signUpUser,
           AddPetResponse,
           removePet,
       } from './operations';
+import { Pet } from '../notices/slice';
 
 export interface User {
   _id?: string;
@@ -20,7 +21,8 @@ export interface User {
   phone?: string | null;
   avatar?: string | null; 
   photoUrl?: string | null;
-  pets?: Pets[];
+  pets: Pets[];
+  favoritePets: Pet[];
 };
 
 export interface Pets {
@@ -54,6 +56,8 @@ const INITIAL_STATE: State = {
     phone: null,
     avatar: null,
     photoUrl: null,
+    pets: [],
+    favoritePets: [],
   },
   token: null,
   refreshToken: null,
@@ -87,8 +91,19 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signUpUser.fulfilled, (state, action: PayloadAction<SignUpResponse>) => {
-        const user = action.payload.user as User;
-        state.user = user;
+        const userFromApi = action.payload.user;
+
+        state.user = {
+          _id: userFromApi.id,          
+          name: userFromApi.name ?? null,
+          email: userFromApi.email ?? null,
+          phone: userFromApi.phone ?? null,
+          avatar: null,                  
+          photoUrl: userFromApi.photoUrl ?? null,
+          pets: [],                 
+          favoritePets: [],           
+        };
+
         state.token = action.payload.token;
         state.refreshToken = action.payload.refreshToken;
         state.isLoggedIn = true;
@@ -107,22 +122,34 @@ export const authSlice = createSlice({
         state.error = null; 
       })
       .addCase(signInUser.fulfilled, (state, action) => {
-          const user = action.payload.user as User;
-          const avatar = normalizeAvatar(user.avatar);
+            const apiUser = action.payload.user;
 
-          state.user = {
-            ...user,
-            avatar: avatar,
-          };
-          
-          state.avatar = avatar;
-          state.token = action.payload.token;
-          state.refreshToken = action.payload.refreshToken;
-          state.isLoggedIn = true;
-          state.loading = false;
-          state.error = null;
+            const user: User = {
+              _id: apiUser.id,
+              name: apiUser.name,
+              email: apiUser.email,
+              phone: null,        
+              avatar: null,          
+              photoUrl: null,      
+              pets: [],               
+              favoritePets: [],       
+            };
 
-          state.pets = user.pets ? [...user.pets] : [];
+            const avatar = normalizeAvatar(user.avatar);
+
+            state.user = {
+              ...user,
+              avatar: avatar,
+            };
+
+            state.avatar = avatar;
+            state.token = action.payload.token;
+            state.refreshToken = action.payload.refreshToken;
+            state.isLoggedIn = true;
+            state.loading = false;
+            state.error = null;
+
+            state.pets = user.pets ? [...user.pets] : [];
 
           toast.success('Login successful');
         })
@@ -177,6 +204,8 @@ export const authSlice = createSlice({
             phone: userData.phone,
             photoUrl: userData.photoUrl,
             avatar: userData.avatar,
+            pets: state.user.pets ?? [],            
+            favoritePets: state.user.favoritePets ?? [],
           };
         }
         toast.success('Current successful');
