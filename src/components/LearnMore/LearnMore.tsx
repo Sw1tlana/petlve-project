@@ -43,40 +43,35 @@ const isFavorite = favoritePets
   .filter(fav => fav != null)
   .some(fav => fav._id === notice._id);
 
-  const handleFavoriteClick = async(event: React.MouseEvent<HTMLButtonElement>) => {
-     event.preventDefault();
-    if (!isLoggedIn) {
-      openModal(
-        <ModalWindow
-          isOpen={true}
-          onRequestClose={closeModal}
-          isBurgerMenu={isBurgerMenu}
-        >
-          <ModalAttention />
-        </ModalWindow>
-      );
-      return;
-    }  
+const handleFavoriteClick = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  event.preventDefault();
+  
+  if (!isLoggedIn) {
+    openModal(
+      <ModalWindow
+        isOpen
+        onRequestClose={closeModal}
+        isBurgerMenu={isBurgerMenu}
+      >
+        <ModalAttention />
+      </ModalWindow>
+    );
+    return;
+  }
 
   if (!notice?._id) return;
 
   try {
     if (isFavorite) {
-      const result = await dispatch(fetchRemoveFavorites(petId)).unwrap();
-      console.log('Remove favorite result:', result);
-      await dispatch(fetchUser()); 
+      await dispatch(fetchRemoveFavorites(petId)).unwrap();
     } else {
-      const alreadyExists = favoritePets.some(pet => pet?._id === petId);
-      if (!alreadyExists) {
-        const result = await dispatch(fetchAddFavorites(petId)).unwrap();
-        console.log('Add favorite result:', result);
-        await dispatch(fetchUser()); 
-      }
+      await dispatch(fetchAddFavorites(petId)).unwrap();
     }
+    await dispatch(fetchUser());
   } catch (error) {
     console.error('Error updating favorites:', error);
   }
-}
+};
 
 const handleClick = () => {
   if (onViewed) {
