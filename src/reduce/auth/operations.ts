@@ -127,10 +127,16 @@ export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
 
         setAuthHeader(token);
         
-      const response: FetchUserResponse = await requestCurrentUser(token);
-      console.log('Fetched user with favorites and pets:', response);
+      const user = await requestCurrentUser(token);
+      if (!user) return thunkAPI.rejectWithValue('User data is missing');
 
-      return response.data.user;
+      // Нормалізуємо поле favoritePets
+      const normalizedUser = {
+        ...user,
+        favoritePets: user.favoritePets ?? [],
+      };
+
+      return normalizedUser;
 
     }  catch(err){
       if (err instanceof Error) {

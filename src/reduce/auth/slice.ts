@@ -12,7 +12,6 @@ import { signUpUser,
           AddPetResponse,
           removePet,
           fetchUser,
-          FetchUserResponse,
       } from './operations';
 import { Pet } from '../notices/slice';
 
@@ -96,7 +95,7 @@ export const authSlice = createSlice({
         const userFromApi = action.payload.user;
 
         state.user = {
-          _id: userFromApi.id,          
+          _id: userFromApi.id ?? '',         
           name: userFromApi.name ?? null,
           email: userFromApi.email ?? null,
           phone: userFromApi.phone ?? null,
@@ -188,32 +187,43 @@ export const authSlice = createSlice({
         state.refreshToken = null;
         state.isLoggedIn = false;
       })
+      
        // --- userCurrent ---
-      .addCase(fetchUser.pending, (state) => {
-        state.error = false;
-        state.isRefreshing = false;
-      })
-      .addCase(fetchUser.fulfilled, (state, action: PayloadAction<FetchUserResponse>) => {
-          const userData = action.payload.data; 
+        .addCase(fetchUser.pending, (state) => {
+          state.error = false;
+          state.isRefreshing = true;
+        })
+        .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User | undefined>) => {
+          const userData = action.payload;
+
+         console.log(action.payload);
+
+           if (!userData) {
+    state.error = true;
+    toast.error('User data is missing');
+    return;
+  }
 
           state.user = {
-            _id: userData._id,
-            name: userData.name,
-            email: userData.email,
-            phone: userData.phone,
-            avatar: userData.avatar,
-            photoUrl: userData.photoUrl,
+            _id: userData._id ?? '',
+            name: userData.name ?? null,
+            email: userData.email ?? null,
+            phone: userData.phone ?? null,
+            avatar: normalizeAvatar(userData.avatar),
+            photoUrl: userData.photoUrl ?? null,
             pets: userData.pets ?? [],
-            favoritePets: userData.noticesFavorites ?? [], 
+            favoritePets: userData.favoritePets ?? [],
           };
 
+          state.isRefreshing = false;
           state.isLoggedIn = true;
-      })
-      .addCase(fetchUser.rejected, (state) => {       
-        state.error = true;
-        toast.error('User information could not be updated');
-      })
-
+          toast.success('User information updated successfully');
+        })
+        .addCase(fetchUser.rejected, (state) => {
+          state.error = true;
+          state.isRefreshing = false;
+          toast.error('User information could not be updated');
+        })
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;

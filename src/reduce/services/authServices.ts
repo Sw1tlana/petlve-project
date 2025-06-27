@@ -85,7 +85,8 @@ export const requestSignIn = async(formData: SignInFormData) => {
 export const requestCurrentUser = async (token: string): Promise<User> => {
   setAuthHeader(token);
   const response = await axios.get('/users/current');
-  return response.data;
+    console.log('requestCurrentUser response:', response.data);
+  return response.data?.data;
 };
 
 export const updateCurrentEdit = async (
