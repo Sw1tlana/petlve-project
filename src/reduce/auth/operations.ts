@@ -41,6 +41,13 @@ export interface SignInResponse {
     refreshToken: string;
   };
 
+export interface FetchUserResponse {
+  success: boolean;
+  data: {
+    user: User;  
+  };
+}
+
   export interface EditUserResponse {
   success: boolean;
   data: {
@@ -120,9 +127,11 @@ export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
 
         setAuthHeader(token);
         
-      const user = await requestCurrentUser(token);
-        console.log('Fetched user with favorites and pets:', user);
-      return user;
+      const response: FetchUserResponse = await requestCurrentUser(token);
+      console.log('Fetched user with favorites and pets:', response);
+
+      return response.data.user;
+
     }  catch(err){
       if (err instanceof Error) {
          console.error("Current user pet error:", err);

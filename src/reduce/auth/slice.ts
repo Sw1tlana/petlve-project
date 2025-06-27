@@ -11,6 +11,8 @@ import { signUpUser,
           fetchAddPet,
           AddPetResponse,
           removePet,
+          fetchUser,
+          FetchUserResponse,
       } from './operations';
 import { Pet } from '../notices/slice';
 
@@ -186,7 +188,32 @@ export const authSlice = createSlice({
         state.refreshToken = null;
         state.isLoggedIn = false;
       })
-       // --- userCurrentEdit ---
+       // --- userCurrent ---
+      .addCase(fetchUser.pending, (state) => {
+        state.error = false;
+        state.isRefreshing = false;
+      })
+      .addCase(fetchUser.fulfilled, (state, action: PayloadAction<FetchUserResponse>) => {
+          const userData = action.payload.data; 
+
+          state.user = {
+            _id: userData._id,
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            avatar: userData.avatar,
+            photoUrl: userData.photoUrl,
+            pets: userData.pets ?? [],
+            favoritePets: userData.noticesFavorites ?? [], 
+          };
+
+          state.isLoggedIn = true;
+      })
+      .addCase(fetchUser.rejected, (state) => {       
+        state.error = true;
+        toast.error('User information could not be updated');
+      })
+
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = false;

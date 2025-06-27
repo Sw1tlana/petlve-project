@@ -35,6 +35,7 @@ function LearnMore({ notice, isBurgerMenu, onViewed }: ModalNoticesProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const favoritePets = useSelector(selectFavorites) || [];
+  console.log('favoritePets:', favoritePets);
 
   const petId = String(notice._id);
   console.log("petId", petId)
