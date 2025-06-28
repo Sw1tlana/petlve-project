@@ -33,7 +33,7 @@ import {
     const noticesConfig = {
       key: "notices", 
       storage,
-      whitelist: ["viewedItems"],
+      whitelist: ["viewedItems", "favoritePets"],
       stateReconciler: autoMergeLevel2,
     };
 

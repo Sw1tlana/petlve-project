@@ -12,7 +12,6 @@ import { requestSignUp,
          AddPetFormData,
          requestAddPet,
          deletePet,
-         requestCurrentUser,
          
  } from '../services/authServices';
 import { Pets, setToken, User } from './slice';
@@ -31,15 +30,18 @@ export interface SignUpResponse {
   refreshToken: string;
 };
   
-export interface SignInResponse {
-    user: {
-      id: string;
-      name: string | null;  
-      email: string;
-   }; 
-    token: string;
-    refreshToken: string;
+export interface SignInUserResponse {
+  user: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    phone?: string | null;
+    avatar?: string | null;
+    photoUrl?: string | null;
   };
+  token: string | null;
+  refreshToken: string | null;
+}
 
 export interface FetchUserResponse {
   success: boolean;
@@ -95,7 +97,7 @@ export interface RefreshTokenResponse {
 );
 
 export const signInUser = createAsyncThunk<
-  SignInResponse,
+  SignInUserResponse,
   SignInFormData,
 { rejectValue: string }>(
   'auth/signInUser',
@@ -114,38 +116,6 @@ export const signInUser = createAsyncThunk<
       return thunkAPI.rejectWithValue('Login failed');
     }
   }
-);
-
-export const fetchUser = createAsyncThunk<User, void, { state: RootState }>(
-  'auth/fetchUser',
-  async (_, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
-        if (!token) {
-      return thunkAPI.rejectWithValue('No token');
-    }
-      try {
-
-        setAuthHeader(token);
-        
-      const user = await requestCurrentUser(token);
-      if (!user) return thunkAPI.rejectWithValue('User data is missing');
-
-      // Нормалізуємо поле favoritePets
-      const normalizedUser = {
-        ...user,
-        favoritePets: user.favoritePets ?? [],
-      };
-
-      return normalizedUser;
-
-    }  catch(err){
-      if (err instanceof Error) {
-         console.error("Current user pet error:", err);
-        return thunkAPI.rejectWithValue(err.message);  
-      }
-    return thunkAPI.rejectWithValue('User current failed');
-  }
-}
 );
 
 export const userCurrentEdit = createAsyncThunk<

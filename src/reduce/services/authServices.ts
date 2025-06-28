@@ -1,7 +1,7 @@
 import axios from "../../helpers/axiosConfig";
 import { Store } from "redux";
 import { RootState } from "../store";
-import { setToken, User } from "../auth/slice";
+import { setToken } from "../auth/slice";
 import { Pet } from "../notices/slice";
 import { AddPetResponse, EditUserResponse } from "../auth/operations";
 
@@ -80,13 +80,6 @@ export const requestSignIn = async(formData: SignInFormData) => {
   const { data } = await axios.post('users/signin', formData);
   setAuthHeader(data.token);
   return data;
-};
-
-export const requestCurrentUser = async (token: string): Promise<User> => {
-  setAuthHeader(token);
-  const response = await axios.get('/users/current');
-    console.log('requestCurrentUser response:', response.data);
-  return response.data?.data;
 };
 
 export const updateCurrentEdit = async (

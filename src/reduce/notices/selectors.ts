@@ -1,14 +1,21 @@
 import { NoticesState } from "./slice";
+import { State as AuthState } from "../auth/slice";
   
   interface RootState {
     notices: NoticesState;
+     auth: AuthState;
   }
+
 
 export const selectItemsNotices = (state: RootState) => state.notices.items;
 
 export const selectViewedItems = (state: RootState) => state.notices.viewedItems;
 
- export const selectFavorites = (state: RootState) => state.notices?.favoritePets || [];
+export const selectFavorites = (state: RootState) => {
+  return state.notices?.favoritePets && state.notices.favoritePets.length > 0
+    ? state.notices.favoritePets
+    : state.auth.user?.favoritePets || [];
+};
 
 export const selectIsLoggedINotices = (state: RootState) => state.notices.loading;
 

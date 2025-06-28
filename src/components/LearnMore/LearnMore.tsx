@@ -12,7 +12,7 @@ import { AppDispatch } from '../../reduce/store';
 import { ReactNode } from 'react';
 import { fetchAddFavorites, fetchRemoveFavorites } from '../../reduce/notices/operations';
 import { selectFavorites } from '../../reduce/notices/selectors';
-import { fetchUser } from '../../reduce/auth/operations';
+import { refreshTokenUser } from '../../reduce/auth/operations';
 
 interface IModalContextType {
   openModal: (context: ReactNode) => void;
@@ -62,16 +62,18 @@ const handleFavoriteClick = async (event: React.MouseEvent<HTMLButtonElement>): 
 
   if (!notice?._id) return;
 
-  try {
-    if (isFavorite) {
-      await dispatch(fetchRemoveFavorites(petId)).unwrap();
-    } else {
-      await dispatch(fetchAddFavorites(petId)).unwrap();
-    }
-    await dispatch(fetchUser());
-  } catch (error) {
-    console.error('Error updating favorites:', error);
+try {
+  if (isFavorite) {
+    await dispatch(fetchRemoveFavorites(petId)).unwrap();
+  } else {
+    await dispatch(fetchAddFavorites(petId)).unwrap();
   }
+  await dispatch(refreshTokenUser()).unwrap();
+} catch (error) {
+  console.error('Error updating favorites:', error);
+}
+
+
 };
 
 const handleClick = () => {
