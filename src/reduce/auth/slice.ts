@@ -11,7 +11,8 @@ import { signUpUser,
           fetchAddPet,
           AddPetResponse,
           removePet,
-          SignInUserResponse
+          SignInUserResponse,
+          getCurrentUser
       } from './operations';
 import { Pet } from '../notices/slice';
 
@@ -186,6 +187,34 @@ export const authSlice = createSlice({
       })
 
       // --- userCurrentEdit ---
+
+        .addCase(getCurrentUser.pending, (state) => {
+          state.isRefreshing = true;
+          state.error = null;
+        })
+        .addCase(getCurrentUser.fulfilled, (state, action) => {
+          const user = action.payload.data.user;
+          state.user = {
+            _id: user._id ?? '',
+            name: user.name ?? null,
+            email: user.email ?? null,
+            phone: user.phone ?? null,
+            avatar: normalizeAvatar(user.avatar ?? null),
+            photoUrl: user.photoUrl ?? null,
+            pets: user.pets ?? [],
+            favoritePets: user.favoritePets ?? [],
+          };
+          state.avatar = normalizeAvatar(state.user.avatar);
+          state.pets = state.user.pets;
+          state.isLoggedIn = true;
+          state.isRefreshing = false;
+        })
+        .addCase(getCurrentUser.rejected, (state) => {
+          state.isRefreshing = false;
+          state.isLoggedIn = false;
+          state.error = true;
+        })
+
       .addCase(userCurrentEdit.pending, (state) => {
         state.error = false;
         state.isRefreshing = true;

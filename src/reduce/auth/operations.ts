@@ -12,6 +12,7 @@ import { requestSignUp,
          AddPetFormData,
          requestAddPet,
          deletePet,
+         requestCurrentEdit,
          
  } from '../services/authServices';
 import { Pets, setToken, User } from './slice';
@@ -114,6 +115,21 @@ export const signInUser = createAsyncThunk<
           return thunkAPI.rejectWithValue(err.message);  
         }
       return thunkAPI.rejectWithValue('Login failed');
+    }
+  }
+);
+
+export const getCurrentUser = createAsyncThunk<FetchUserResponse, void>(
+  'auth/getCurrentUser',
+  async (_, thunkAPI) => {
+    try {
+      const response = await requestCurrentEdit();
+      return response;
+     } catch(err){
+        if (err instanceof Error) {
+          return thunkAPI.rejectWithValue(err.message);  
+        }
+      return thunkAPI.rejectWithValue('Current failed');
     }
   }
 );

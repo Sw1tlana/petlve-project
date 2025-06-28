@@ -6,7 +6,7 @@ import Layout from './components/Layout/Layout';
 import Loader from './shared/components/Loader.tsx/Loader';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './reduce/store';
-import { refreshTokenUser } from './reduce/auth/operations';
+import { getCurrentUser, refreshTokenUser } from './reduce/auth/operations';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
@@ -23,8 +23,9 @@ function App() {
 const dispatch = useDispatch<AppDispatch>();
 
 useEffect(() => {
-    dispatch(refreshTokenUser());
-
+    dispatch(refreshTokenUser()).then(() => {
+        dispatch(getCurrentUser());
+    });
 }, [dispatch]);
 
   return (

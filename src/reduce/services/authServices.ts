@@ -82,6 +82,11 @@ export const requestSignIn = async(formData: SignInFormData) => {
   return data;
 };
 
+export const requestCurrentEdit = async() => {
+  const { data } = await axios.post('/users/current');
+  return data;
+}
+
 export const updateCurrentEdit = async (
   formData: CurrentFormData,
   token: string
