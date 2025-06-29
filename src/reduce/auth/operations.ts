@@ -39,6 +39,8 @@ export interface SignInUserResponse {
     phone?: string | null;
     avatar?: string | null;
     photoUrl?: string | null;
+    pets?: Pets[];
+    favoritePets?: Pets[];
   };
   token: string | null;
   refreshToken: string | null;
@@ -72,6 +74,7 @@ export interface RefreshTokenResponse {
     refreshToken: string;
     user?: User;
   };
+
 
   export const signUpUser = createAsyncThunk<
   SignUpResponse,  

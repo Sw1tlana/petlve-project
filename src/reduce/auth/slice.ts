@@ -14,7 +14,6 @@ import { signUpUser,
           SignInUserResponse,
           getCurrentUser
       } from './operations';
-import { Pet } from '../notices/slice';
 
 export type AuthState = State;
 
@@ -26,7 +25,7 @@ export interface User {
   avatar?: string | null; 
   photoUrl?: string | null;
   pets: Pets[];
-  favoritePets: Pet[];
+  favoritePets: Pets[];
 }
 
 export interface Pets {
@@ -134,8 +133,8 @@ export const authSlice = createSlice({
           phone: apiUser.phone ?? null,
           avatar: normalizeAvatar(apiUser.avatar ?? null),
           photoUrl: apiUser.photoUrl ?? null,
-          pets: [],
-          favoritePets: [],
+          pets: apiUser.pets ?? [], 
+          favoritePets: apiUser.favoritePets ?? [],
         };
         state.user = user;
         state.avatar = normalizeAvatar(user.avatar);
