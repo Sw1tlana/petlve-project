@@ -37,6 +37,7 @@ export interface Pets {
   sex?: string;
   photoUrl?: string;
   photo?: string;
+  imgURL?: string;
 }
 
 export interface State {
